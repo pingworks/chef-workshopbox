@@ -1,0 +1,6 @@
+APT::Get::AllowUnauthenticated true;
+APT::Install-Recommends false;
+APT::Get::AutomaticRemove true;
+#APT::Cache-Limit 31457280;
+
+DPkg::Options {"--force-confold";};

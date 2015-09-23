@@ -1,0 +1,3 @@
+#/bin/bash
+
+dmidecode | grep vboxVer | sed -e 's;^[^_]*_\([0-9.]*\).*$;\1;'
