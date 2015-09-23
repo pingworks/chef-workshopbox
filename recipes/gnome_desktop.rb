@@ -11,7 +11,7 @@
 #  package pkg
 #end
 
-%w(ubuntu-desktop gnome-session-flashback).each do |pkg|
+%w(ubuntu-desktop gnome-session-flashback gnome-terminal gnome-applets gnome-applets-data).each do |pkg|
   package pkg
 end
 

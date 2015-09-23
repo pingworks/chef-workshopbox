@@ -7,6 +7,6 @@
 # Licensed under the Apache License, Version 2.0
 #
 
-%w(git vim less).each do |pkg|
+%w(git vim less htop).each do |pkg|
   package pkg
 end
