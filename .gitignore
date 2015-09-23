@@ -19,4 +19,5 @@ bin/*
 .kitchen/
 .kitchen.local.yml
 
-.ignore
+.idea/
+
