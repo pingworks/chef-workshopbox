@@ -7,13 +7,7 @@
 # Licensed under the Apache License, Version 2.0
 #
 
-%w(Documents Music Pictures Public Templates Videos).each do |folder|
-  directory node['wsbox_base']['user']['home'] + '/' + folder do
-    action :delete
-  end
-end
+include_recipe 'wsbox_base::_mock_secrets'
 
-include_recipe 'wsbox_base::_install_vbox_guest_additions'
-
-
-
+include_recipe 'wsbox_base::_setup_user'
+include_recipe 'wsbox_base::_setup_user_secrets'

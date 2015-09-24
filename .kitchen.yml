@@ -1,6 +1,11 @@
 ---
 driver:
   name: vagrant
+  customize:
+    memory: 4096
+    natdnshostresolver1: "on"
+    natdnsproxy1: "on"
+    nictype1: "virtio"
 
 provisioner:
   name: chef_solo
@@ -18,4 +23,3 @@ suites:
     run_list:
       - recipe[wsbox_base::default]
     attributes:
-
