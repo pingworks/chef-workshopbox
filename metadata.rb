@@ -1,10 +1,10 @@
 name             'wsbox-base'
-maintainer       'YOUR_NAME'
-maintainer_email 'YOUR_EMAIL'
+maintainer       'Alexander Birk'
+maintainer_email 'birk@pingworks.de'
 license          'All rights reserved'
 description      'Installs/Configures ws-wbox-base'
 long_description 'Installs/Configures ws-wbox-base'
-version          '0.1.0'
+version          '0.1.1'
 
 depends 'apt'
 depends 'ohai'
