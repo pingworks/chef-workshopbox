@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: wsbox_base
+# Cookbook Name:: wsbox-base
 # Recipe:: sources_list
 #
 # Copyright (C) 2015 Alexander Birk

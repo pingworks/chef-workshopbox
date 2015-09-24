@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: wsbox_base
+# Cookbook Name:: wsbox-base
 # Recipe:: _install_firefox
 #
 # Copyright (C) 2015 Alexander Birk

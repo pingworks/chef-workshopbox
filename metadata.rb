@@ -1,4 +1,4 @@
-name             'wsbox_base'
+name             'wsbox-base'
 maintainer       'YOUR_NAME'
 maintainer_email 'YOUR_EMAIL'
 license          'All rights reserved'

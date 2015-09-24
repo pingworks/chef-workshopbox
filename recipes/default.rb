@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: wsbox_base
+# Cookbook Name:: wsbox-base
 # Recipe:: default
 #
 # Copyright (C) 2015 Alexander Birk
@@ -16,10 +16,10 @@ end
 
 include_recipe 'ohai'
 
-#include_recipe 'wsbox_base::hostsfile'
-#include_recipe 'wsbox_base::sources_list'
-#include_recipe 'wsbox_base::base_packages'
-#include_recipe 'wsbox_base::gnome_desktop'
+#include_recipe 'wsbox-base::hostsfile'
+#include_recipe 'wsbox-base::sources_list'
+#include_recipe 'wsbox-base::base_packages'
+#include_recipe 'wsbox-base::gnome_desktop'
 
-#include_recipe 'wsbox_base::reinstall_guest_additons'
-include_recipe 'wsbox_base::personalize'
+#include_recipe 'wsbox-base::reinstall_guest_additons'
+include_recipe 'wsbox-base::personalize'
