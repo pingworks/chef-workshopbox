@@ -82,3 +82,9 @@ bash 'setup git' do
     git config --global user.name "#{node['ws-workshopbox']['user']['fullname']}"
   EOC
 end
+
+cookbook_file node['ws-workshopbox']['user']['home'] + '/.ssh/config' do
+  user node['ws-workshopbox']['user']['username']
+  group node['ws-workshopbox']['user']['username']
+  mode 0600
+end

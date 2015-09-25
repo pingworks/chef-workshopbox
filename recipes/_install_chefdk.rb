@@ -38,8 +38,17 @@ bash 'setup chefdk for root' do
   not_if "grep 'chef shell-init bash'  /root/.profile"
 end
 
-%w(kitchen-docker mofa).each do |gem|
-  gem_package gem
+# install some essential gems
+
+%w(kitchen-docker mofa).each do |g|
+  bash 'installing ' + g + ' into local /home/<user>/.chefdk folder' do
+    user node['ws-workshopbox']['user']['username']
+    cwd node['ws-workshopbox']['user']['home']
+    environment ({'HOME' => node['ws-workshopbox']['user']['home'], 'USER' => node['ws-workshopbox']['user']['username']})
+    code <<-EOC
+      eval "$(chef shell-init bash)"; gem install #{g} --no-rdoc --no-ri
+    EOC
+  end
 end
 
 directory node['ws-workshopbox']['user']['home'] + '/workspace/cookbooks/' do
@@ -49,26 +58,21 @@ directory node['ws-workshopbox']['user']['home'] + '/workspace/cookbooks/' do
   recursive true
 end
 
-# clone docker-ws-baseimage
-git node['ws-workshopbox']['user']['home'] + '/workspace/docker-ws-baseimg' do
-  repository 'https://github.com/pingworks/docker-ws-baseimg.git'
-  revision 'master'
-  action :sync
-end
-
-# docker build
-bash 'build docker ws baseimg' do
+# docker pull pingworks/docker-ws-baseimg
+bash 'pull docker ws baseimg' do
   user node['ws-workshopbox']['user']['username']
-  cwd node['ws-workshopbox']['user']['home'] + '/workspace/docker-ws-baseimg'
+  group 'adm'
   environment ({'HOME' => node['ws-workshopbox']['user']['home'], 'USER' => node['ws-workshopbox']['user']['username']})
   code <<-EOC
-    docker build .
+    docker pull #{node['ws-workshopbox']['kitchen-docker']['baseimg']}
   EOC
 end
 
 # clone chef-wsbox-kitchen-docker-test
 git node['ws-workshopbox']['user']['home'] + '/workspace/cookbooks/chef-wsbox-kitchen-docker-test' do
-  repository 'https://github.com/pingworks/chef-wsbox-kitchen-docker-test.git'
+  repository node['ws-workshopbox']['kitchen-docker']['testcookbook']
   revision 'master'
+  user node['ws-workshopbox']['user']['username']
+  group node['ws-workshopbox']['user']['username']
   action :sync
 end
