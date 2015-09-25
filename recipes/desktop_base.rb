@@ -1,12 +1,10 @@
 #
 # Cookbook Name:: wsbox-base
-# Recipe:: base_packages
 #
 # Copyright (C) 2015 Alexander Birk
 #
 # Licensed under the Apache License, Version 2.0
 #
 
-%w(git vim less htop).each do |pkg|
-  package pkg
-end
+include_recipe 'wsbox-base::_install_gnome_desktop'
+include_recipe 'wsbox-base::_reinstall_guest_additions'
