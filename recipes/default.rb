@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: wsbox-base
+# Cookbook Name:: ws-workshopbox
 # Recipe:: default
 #
 # Copyright (C) 2015 Alexander Birk
@@ -8,8 +8,8 @@
 #
 
 include_recipe 'ohai'
-include_recipe 'wsbox-base::hostsfile'
-include_recipe 'wsbox-base::sources_list'
+include_recipe 'ws-workshopbox::hostsfile'
+include_recipe 'ws-workshopbox::sources_list'
 
 %w(git vim less htop).each do |pkg|
   package pkg
@@ -22,5 +22,5 @@ bash 'set_editor_vim_root' do
   not_if 'grep \'EDITOR=vim\' /root/.bashrc', 'user' => 'root'
 end
 
-include_recipe 'wsbox-base::desktop_base'
-include_recipe 'wsbox-base::desktop_personalized'
+include_recipe 'ws-workshopbox::desktop_base'
+include_recipe 'ws-workshopbox::desktop_personalized'

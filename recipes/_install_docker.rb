@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: wsbox-base
+# Cookbook Name:: ws-workshopbox
 #
 # Copyright (C) 2015 Alexander Birk
 #

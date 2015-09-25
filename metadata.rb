@@ -1,4 +1,4 @@
-name             'wsbox-base'
+name             'ws-workshopbox'
 maintainer       'Alexander Birk'
 maintainer_email 'birk@pingworks.de'
 license          'All rights reserved'
