@@ -1,10 +1,11 @@
 name             'ws-workshopbox'
 maintainer       'Alexander Birk'
 maintainer_email 'birk@pingworks.de'
-license          'All rights reserved'
+license          'Apache 2.0'
 description      'Installs/Configures ws-wbox-base'
 long_description 'Installs/Configures ws-wbox-base'
-version          '0.1.1'
+version          '0.2.0'
 
 depends 'apt'
 depends 'ohai'
+depends 'secret-service-client'

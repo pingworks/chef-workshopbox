@@ -22,4 +22,6 @@ suites:
   - name: default
     run_list:
       - recipe[ws-workshopbox::default]
+      #- recipe[secret-service-client::default]
+      #- recipe[secret-service-client::fetch_secrets]
     attributes:

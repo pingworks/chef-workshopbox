@@ -15,12 +15,6 @@ include_recipe 'ws-workshopbox::sources_list'
   package pkg
 end
 
-bash 'set_editor_vim_root' do
-  code <<-EOF
-  echo 'export EDITOR=vim' >> /root/.bashrc
-  EOF
-  not_if 'grep \'EDITOR=vim\' /root/.bashrc', 'user' => 'root'
-end
-
+include_recipe 'ws-workshopbox::_setup_root'
 include_recipe 'ws-workshopbox::desktop_base'
 include_recipe 'ws-workshopbox::desktop_personalized'
