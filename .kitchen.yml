@@ -16,7 +16,7 @@ platforms:
     driver:
         gui: true
         box: pingworks_ubuntu-14.04_chef-12.4.1-1
-        box_url: http://vagrant.pingworks.net/pingworks_ubuntu-14.04_chef-12.4.1-1
+        box_url: http://vagrant.pingworks.net/pingworks_ubuntu-14.04_chef-12.4.1-1.box
 
 suites:
   - name: default
