@@ -4,7 +4,7 @@ maintainer_email 'birk@pingworks.de'
 license          'Apache 2.0'
 description      'Installs/Configures ws-wbox-base'
 long_description 'Installs/Configures ws-wbox-base'
-version          '0.2.4'
+version          '0.2.5'
 
 depends 'apt'
 depends 'ohai'
