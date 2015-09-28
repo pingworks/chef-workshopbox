@@ -7,6 +7,8 @@
 # Licensed under the Apache License, Version 2.0
 #
 
+include_recipe 'ws-workshopbox::_set_status_build_in_progress'
+
 include_recipe 'ohai'
 include_recipe 'ws-workshopbox::hostsfile'
 include_recipe 'ws-workshopbox::sources_list'
@@ -20,3 +22,5 @@ include_recipe 'ws-workshopbox::desktop_base'
 include_recipe 'ws-workshopbox::desktop_personalized'
 
 include_recipe 'ws-workshopbox::workshopbox_tools'
+
+include_recipe 'ws-workshopbox::_set_status_build_success'
