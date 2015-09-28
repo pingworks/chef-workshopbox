@@ -1,0 +1,11 @@
+---
+platforms:
+  - name: ubuntu-14.04
+    driver:
+        gui: false
+
+suites:
+  - name: default
+    run_list:
+      - recipe[ws-workshopbox::default]
+    attributes:

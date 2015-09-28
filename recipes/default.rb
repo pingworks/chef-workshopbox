@@ -15,6 +15,8 @@ include_recipe 'ws-workshopbox::sources_list'
   package pkg
 end
 
-include_recipe 'ws-workshopbox::_setup_root'
-include_recipe 'ws-workshopbox::desktop_base'
-include_recipe 'ws-workshopbox::desktop_personalized'
+#include_recipe 'ws-workshopbox::_setup_root'
+#include_recipe 'ws-workshopbox::desktop_base'
+#include_recipe 'ws-workshopbox::desktop_personalized'
+
+include_recipe 'ws-workshopbox::workshopbox_tools'

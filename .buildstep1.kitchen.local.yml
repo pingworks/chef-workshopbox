@@ -1,0 +1,12 @@
+---
+platforms:
+  - name: ubuntu-14.04
+    driver:
+        gui: false
+
+suites:
+  - name: default
+    run_list:
+      - recipe[secret-service-client::default]
+      - recipe[secret-service-client::fetch_secrets]
+    attributes:
