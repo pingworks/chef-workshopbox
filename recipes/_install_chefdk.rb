@@ -29,7 +29,7 @@ bash 'setup chefdk for root' do
 end
 
 # install some essential gems
-%w(kitchen-docker mofa).each do |g|
+node['ws-workshopbox']['preinstalled_gems'].each do |g|
   gem_package g do
     gem_binary '/opt/chefdk/embedded/bin/gem'
     options('--no-document --no-user-install --install-dir /opt/chefdk/embedded/lib/ruby/gems/2.1.0')

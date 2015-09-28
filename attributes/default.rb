@@ -28,6 +28,8 @@ default['ws-workshopbox']['cname'] = 'workshopbox'
 default['ws-workshopbox']['adminuser']['username'] = 'vagrant'
 default['ws-workshopbox']['adminuser']['home'] = '/home/vagrant'
 
+default['ws-workshopbox']['preinstalled_gems'] = %w(kitchen-docker mofa)
+
 default['ws-workshopbox']['openstack_pkgs'] = %w(python-neutronclient python-novaclient python-openstackclient python-designateclient)
 
 default['ohai']['plugins']['ws-workshopbox'] = 'plugins'
