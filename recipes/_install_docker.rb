@@ -30,5 +30,5 @@ end
 cookbook_file 'default-docker' do
   path '/etc/default/docker'
   mode '0600'
-  notifies :restart, 'service[docker]', :delayed
+  notifies :restart, 'service[docker]', :immediately
 end
