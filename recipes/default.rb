@@ -18,9 +18,9 @@ include_recipe 'ws-workshopbox::sources_list'
 end
 
 include_recipe 'ws-workshopbox::_setup_root'
-include_recipe 'ws-workshopbox::desktop_base'
-include_recipe 'ws-workshopbox::desktop_personalized'
+#include_recipe 'ws-workshopbox::desktop_base'
+#include_recipe 'ws-workshopbox::desktop_personalized'
 
-include_recipe 'ws-workshopbox::workshopbox_tools'
+#include_recipe 'ws-workshopbox::workshopbox_tools'
 
 include_recipe 'ws-workshopbox::_set_status_build_success'
