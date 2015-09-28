@@ -4,15 +4,17 @@ default['ws-workshopbox']['secret-service']['client']['repo'] = '/root/secret-se
 default['ws-workshopbox']['secret-service']['client']['user'] = 'root'
 
 # Various Download Locations (to be mirrored in secluded environments like Conference Hotels)
-#default['ws-workshopbox']['mirror']['apt'] = 'de.archive.ubuntu.com'
-default['ws-workshopbox']['mirror']['apt'] = 'apt-mirror-ubuntu1404.la.pingworks.net'
-default['ws-workshopbox']['mirror']['vbox'] = 'download.virtualbox.org'
-default['ws-workshopbox']['mirror']['chef'] = 'apt-mirror-ubuntu1404.la.pingworks.net'
+default['ws-workshopbox']['mirror']['apt'] = 'de.archive.ubuntu.com'
+#default['ws-workshopbox']['mirror']['apt'] = 'apt-mirror-ubuntu1404.la.pingworks.net'
 
-default['ws-workshopbox']['download']['chefdk']['url'] = "http://#{node['ws-workshopbox']['mirror']['chef']}/ubuntu/12.04/x86_64/chefdk_0.7.0-1_amd64.deb"
+default['ws-workshopbox']['mirror']['vbox'] = 'download.virtualbox.org'
+
+default['ws-workshopbox']['mirror']['chef'] = 'opscode-omnibus-packages.s3.amazonaws.com'
+#default['ws-workshopbox']['mirror']['chef'] = 'apt-mirror-ubuntu1404.la.pingworks.net'
+
+#default['ws-workshopbox']['download']['chefdk']['url'] = "http://#{node['ws-workshopbox']['mirror']['chef']}/ubuntu/12.04/x86_64/chefdk_0.7.0-1_amd64.deb"
 default['ws-workshopbox']['download']['chefdk']['sha256'] = '58b2e95768427f479b2114e02c924af1c51ed6b98fce829b439cc90692c3ca64'
-#default['ws-workshopbox']['mirror']['chef'] = 'opscode-omnibus-packages.s3.amazonaws.com'
-#default['ws-workshopbox']['download']['chefdk']['url'] = "https://#{node['ws-workshopbox']['mirror']['chef']}/ubuntu/12.04/x86_64/chefdk_0.7.0-1_amd64.deb"
+default['ws-workshopbox']['download']['chefdk']['url'] = "https://#{node['ws-workshopbox']['mirror']['chef']}/ubuntu/12.04/x86_64/chefdk_0.7.0-1_amd64.deb"
 
 default['ws-workshopbox']['kitchen-docker']['baseimg'] = 'pingworks/docker-ws-baseimg:0.2'
 default['ws-workshopbox']['kitchen-docker']['testcookbook']['name'] = 'chef-ws-base'
