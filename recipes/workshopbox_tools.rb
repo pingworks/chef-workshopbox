@@ -55,3 +55,23 @@ end
     EOC
   end
 end
+
+directory '/root/.mofa' do
+  owner 'root'
+  group 'root'
+  mode 00755
+  recursive true
+  action :create
+end
+
+template '/root/.mofa/config.yml' do
+  owner 'root'
+  group 'root'
+  mode 00644
+end
+
+template '/opt/workshopbox/etc/hostlist.json' do
+  owner 'root'
+  group 'root'
+  mode 00644
+end
