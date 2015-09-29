@@ -56,6 +56,14 @@ end
   end
 end
 
+directory '/var/lib/mofa' do
+  owner 'root'
+  group 'root'
+  mode 00755
+  recursive true
+  action :create
+end
+
 directory '/root/.mofa' do
   owner 'root'
   group 'root'
