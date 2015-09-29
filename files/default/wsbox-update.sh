@@ -1,6 +1,11 @@
 #!/bin/bash
 OLDDIR=$(pwd)
 
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
 function vercomp () {
     if [[ $1 == $2 ]]
     then
