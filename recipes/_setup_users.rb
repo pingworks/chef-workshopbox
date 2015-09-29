@@ -99,4 +99,19 @@ Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user'
     mode 00755
     recursive true
   end
+
+  directory '/home/#{username}/.mofa' do
+    owner username
+    group username
+    mode 00755
+    recursive true
+    action :create
+  end
+
+  template '/home/#{username}/.mofa/config.yml' do
+    source 'config.yml.user'
+    owner username
+    group username
+    mode 00644
+  end
 end

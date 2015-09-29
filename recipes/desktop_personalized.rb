@@ -7,8 +7,6 @@
 #
 
 include_recipe 'ws-workshopbox::_setup_users'
-
-include_recipe 'ws-workshopbox::_install_docker'
 include_recipe 'ws-workshopbox::_install_chefdk'
 
 include_recipe 'ws-workshopbox::_install_firefox'

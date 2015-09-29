@@ -50,7 +50,7 @@ echo "Available Version: ${AVAIL_VERSION}"
 vercomp "${CUR_VERSION}" "${AVAIL_VERSION}"
 if [ $? -eq 2 ];then
   echo "Updating Workshopbox to Version ${AVAIL_VERSION}..."
-  mofa provision . -t localhost
+  mofa provision . -T localhost
 else
   echo "Workshopbox is already up to date."
 fi

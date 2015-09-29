@@ -1,0 +1,22 @@
+---
+driver:
+  name: docker
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: ubuntu-14.04
+    driver_config:
+      image: <%= node['ws-workshopbox']['kitchen-docker']['baseimg'] %>
+
+
+suites:
+  - name: default
+    run_list:
+      - recipe[__COOKBOOK__::default]
+    attributes:
+#      __COOKBOOK__:
+#        cname: 'test'
+#        domain: 'pingworks.ws.pingworks.net'
+#        dns: '10.33.0.10'
