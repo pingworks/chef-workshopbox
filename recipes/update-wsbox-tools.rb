@@ -11,5 +11,7 @@
 cookbook_file '/tmp/id_rsa'
 
 include_recipe 'ohai'
+include_recipe 'ws-workshopbox::hostsfile'
+include_recipe 'ws-workshopbox::sources_list'
 
 include_recipe 'ws-workshopbox::workshopbox_tools'

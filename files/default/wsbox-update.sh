@@ -1,10 +1,17 @@
 #!/bin/bash
-OLDDIR=$(pwd)
+set -e
 
-if [ "$EUID" -ne 0 ]
-  then echo "Please run as root"
+if [ "$EUID" -eq 0 ]
+  then echo "Please DO NOT run as root!"
   exit
 fi
+
+OPTION_FORCE=0
+if [ "$1" = "-f" ];then
+  OPTION_FORCE=1
+fi
+
+OLDDIR=$(pwd)
 
 function vercomp () {
     if [[ $1 == $2 ]]
@@ -40,7 +47,7 @@ function vercomp () {
 CUR_VERSION=$(</etc/workshopbox/version)
 
 echo 'Checking cookbook ws-workshopbox for newer version...'
-cd /opt/workshopbox/lib/cookbooks/chef-ws-workshopbox
+cd ~/workspace/cookbooks/chef-ws-workshopbox
 git pull
 
 AVAIL_VERSION=$(cat metadata.rb | grep version | sed -e 's;^[^0-9]*\([0-9.]*\)[^0-9.]*$;\1;')
@@ -48,9 +55,9 @@ AVAIL_VERSION=$(cat metadata.rb | grep version | sed -e 's;^[^0-9]*\([0-9.]*\)[^
 echo "Current Version:   ${CUR_VERSION}"
 echo "Available Version: ${AVAIL_VERSION}"
 vercomp "${CUR_VERSION}" "${AVAIL_VERSION}"
-if [ $? -eq 2 ];then
+if [ $? -eq 2 -o $OPTION_FORCE -eq 1 ];then
   echo "Updating Workshopbox to Version ${AVAIL_VERSION}..."
-  mofa provision . -T localhost
+  mofa provision . --verbose -T localhost -o 'ws-workshopbox::default'
 else
   echo "Workshopbox is already up to date."
 fi

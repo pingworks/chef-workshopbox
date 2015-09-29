@@ -30,6 +30,13 @@ Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user'
     not_if do File.exist?("/home/#{username}/.ssh/id_rsa") end
   end
 
+  bash 'append public key to vagrant authorized_keys' do
+    code <<-EOC
+      cat /home/#{username}/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
+    EOC
+    not_if "grep \"$(cat /home/#{username}/.ssh/id_rsa.pub | cut -d' ' -f3)\" /home/vagrant/.ssh/authorized_keys"
+  end
+
   %w(.vimrc .bash_logout .bashrc .dmrc .profile .xinputrc).each do |f|
     cookbook_file "/home/#{username}/#{f}" do
       owner username
@@ -100,7 +107,7 @@ Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user'
     recursive true
   end
 
-  directory '/home/#{username}/.mofa' do
+  directory "/home/#{username}/.mofa" do
     owner username
     group username
     mode 00755
@@ -108,10 +115,30 @@ Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user'
     action :create
   end
 
-  template '/home/#{username}/.mofa/config.yml' do
-    source 'config.yml.user'
+  template "/home/#{username}/.mofa/config.yml" do
+    source 'config.yml.user.erb'
     owner username
     group username
     mode 00644
+    variables({
+      :username => username
+    })
+  end
+
+  %w(chef-ws-workshopbox chef-secret-service-client chef-ws-phonebook-backend chef-ws-testhelper).each do |pw_repo|
+    bash "git clone #{pw_repo}" do
+      user username
+      group username
+      environment ({'HOME' => "/home/#{username}", 'USER' => username })
+      code <<-EOC
+        if [ ! -d /home/#{username}/workspace/cookbooks/#{pw_repo} ];then
+          cd /home/#{username}/workspace/cookbooks
+          git clone https://github.com/pingworks/#{pw_repo}.git
+        else
+          cd /home/#{username}/workspace/cookbooks/#{pw_repo}
+          git pull
+        fi
+      EOC
+    end
   end
 end

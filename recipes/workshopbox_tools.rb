@@ -25,14 +25,6 @@ directory '/opt/workshopbox/etc' do
   action :create
 end
 
-directory '/opt/workshopbox/lib/cookbooks' do
-  owner 'root'
-  group 'root'
-  mode 00755
-  recursive true
-  action :create
-end
-
 directory '/opt/workshopbox/lib/tpl' do
   owner 'root'
   group 'root'
@@ -41,10 +33,10 @@ directory '/opt/workshopbox/lib/tpl' do
   action :create
 end
 
-cb = run_context.cookbook_collection[cookbook_name]
+cb = run_context.cookbook_collection['ws-workshopbox']
 # Loop over the array of files
 cb.manifest['files'].each do |cbf|
-  next if cbf !~ /^wsbox-.*\.sh/
+  next if cbf['name'] !~ /^wsbox-.*sh/
   # cbf['path'] is relative to the cookbook root, eg
   #   'files/default/foo.txt'
   # cbf['name'] strips the first two directories, eg
@@ -56,7 +48,7 @@ cb.manifest['files'].each do |cbf|
     mode 00755
   end
 
-  link "/user/local/bin/#{filename_short}" do
+  link "/usr/local/bin/#{filename_short}" do
     to "/opt/workshopbox/bin/#{filename}"
   end
 end
@@ -65,19 +57,6 @@ template '/opt/workshopbox/lib/tpl/.kitchen.yml.tpl' do
   owner 'root'
   group 'root'
   mode 00644
-end
-
-%w(chef-ws-workshopbox chef-secret-service-client).each do |pw_repo|
-  bash "git clone #{pw_repo}" do
-    user 'root'
-    group 'root'
-    code <<-EOC
-      if [ ! -d /opt/workshopbox/lib/cookbooks/#{pw_repo} ];then
-        cd /opt/workshopbox/lib/cookbooks
-        git clone https://github.com/pingworks/#{pw_repo}.git
-      fi
-    EOC
-  end
 end
 
 directory '/root/.mofa' do

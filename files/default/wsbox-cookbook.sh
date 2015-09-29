@@ -10,12 +10,19 @@ echo
 echo "Now tweaking some minor details..."
 echo "Renaming folder $1 to chef-$1 to fulfill naming conventions."
 mv $1 "chef-$1"
-echo "Deleting unneccessary files..."
+echo "Deleting unneccessary/not so important for now files..."
 rm -v "chef-$1/Thorfile"
 rm -v "chef-$1/Vagrantfile"
+rm -vr "chef-$1/provider"
+rm -vr "chef-$1/library"
+rm -vr "chef-$1/resource"
 
 echo "Tweaking .kitchen.yml driver (kitchen-docker)..."
 sed -e "s;__COOKBOOK__;$1;g" /opt/workshopbox/lib/tpl/.kitchen.yml.tpl > "chef-$1/.kitchen.yml"
+
+echo "Adding .mofa to .gitignore..."
+echo '.mofa' >> "chef-$1/.gitignore"
+
 echo "Done."
 echo
 echo "Please find your fresh & empty cookbook here:"
