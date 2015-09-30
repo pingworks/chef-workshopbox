@@ -13,3 +13,9 @@ bash 'write hostsfile' do
   EOF
   #not_if 'test -s /etc/hosts'
 end
+
+bash 'hostname' do
+  code <<-EOC
+  echo "#{node['ws-workshopbox']['cname']}" > /etc/hostname
+  EOC
+end

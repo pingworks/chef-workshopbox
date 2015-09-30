@@ -8,7 +8,7 @@ if [ "$EUID" -eq 0 ]
 fi
 
 echo 'Updating cookbook ws-workshopbox...'
-cd ~/workspace/cookbooks/chef-ws-workshopbox
+cd ~/.wsbox/cookbooks/chef-ws-workshopbox
 git pull
 
 echo "Running mofs provison..."

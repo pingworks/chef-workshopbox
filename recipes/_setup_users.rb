@@ -89,8 +89,8 @@ Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user'
     group username
     environment ({'HOME' => "/home/#{username}", 'USER' => username })
     code <<-EOC
-      git config --global user.email "$(<#{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/email)"
-      git config --global user.name "$(<#{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/fullname)"
+      git config --global user.email "$(cat #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/email)"
+      git config --global user.name "$(cat #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/firstname) $(cat #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/lastname)"
     EOC
   end
 
@@ -125,7 +125,32 @@ Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user'
     })
   end
 
-  %w(chef-ws-workshopbox chef-secret-service-client chef-ws-phonebook-backend chef-ws-testhelper).each do |pw_repo|
+  directory "/home/#{username}/.wsbox/cookbooks/" do
+    owner username
+    group username
+    mode 00755
+    recursive true
+  end
+
+  # Checking out read-only cookbooks
+  %w(chef-ws-workshopbox chef-secret-service-client).each do |pw_repo|
+    bash "git clone #{pw_repo}" do
+      user username
+      group username
+      environment ({'HOME' => "/home/#{username}", 'USER' => username })
+      code <<-EOC
+        if [ ! -d /home/#{username}/.wsbox/cookbooks/#{pw_repo} ];then
+          cd /home/#{username}/.wsbox/cookbooks
+          git clone https://github.com/pingworks/#{pw_repo}.git
+        else
+          cd /home/#{username}/.wsbox/cookbooks/#{pw_repo}
+          git pull
+        fi
+      EOC
+    end
+  end
+
+  node['ws-workshopbox']['precloned_cookbooks'].each do |pw_repo|
     bash "git clone #{pw_repo}" do
       user username
       group username

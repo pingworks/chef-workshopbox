@@ -1,6 +1,4 @@
 #!/bin/bash
-set -e
-
 if [ "$EUID" -eq 0 ]
   then echo "Please DO NOT run as root!"
   exit
@@ -47,7 +45,7 @@ function vercomp () {
 CUR_VERSION=$(</etc/workshopbox/version)
 
 echo 'Checking cookbook ws-workshopbox for newer version...'
-cd ~/workspace/cookbooks/chef-ws-workshopbox
+cd ~/.wsbox/cookbooks/chef-ws-workshopbox
 git pull
 
 AVAIL_VERSION=$(cat metadata.rb | grep version | sed -e 's;^[^0-9]*\([0-9.]*\)[^0-9.]*$;\1;')

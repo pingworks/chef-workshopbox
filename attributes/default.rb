@@ -1,6 +1,6 @@
 # User Setup Prerequisit:
 # a secret-service client repo (just a simple folderstructure) exists at:
-default['ws-workshopbox']['secret-service']['client']['repo'] = '/root/secret-service'
+default['ws-workshopbox']['secret-service']['client']['repo'] = '/var/lib/secret-service'
 default['ws-workshopbox']['secret-service']['client']['user'] = 'root'
 
 # Various Download Locations (to be mirrored in secluded environments like Conference Hotels)
@@ -29,7 +29,7 @@ default['ws-workshopbox']['adminuser']['username'] = 'vagrant'
 default['ws-workshopbox']['adminuser']['home'] = '/home/vagrant'
 
 default['ws-workshopbox']['preinstalled_gems'] = %w(kitchen-docker mofa)
-
+default['ws-workshopbox']['precloned_cookbooks'] = %w(chef-ws-phonebook-backend chef-ws-workshopbox chef-secret-service-client chef-ws-testhelper chef-ws-base chef-ws-jenkins chef-ws-phonebook chef-devstack chef-ws-git-repo)
 default['ws-workshopbox']['openstack_pkgs'] = %w(python-neutronclient python-novaclient python-openstackclient python-designateclient)
 
 default['ohai']['plugins']['ws-workshopbox'] = 'plugins'
