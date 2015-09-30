@@ -25,6 +25,8 @@ Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user'
       cd /home/#{username}
       tar xvfz /var/tmp/firefox-config_0.1.0.tar.gz
       chown -R #{username}.#{username} /home/#{username}/.mozilla
+      sed -i 's;__USERNAME__;#{username};g' /home/#{username}/.mozilla/firefox/2wd0j2ke.default/prefs.js
     EOC
   end
+
 end
