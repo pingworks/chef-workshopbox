@@ -10,4 +10,4 @@ include_recipe 'ws-workshopbox::_setup_users'
 include_recipe 'ws-workshopbox::_install_chefdk'
 
 include_recipe 'ws-workshopbox::_install_firefox'
-#include_recipe 'ws-workshopbox::_install_atom'
+include_recipe 'ws-workshopbox::_install_atom'
