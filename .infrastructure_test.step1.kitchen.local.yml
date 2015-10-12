@@ -9,7 +9,7 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[secret-service::_mock_secret_service_client_repo]
+      - recipe[secret-service-client::_mock_secret_service_client_repo]
     attributes:
       ws-workshopbox:
         dry-run: true
