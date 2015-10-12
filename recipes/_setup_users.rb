@@ -7,52 +7,6 @@
 # Licensed under the Apache License, Version 2.0
 #
 
-# if no secret-service repo is found, create a dummy one with user testuser only
-unless File.directory?(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user')
-  userlist = %w(testuser)
-  userlist.each do |username|
-    directory "#{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/.ssh" do
-      owner node['secret-service']['client']['user']
-      group node['secret-service']['client']['user']
-      mode 00700
-      recursive true
-    end
-
-    cookbook_file "#{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/.ssh/id_rsa" do
-      source 'vagrant_id_rsa'
-      owner node['secret-service']['client']['user']
-      group node['secret-service']['client']['user']
-      mode 00600
-    end
-
-    cookbook_file "#{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/.ssh/id_rsa.pub" do
-      source 'vagrant_id_rsa.pub'
-      owner node['secret-service']['client']['user']
-      group node['secret-service']['client']['user']
-      mode 00600
-    end
-
-    cookbook_file "#{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/.ssh/authorized_keys" do
-      source 'vagrant_id_rsa.pub'
-      owner node['secret-service']['client']['user']
-      group node['secret-service']['client']['user']
-      mode 00600
-    end
-
-    bash "Mocking secrets for user #{username}" do
-      code <<-EOC
-        echo #{username}@example.com > #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/email
-        echo "#{username}" > #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/password
-        echo "#{username}" > #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/firstname
-        echo "#{username}" > #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/lastname
-        chown -R #{node['secret-service']['client']['user']}.#{node['secret-service']['client']['user']} #{node['ws-workshopbox']['secret-service']['client']['repo']}
-        find #{node['ws-workshopbox']['secret-service']['client']['repo']} -type d -exec chmod 0700 \\{\\} \\;
-        find #{node['ws-workshopbox']['secret-service']['client']['repo']} -type f -exec chmod 0600 \\{\\} \\;
-      EOC
-    end
-  end
-end
-
 Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user') do |username|
   next if username == '.' || username == '..'
   bash 'create user' + username do
