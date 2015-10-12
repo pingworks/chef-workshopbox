@@ -1,4 +1,4 @@
-name 'ws-workshopbox'
+name 'workshopbox'
 maintainer 'Alexander Birk'
 maintainer_email 'birk@pingworks.de'
 license 'Apache 2.0'
@@ -8,4 +8,4 @@ version '0.3.18'
 
 depends 'apt'
 depends 'ohai'
-depends 'secret-service', '~> 0.1.7'
+depends 'secret_service', '~> 0.1.7'

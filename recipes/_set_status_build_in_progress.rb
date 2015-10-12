@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ws-workshopbox
+# Cookbook Name:: workshopbox
 #
 # Copyright (C) 2015 Alexander Birk
 #
@@ -25,6 +25,6 @@ end
 
 template '/var/run/workshopbox/status' do
   variables({
-    :status => 'build_in_progress:' + run_context.cookbook_collection['ws-workshopbox'].metadata.version
+    :status => 'build_in_progress:' + run_context.cookbook_collection['workshopbox'].metadata.version
   })
 end

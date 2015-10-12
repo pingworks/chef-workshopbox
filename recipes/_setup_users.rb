@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ws-workshopbox
+# Cookbook Name:: workshopbox
 # Recipe:: _setup_user
 #
 # Copyright (C) 2015 Alexander Birk
@@ -7,12 +7,12 @@
 # Licensed under the Apache License, Version 2.0
 #
 
-Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user') do |username|
+Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
   next if username == '.' || username == '..'
   bash 'create user' + username do
     code <<-EOC
       useradd #{username} --create-home --shell /bin/bash --groups adm,cdrom,sudo,dip,plugdev,lpadmin,sambashare
-      echo #{username}:$(< #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/password) | chpasswd
+      echo #{username}:$(< #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/password) | chpasswd
     EOC
     not_if { File.exist?("/home/#{username}") }
   end
@@ -20,9 +20,9 @@ Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user'
   bash 'create users ' + username + ' .ssh settings' do
     code <<-EOC
       mkdir /home/#{username}/.ssh
-      cp #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/.ssh/authorized_keys /home/#{username}/.ssh/authorized_keys
-      cp #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/.ssh/id_rsa.pub /home/#{username}/.ssh/id_rsa.pub
-      cp #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/.ssh/id_rsa /home/#{username}/.ssh/id_rsa
+      cp #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/.ssh/authorized_keys /home/#{username}/.ssh/authorized_keys
+      cp #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/.ssh/id_rsa.pub /home/#{username}/.ssh/id_rsa.pub
+      cp #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/.ssh/id_rsa /home/#{username}/.ssh/id_rsa
       chown -R #{username}.#{username} /home/#{username}/.ssh
       chmod -R go-rwsx /home/#{username}/.ssh
     EOC
@@ -88,8 +88,8 @@ Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user'
     group username
     environment ({ 'HOME' => "/home/#{username}", 'USER' => username })
     code <<-EOC
-      git config --global user.email "$(cat #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/email)"
-      git config --global user.name "$(cat #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/firstname) $(cat #{node['ws-workshopbox']['secret-service']['client']['repo']}/user/#{username}/lastname)"
+      git config --global user.email "$(cat #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/email)"
+      git config --global user.name "$(cat #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/firstname) $(cat #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/lastname)"
     EOC
   end
 
@@ -132,7 +132,7 @@ Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user'
   end
 
   # Checking out read-only cookbooks
-  %w(chef-ws-workshopbox chef-secret-service).each do |pw_repo|
+  %w(chef-workshopbox chef-secret_service).each do |pw_repo|
     bash "git clone #{pw_repo}" do
       user username
       group username
@@ -149,7 +149,7 @@ Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user'
     end
   end
 
-  node['ws-workshopbox']['precloned_cookbooks'].each do |pw_repo|
+  node['workshopbox']['precloned_cookbooks'].each do |pw_repo|
     bash "git clone #{pw_repo}" do
       user username
       group username

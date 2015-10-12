@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ws-workshopbox
+# Cookbook Name:: workshopbox
 #
 # Copyright (C) 2015 Alexander Birk
 #
@@ -18,7 +18,7 @@ end
 
 template '/etc/workshopbox/version' do
   variables({
-    :version => run_context.cookbook_collection['ws-workshopbox'].metadata.version
+    :version => run_context.cookbook_collection['workshopbox'].metadata.version
   })
 end
 

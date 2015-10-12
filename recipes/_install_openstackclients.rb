@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ws-workshopbox
+# Cookbook Name:: workshopbox
 #
 # Copyright (C) 2015 Alexander Birk
 #
@@ -14,6 +14,6 @@ apt_repository 'cloudarchive-kilo' do
   action :add
 end
 
-node['ws-workshopbox']['openstack_pkgs'].each do |pkg|
+node['workshopbox']['openstack_pkgs'].each do |pkg|
   package pkg
 end

@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ws-workshopbox
+# Cookbook Name:: workshopbox
 # Recipe:: hosts
 #
 # Copyright (C) 2015 Alexander Birk
@@ -9,13 +9,13 @@
 bash 'write hostsfile' do
   code <<-EOF
   echo "127.0.0.1 localhost" > /etc/hosts
-  echo "#{node['ipaddress']} #{node['ws-workshopbox']['cname']}.#{node['ws-workshopbox']['domain']} #{node['ws-workshopbox']['cname']}" >> /etc/hosts
+  echo "#{node['ipaddress']} #{node['workshopbox']['cname']}.#{node['workshopbox']['domain']} #{node['workshopbox']['cname']}" >> /etc/hosts
   EOF
   #not_if 'test -s /etc/hosts'
 end
 
 bash 'hostname' do
   code <<-EOC
-  echo "#{node['ws-workshopbox']['cname']}" > /etc/hostname
+  echo "#{node['workshopbox']['cname']}" > /etc/hostname
   EOC
 end

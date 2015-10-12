@@ -44,8 +44,8 @@ function vercomp () {
 
 CUR_VERSION=$(</etc/workshopbox/version)
 
-echo 'Checking cookbook ws-workshopbox for newer version...'
-cd ~/.wsbox/cookbooks/chef-ws-workshopbox
+echo 'Checking cookbook workshopbox for newer version...'
+cd ~/.wsbox/cookbooks/chef-workshopbox
 git pull
 
 AVAIL_VERSION=$(cat metadata.rb | grep version | sed -e 's;^[^0-9]*\([0-9.]*\)[^0-9.]*$;\1;')
@@ -55,7 +55,7 @@ echo "Available Version: ${AVAIL_VERSION}"
 vercomp "${CUR_VERSION}" "${AVAIL_VERSION}"
 if [ $? -eq 2 -o $OPTION_FORCE -eq 1 ];then
   echo "Updating Workshopbox to Version ${AVAIL_VERSION}..."
-  mofa provision . --verbose -T localhost -o 'ws-workshopbox::default'
+  mofa provision . --verbose -T localhost -o 'workshopbox::default'
 else
   echo "Workshopbox is already up to date."
 fi

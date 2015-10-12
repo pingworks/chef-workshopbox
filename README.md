@@ -1,4 +1,4 @@
-# ws-workshopbox-cookbook
+# workshopbox-cookbook
 
 TODO: Enter the cookbook description here.
 

@@ -9,7 +9,7 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[ws-workshopbox::default]
+      - recipe[workshopbox::default]
     attributes:
-      ws-workshopbox:
-        dry-run: true
+      workshopbox:
+        dryrun: true

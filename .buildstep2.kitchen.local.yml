@@ -9,5 +9,5 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[ws-workshopbox::default]
+      - recipe[workshopbox::default]
     attributes:

@@ -1,4 +1,4 @@
 source 'https://supermarket.chef.io'
 
 metadata
-cookbook 'secret-service', path: '../chef-secret_service'
+cookbook 'secret_service', path: '../chef-secret_service'

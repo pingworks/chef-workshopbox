@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ws-workshopbox
+# Cookbook Name:: workshopbox
 # Recipe:: sources_list
 #
 # Copyright (C) 2015 Alexander Birk

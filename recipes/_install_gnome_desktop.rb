@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ws-workshopbox
+# Cookbook Name:: workshopbox
 # Recipe:: gnome_desktop
 #
 # Copyright (C) 2015 Alexander Birk

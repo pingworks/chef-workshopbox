@@ -7,11 +7,11 @@ if [ "$EUID" -eq 0 ]
   exit
 fi
 
-echo 'Updating cookbook ws-workshopbox...'
-cd ~/.wsbox/cookbooks/chef-ws-workshopbox
+echo 'Updating cookbook workshopbox...'
+cd ~/.wsbox/cookbooks/chef-workshopbox
 git pull
 
 echo "Running mofs provison..."
-mofa provision . --verbose --debug -T localhost -o 'ws-workshopbox::update-wsbox-tools'
+mofa provision . --verbose --debug -T localhost -o 'workshopbox::update-wsbox-tools'
 
 cd $OLDDIR

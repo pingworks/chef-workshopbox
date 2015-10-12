@@ -9,8 +9,8 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[ws-workshopbox::default]
+      - recipe[workshopbox::default]
     attributes:
-      ws-workshopbox:
+      workshopbox:
         mirror:
           apt: 'apt-mirror-ubuntu1404.la.pingworks.net'

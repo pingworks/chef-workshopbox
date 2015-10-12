@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ws-workshopbox
+# Cookbook Name:: workshopbox
 #
 # Copyright (C) 2015 Alexander Birk
 #
@@ -7,8 +7,8 @@
 #
 
 remote_file '/usr/local/src/chefdk.deb' do
-  source node['ws-workshopbox']['download']['chefdk']['url']
-  checksum node['ws-workshopbox']['download']['chefdk']['sha256']
+  source node['workshopbox']['download']['chefdk']['url']
+  checksum node['workshopbox']['download']['chefdk']['sha256']
 end
 
 bash 'install chefdk' do
@@ -29,7 +29,7 @@ bash 'setup chefdk for root' do
 end
 
 # install some essential gems
-node['ws-workshopbox']['preinstalled_gems'].each do |g|
+node['workshopbox']['preinstalled_gems'].each do |g|
   gem_package g do
     gem_binary '/opt/chefdk/embedded/bin/gem'
     options('--no-document --no-user-install --install-dir /opt/chefdk/embedded/lib/ruby/gems/2.1.0')
@@ -37,7 +37,7 @@ node['ws-workshopbox']['preinstalled_gems'].each do |g|
   end
 end
 
-Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user') do |username|
+Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
   next if username == '.' or username == '..'
   bash 'setup chefdk for user ' + username do
     user username
@@ -50,13 +50,13 @@ Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user'
   end
 
   # clone https://github.com/pingworks/chef-ws-base.git
-  bash "git clone /home/#{username}/workspace/cookbooks/#{node['ws-workshopbox']['kitchen-docker']['testcookbook']['name']}" do
+  bash "git clone /home/#{username}/workspace/cookbooks/#{node['workshopbox']['kitchen-docker']['testcookbook']['name']}" do
     user username
     group username
     code <<-EOC
-      if [ ! -d /home/#{username}/workspace/cookbooks/#{node['ws-workshopbox']['kitchen-docker']['testcookbook']['name']} ];then
+      if [ ! -d /home/#{username}/workspace/cookbooks/#{node['workshopbox']['kitchen-docker']['testcookbook']['name']} ];then
         cd "/home/#{username}/workspace/cookbooks"
-        git clone #{node['ws-workshopbox']['kitchen-docker']['testcookbook']['url']}
+        git clone #{node['workshopbox']['kitchen-docker']['testcookbook']['url']}
       fi
     EOC
   end
@@ -64,10 +64,10 @@ end
 
 # docker pull pingworks/docker-ws-baseimg
 bash 'pull docker ws baseimg' do
-  user node['ws-workshopbox']['adminuser']['username']
+  user node['workshopbox']['adminuser']['username']
   group 'adm'
-  environment ({'HOME' => node['ws-workshopbox']['adminuser']['home'], 'USER' => node['ws-workshopbox']['adminuser']['username']})
+  environment ({'HOME' => node['workshopbox']['adminuser']['home'], 'USER' => node['workshopbox']['adminuser']['username']})
   code <<-EOC
-    docker pull #{node['ws-workshopbox']['kitchen-docker']['baseimg']}
+    docker pull #{node['workshopbox']['kitchen-docker']['baseimg']}
   EOC
 end

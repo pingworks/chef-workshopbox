@@ -29,10 +29,10 @@ cookbook_type_indicator:
   base: ".*-base$"
 
 # Binrepo for released cookbooks
-binrepo_base_url: 'http://repo.<%= @username %>.<%= node['ws-workshopbox']['domain'] %>/cookbooks'
+binrepo_base_url: 'http://repo.<%= @username %>.<%= node['workshopbox']['domain'] %>/cookbooks'
 
 # Releasing into binrepo
-binrepo_host: repo.<%= @username %>.<%= node['ws-workshopbox']['domain'] %>
+binrepo_host: repo.<%= @username %>.<%= node['workshopbox']['domain'] %>
 binrepo_ssh_user: cookbook-deploy
 binrepo_ssh_port: 22
 binrepo_ssh_keyfile: /home/<%= @username %>/.ssh/id_rsa

@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ws-workshopbox
+# Cookbook Name:: workshopbox
 #
 # Copyright (C) 2015 Alexander Birk
 #
@@ -25,7 +25,7 @@ cookbook_file "/var/tmp/atom-config_0.1.0.tar.gz" do
   mode 00644
 end
 
-Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user') do |username|
+Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
   next if username == '.' or username == '..'
   bash 'untar atom config' do
     user username

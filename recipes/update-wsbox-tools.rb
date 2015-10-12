@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ws-workshopbox
+# Cookbook Name:: workshopbox
 # Recipe:: default
 #
 # Copyright (C) 2015 Alexander Birk
@@ -11,7 +11,7 @@
 cookbook_file '/tmp/id_rsa'
 
 include_recipe 'ohai'
-include_recipe 'ws-workshopbox::hostsfile'
-include_recipe 'ws-workshopbox::sources_list'
+include_recipe 'workshopbox::hostsfile'
+include_recipe 'workshopbox::sources_list'
 
-include_recipe 'ws-workshopbox::workshopbox_tools'
+include_recipe 'workshopbox::workshopbox_tools'

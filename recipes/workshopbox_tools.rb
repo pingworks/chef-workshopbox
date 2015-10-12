@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ws-workshopbox
+# Cookbook Name:: workshopbox
 #
 # Copyright (C) 2015 Alexander Birk
 #
@@ -33,7 +33,7 @@ directory '/opt/workshopbox/lib/tpl' do
   action :create
 end
 
-cb = run_context.cookbook_collection['ws-workshopbox']
+cb = run_context.cookbook_collection['workshopbox']
 # Loop over the array of files
 cb.manifest['files'].each do |cbf|
   next if cbf['name'] !~ /^wsbox-.*sh/
