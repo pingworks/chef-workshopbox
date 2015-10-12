@@ -29,7 +29,7 @@ default['ws-workshopbox']['adminuser']['username'] = 'vagrant'
 default['ws-workshopbox']['adminuser']['home'] = '/home/vagrant'
 
 default['ws-workshopbox']['preinstalled_gems'] = %w(kitchen-docker mofa)
-default['ws-workshopbox']['precloned_cookbooks'] = %w(chef-ws-phonebook-backend chef-ws-workshopbox chef-secret-service-client chef-ws-testhelper chef-ws-base chef-ws-jenkins chef-ws-phonebook chef-devstack chef-ws-git-repo)
+default['ws-workshopbox']['precloned_cookbooks'] = %w(phonebook chef-ws-phonebook-backend chef-ws-workshopbox chef-secret-service-client chef-ws-testhelper chef-ws-base chef-ws-jenkins chef-ws-phonebook chef-devstack chef-ws-git-repo)
 default['ws-workshopbox']['openstack_pkgs'] = %w(python-neutronclient python-novaclient python-openstackclient python-designateclient)
 
 default['ohai']['plugins']['ws-workshopbox'] = 'plugins'
