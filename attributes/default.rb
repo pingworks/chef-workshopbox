@@ -3,8 +3,8 @@ default['ws-workshopbox']['dryrun'] = false
 
 # User Setup Prerequisit:
 # a secret-service client repo (just a simple folderstructure) exists at:
-default['ws-workshopbox']['secret-service']['client']['repo'] = '/var/lib/secret-service'
-default['ws-workshopbox']['secret-service']['client']['user'] = 'root'
+default['secret-service']['client']['repo'] = '/var/lib/secret-service'
+default['secret-service']['client']['user'] = 'root'
 
 # Various Download Locations (to be mirrored in secluded environments like Conference Hotels)
 default['ws-workshopbox']['mirror']['apt'] = 'de.archive.ubuntu.com'
