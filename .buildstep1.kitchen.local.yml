@@ -9,6 +9,6 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[secret-service-client::default]
-      - recipe[secret-service-client::fetch_secrets]
+      - recipe[secret-service::default]
+      - recipe[secret-service::fetch_secrets]
     attributes:

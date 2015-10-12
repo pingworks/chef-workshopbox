@@ -1,4 +1,4 @@
-source "https://supermarket.chef.io"
+source 'https://supermarket.chef.io'
 
 metadata
-cookbook 'secret-service-client', path: '../chef-secret-service-client'
+cookbook 'secret-service', path: '../chef-secret-service'

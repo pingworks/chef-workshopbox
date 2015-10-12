@@ -132,7 +132,7 @@ Dir.foreach(node['ws-workshopbox']['secret-service']['client']['repo'] + '/user'
   end
 
   # Checking out read-only cookbooks
-  %w(chef-ws-workshopbox chef-secret-service-client).each do |pw_repo|
+  %w(chef-ws-workshopbox chef-secret-service).each do |pw_repo|
     bash "git clone #{pw_repo}" do
       user username
       group username
