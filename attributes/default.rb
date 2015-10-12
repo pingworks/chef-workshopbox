@@ -3,7 +3,7 @@ default['workshopbox']['dryrun'] = false
 
 # User Setup Prerequisit:
 # a secret_service client repo (just a simple folderstructure) exists at:
-default['workshopbox']['secret_service']['client']['repo'] = '/var/lib/secret_service'
+default['workshopbox']['secret_service']['client']['repo'] = '/var/lib/secret-service'
 default['workshopbox']['secret_service']['client']['user'] = 'root'
 
 # Various Download Locations (to be mirrored in secluded environments like Conference Hotels)
