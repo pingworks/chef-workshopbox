@@ -42,7 +42,7 @@ cb.manifest['files'].each do |cbf|
   # cbf['name'] strips the first two directories, eg
   #   'foo.txt'
   filename = cbf['name']
-  filename_short = cbf['name'].sub('.sh','')
+  filename_short = cbf['name'].sub('.sh', '')
   cookbook_file "/opt/workshopbox/bin/#{filename}" do
     source filename
     mode 00755
