@@ -1,6 +1,3 @@
-# Dry run (for faster roundtrips while build infrastruture testing)
-default['workshopbox']['dryrun'] = false
-
 # User Setup Prerequisit:
 # a secret_service client repo (just a simple folderstructure) exists at:
 default['workshopbox']['secret_service']['client']['repo'] = '/var/lib/secret-service'
