@@ -8,4 +8,4 @@ version '0.3.19'
 
 depends 'apt'
 depends 'ohai'
-depends 'secret_service', '~> 0.1.10'
+depends 'secret_service', '~> 0.1.11'

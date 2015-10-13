@@ -10,5 +10,4 @@ suites:
   - name: default
     run_list:
       - recipe[secret_service::default]
-      - recipe[secret_service::fetch_secrets]
     attributes:
