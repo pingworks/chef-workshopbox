@@ -20,6 +20,16 @@ file '/var/cache/apt/srcpkgcache.bin' do
   action :delete
 end
 
+# import some missing gpg keys
+%w(3B4FE6ACC0B21F32 40976EAF437D05B5).each do |k|
+  bash 'import gpg key' + k do
+    code <<-EOC
+      gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv #{k}
+      gpg --export --armor #{k}| apt-key add -
+    EOC
+  end
+end
+
 bash 'refresh apt sources' do
   code <<-EOC
   apt-get update
