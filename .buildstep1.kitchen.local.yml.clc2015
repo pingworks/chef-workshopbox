@@ -10,6 +10,7 @@ suites:
   - name: default
     run_list:
       - recipe[secret_service::default]
+      #- recipe[secret_service::bootstrap_secret_service_server_repo]
     attributes:
       secret_service:
         domain: clc2015 
