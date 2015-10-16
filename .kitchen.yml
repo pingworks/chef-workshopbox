@@ -22,7 +22,6 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[workshopbox::default]
-      #- recipe[secret_service::default]
-      #- recipe[secret_service::fetch_secrets]
+      #- recipe[workshopbox::default]
+      - recipe[secret_service::default]
     attributes:

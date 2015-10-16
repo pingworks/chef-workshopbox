@@ -12,7 +12,7 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
   bash 'create user' + username do
     code <<-EOC
       useradd #{username} --create-home --shell /bin/bash --groups adm,cdrom,sudo,dip,plugdev,lpadmin,sambashare
-      echo #{username}:$(< #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/password) | chpasswd
+      echo #{username}:$(< #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/password_sha512) | chpasswd -e
     EOC
     not_if { File.exist?("/home/#{username}") }
   end
@@ -140,7 +140,12 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
       code <<-EOC
         if [ ! -d /home/#{username}/.wsbox/cookbooks/#{pw_repo} ];then
           cd /home/#{username}/.wsbox/cookbooks
-          git clone https://github.com/pingworks/#{pw_repo}.git
+          git clone /var/lib/workshopbox/github/#{pw_repo}.git
+          cd #{pw_repo}
+          if [ ! -z "$(git remote -v)" ];then git remote remove origin;fi
+          git remote add origin https://github.com/pingworks/#{pw_repo}.git
+          git pull origin master
+          git branch --set-upstream-to=origin/master master
         else
           cd /home/#{username}/.wsbox/cookbooks/#{pw_repo}
           git pull
@@ -157,7 +162,12 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
       code <<-EOC
         if [ ! -d /home/#{username}/workspace/cookbooks/#{pw_repo} ];then
           cd /home/#{username}/workspace/cookbooks
-          git clone https://github.com/pingworks/#{pw_repo}.git
+          git clone /var/lib/workshopbox/github/#{pw_repo}.git
+          cd #{pw_repo}
+          if [ ! -z "$(git remote -v)" ];then git remote remove origin;fi
+          git remote add origin https://github.com/pingworks/#{pw_repo}.git
+          git pull origin master
+          git branch --set-upstream-to=origin/master master
         else
           cd /home/#{username}/workspace/cookbooks/#{pw_repo}
           git pull

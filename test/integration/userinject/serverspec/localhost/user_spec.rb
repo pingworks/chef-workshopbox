@@ -66,13 +66,13 @@ describe file('/var/lib/secret-service/user/testuser/email') do
   its(:content) { should match /testuser@example.com/ }
 end
 
-describe file('/var/lib/secret-service/user/testuser/password') do
+describe file('/var/lib/secret-service/user/testuser/password_sha512') do
   it { should be_mode '600' }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   its(:content) { should match /p0jQ8T1yYNLaucTc9ItIIcrQVF9O94ZDiiLNUBcvLUyZ139wrwzKz/ }
 end
 
-describe file('/var/lib/secret-service/user/testuser/password_cleartext') do
+describe file('/var/lib/secret-service/user/testuser/password') do
   it { should_not exist }
 end
