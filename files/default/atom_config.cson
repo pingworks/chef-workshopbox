@@ -1,0 +1,25 @@
+"*":
+  core: {}
+  editor:
+    preferredLineLength: 120
+    invisibles: {}
+  linter:
+    showErrorPanel: false
+    showErrorTabLine: true
+  "linter-rubocop":
+    command: "/opt/chefdk/bin/rubocop"
+  "linter-ruby":
+    rubyExecutablePath: "/opt/chefdk/embedded/bin/ruby"
+  "linter-erb":
+    erbExecutablePath: "/opt/chefdk/bin/erb"
+  "rubocop-auto-correct":
+    autoRun: true
+    correctFile: true
+    rubocopCommandPath: "/opt/chefdk/bin/rubocop"
+  rspec:
+    command: "bundle exec rspec"
+  welcome:
+    showOnStartup: true
+".rspec.ruby.source":
+  editor:
+    preferredLineLength: 120

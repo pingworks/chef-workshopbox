@@ -74,6 +74,12 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
     mode 00644
   end
 
+  cookbook_file "/home/#{username}/.rspec" do
+    owner username
+    group username
+    mode 00644
+  end
+
   template "/home/#{username}/.config/gtk-3.0/bookmarks" do
     owner username
     group username
@@ -154,7 +160,7 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
     end
   end
 
-  node['workshopbox']['precloned_cookbooks'].each do |pw_repo|
+  node['workshopbox']['precloned_githubrepos'].each do |pw_repo|
     bash "git clone #{pw_repo}" do
       user username
       group username

@@ -30,7 +30,7 @@ end
 end
 
 # Cloning other github cookbooks
-node['workshopbox']['precloned_cookbooks'].each do |pw_repo|
+node['workshopbox']['precloned_githubrepos'].each do |pw_repo|
   bash "git clone #{pw_repo}" do
     code <<-EOC
       if [ ! -d /var/lib/workshopbox/github/#{pw_repo}.git ];then
