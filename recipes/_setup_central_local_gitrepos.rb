@@ -14,7 +14,7 @@ directory '/var/lib/workshopbox/github' do
 end
 
 # Checking out read-only cookbooks
-%w(chef-workshopbox chef-secret_service).each do |pw_repo|
+node['workshopbox']['wsboxinternal']['githubrepos'].each do |pw_repo|
   bash "git clone #{pw_repo}" do
     code <<-EOC
       if [ ! -d /var/lib/workshopbox/github/#{pw_repo}.git ];then

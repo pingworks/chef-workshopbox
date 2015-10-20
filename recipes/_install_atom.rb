@@ -6,6 +6,8 @@
 # Licensed under the Apache License, Version 2.0
 #
 
+package 'xdg-utils'
+
 remote_file '/usr/local/src/atom-amd64.deb' do
   source 'http://depot.pingworks.net/atom/atom-amd64.deb'
   owner 'root'
@@ -19,6 +21,7 @@ bash 'install atom deb' do
   code <<-EOH
   dpkg -i /usr/local/src/atom-amd64.deb
   EOH
+  not_if "dpkg -s atom | grep 'Version: 1.0.19'"
 end
 
 # Make a prototyporal installation for user testuser and clone it into all the other useraccounts

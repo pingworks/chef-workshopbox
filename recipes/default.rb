@@ -18,13 +18,14 @@ include_recipe 'workshopbox::hostsfile'
 
 include_recipe 'workshopbox::sources_list'
 
+include_recipe 'workshopbox::_setup_root'
 include_recipe 'workshopbox::_install_base_packages'
 
-include_recipe 'workshopbox::_setup_root'
 include_recipe 'workshopbox::_install_docker'
 
 include_recipe 'workshopbox::desktop_base'
-include_recipe 'workshopbox::desktop_personalized'
+include_recipe 'workshopbox::desktop_central_tools'
+include_recipe 'workshopbox::desktop_userspecific'
 
 include_recipe 'workshopbox::workshopbox_tools'
 

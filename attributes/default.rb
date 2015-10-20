@@ -3,6 +3,9 @@
 default['workshopbox']['secret_service']['client']['repo'] = '/var/lib/secret-service'
 default['workshopbox']['secret_service']['client']['user'] = 'root'
 
+# choose flavor (gnome or xfce)
+default['workshopbox']['desktop'] = 'gnome'
+
 # Various Download Locations (to be mirrored in secluded environments like Conference Hotels)
 default['workshopbox']['mirror']['apt'] = 'archive.ubuntu.com'
 default['workshopbox']['mirror']['vbox'] = 'download.virtualbox.org'
@@ -29,3 +32,5 @@ default['workshopbox']['atom_pkgs'] = %w(file-icons@1.6.11 language-chef@0.7.0 l
 
 # needed for custom ohai plugins
 default['ohai']['plugins']['workshopbox'] = 'plugins'
+
+default['workshopbox']['wsboxinternal']['githubrepos'] = %w(chef-workshopbox chef-secret_service chef-pw_testhelper)
