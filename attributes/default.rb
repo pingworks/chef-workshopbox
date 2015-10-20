@@ -33,4 +33,4 @@ default['workshopbox']['atom_pkgs'] = %w(file-icons@1.6.11 language-chef@0.7.0 l
 # needed for custom ohai plugins
 default['ohai']['plugins']['workshopbox'] = 'plugins'
 
-default['workshopbox']['wsboxinternal']['githubrepos'] = %w(chef-workshopbox chef-secret_service chef-pw_testhelper)
+default['workshopbox']['wsboxinternal']['githubrepos'] = %w(chef-workshopbox chef-workshopbox_doc chef-secret_service chef-pw_testhelper)
