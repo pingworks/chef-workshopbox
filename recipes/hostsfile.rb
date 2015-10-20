@@ -9,7 +9,7 @@
 bash 'write hostsfile' do
   code <<-EOF
   echo "127.0.0.1 localhost" > /etc/hosts
-  echo "#{node['ipaddress']} #{node['workshopbox']['cname']}.#{node['workshopbox']['domain']} #{node['workshopbox']['cname']}" >> /etc/hosts
+  echo "#{node['ipaddress']} #{node['workshopbox']['cname']}.#{node['workshopbox']['domain']} #{node['workshopbox']['cname']} #{node['hostname']}.#{node['domain']} #{node['hostname']}" >> /etc/hosts
   EOF
   #not_if 'test -s /etc/hosts'
 end
