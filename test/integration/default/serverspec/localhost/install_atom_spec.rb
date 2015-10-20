@@ -1,9 +1,5 @@
 require_relative '../spec_helper'
 
-describe file('/usr/local/src/atom-amd64.deb') do
-  it { should be_file }
-end
-
 describe package('atom') do
   it { should be_installed.with_version('1.0.19') }
 end
