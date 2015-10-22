@@ -4,7 +4,7 @@ default['workshopbox']['secret_service']['client']['repo'] = '/var/lib/secret-se
 default['workshopbox']['secret_service']['client']['user'] = 'root'
 
 # choose flavor (gnome or xfce)
-default['workshopbox']['desktop'] = 'gnome'
+default['workshopbox']['desktop'] = 'xfce'
 
 # Various Download Locations (to be mirrored in secluded environments like Conference Hotels)
 default['workshopbox']['mirror']['apt'] = 'archive.ubuntu.com'
