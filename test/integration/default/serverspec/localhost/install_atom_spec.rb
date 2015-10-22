@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 
-describe package('atom') do
-  it { should be_installed.with_version('1.0.19') }
+describe command('dpkg -s atom') do
+  its(:stdout) { should match /^Version: 1\.0\.19.*/ }
 end
 
 Dir.foreach('/home') do |username|

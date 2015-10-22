@@ -20,6 +20,7 @@ include_recipe 'workshopbox::sources_list'
 
 include_recipe 'workshopbox::_setup_root'
 include_recipe 'workshopbox::_install_base_packages'
+include_recipe 'workshopbox::_install_kernelmod_build_env'
 
 include_recipe 'workshopbox::_install_docker'
 
@@ -29,4 +30,5 @@ include_recipe 'workshopbox::desktop_userspecific'
 
 include_recipe 'workshopbox::workshopbox_tools'
 
+include_recipe 'workshopbox::_uninstall_kernelmod_build_env'
 include_recipe 'workshopbox::_set_status_build_success'

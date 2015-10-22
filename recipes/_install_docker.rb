@@ -32,3 +32,13 @@ cookbook_file 'default-docker' do
   mode '0600'
   notifies :restart, 'service[docker]', :immediately
 end
+
+# docker pull pingworks/docker-ws-baseimg
+bash 'pull docker ws baseimg' do
+  user node['workshopbox']['adminuser']['username']
+  group 'adm'
+  environment ({'HOME' => node['workshopbox']['adminuser']['home'], 'USER' => node['workshopbox']['adminuser']['username']})
+  code <<-EOC
+    docker pull #{node['workshopbox']['kitchen-docker']['baseimg']}
+  EOC
+end

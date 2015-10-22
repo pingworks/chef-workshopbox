@@ -10,5 +10,6 @@ suites:
   - name: default
     run_list:
       - recipe[workshopbox::default]
+      - recipe[workshopbox_doc::default]
       - recipe[pw_testhelper::default]
     attributes:

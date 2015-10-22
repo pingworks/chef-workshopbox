@@ -16,14 +16,7 @@ remote_file node['workshopbox']['adminuser']['home'] + '/VBoxGuestAdditions_' + 
   source "http://#{node['workshopbox']['mirror']['vbox']}/virtualbox/#{node['vboxversion']}/VBoxGuestAdditions_#{node['vboxversion']}.iso"
   user node['workshopbox']['adminuser']['username']
   group node['workshopbox']['adminuser']['username']
-  not_if "lsmod | grep -i vboxvideo"
-end
-
-
-[ 'dkms', 'build-essential', "linux-headers-#{node['uname']}"].each do |pkg|
-  package pkg do
-    not_if "lsmod | grep -i vboxvideo"
-  end
+  #not_if "lsmod | grep -i vboxvideo"
 end
 
 bash 'install VBoxGuestAdditions' do
@@ -34,12 +27,5 @@ bash 'install VBoxGuestAdditions' do
     umount /tmp/vbox
     rmdir /tmp/vbox
   EOC
-  not_if "lsmod | grep -i vboxvideo"
-end
-
-["linux-headers-#{node['uname']}", 'build-essential', 'dkms'].each do |pkg|
-  package pkg do
-    action :remove
-    not_if "lsmod | grep -i vboxvideo"
-  end
+  #not_if "lsmod | grep -i vboxvideo"
 end

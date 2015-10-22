@@ -7,3 +7,8 @@
 #
 
 include_recipe 'workshopbox::_setup_central_local_gitrepos'
+
+include_recipe 'workshopbox::_install_chefdk'
+
+include_recipe 'workshopbox::_install_atom'
+include_recipe 'workshopbox::_install_firefox'

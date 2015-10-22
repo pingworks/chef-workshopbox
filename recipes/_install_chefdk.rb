@@ -18,15 +18,6 @@ bash 'install chefdk' do
   not_if 'dpkg -s chefdk'
 end
 
-bash 'setup chefdk for root' do
-  user 'root'
-  cwd '/root'
-  environment ({'HOME' => '/root', 'USER' => 'root' })
-  code <<-EOC
-    echo 'eval "$(chef shell-init bash)"' >> /root/.profile
-  EOC
-  not_if "grep 'chef shell-init bash'  /root/.profile"
-end
 
 # install some essential gems
 node['workshopbox']['preinstalled_gems'].each do |g|
@@ -35,39 +26,4 @@ node['workshopbox']['preinstalled_gems'].each do |g|
     options('--no-document --no-user-install --install-dir /opt/chefdk/embedded/lib/ruby/gems/2.1.0')
     action :install
   end
-end
-
-Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
-  next if username == '.' or username == '..'
-  bash 'setup chefdk for user ' + username do
-    user username
-    cwd "/home/#{username}"
-    environment ({'HOME' => "/home/#{username}", 'USER' => username})
-    code <<-EOC
-      echo 'eval "$(chef shell-init bash)"' >> /home/#{username}/.profile
-    EOC
-    not_if "grep 'chef shell-init bash'  /home/#{username}/.profile"
-  end
-
-  # clone https://github.com/pingworks/chef-ws-base.git
-  bash "git clone /home/#{username}/workspace/cookbooks/#{node['workshopbox']['kitchen-docker']['testcookbook']['name']}" do
-    user username
-    group username
-    code <<-EOC
-      if [ ! -d /home/#{username}/workspace/cookbooks/#{node['workshopbox']['kitchen-docker']['testcookbook']['name']} ];then
-        cd "/home/#{username}/workspace/cookbooks"
-        git clone #{node['workshopbox']['kitchen-docker']['testcookbook']['url']}
-      fi
-    EOC
-  end
-end
-
-# docker pull pingworks/docker-ws-baseimg
-bash 'pull docker ws baseimg' do
-  user node['workshopbox']['adminuser']['username']
-  group 'adm'
-  environment ({'HOME' => node['workshopbox']['adminuser']['home'], 'USER' => node['workshopbox']['adminuser']['username']})
-  code <<-EOC
-    docker pull #{node['workshopbox']['kitchen-docker']['baseimg']}
-  EOC
 end
