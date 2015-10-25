@@ -21,7 +21,7 @@ default['workshopbox']['domain'] = 'ws.net'
 default['workshopbox']['adminuser']['username'] = 'vagrant'
 default['workshopbox']['adminuser']['home'] = '/home/vagrant'
 
-default['workshopbox']['preinstalled_gems'] = %w(kitchen-docker mofa)
+default['workshopbox']['preinstalled_gems'] = %w(kitchen-docker mofa rubocop)
 default['workshopbox']['precloned_githubrepos'] = %w(phonebook chef-workshopbox chef-workshopbox_doc chef-secret_service chef-pw_testhelper chef-pw_base chef-pw_jenkins chef-ws-phonebook chef-ws-env-phonebook chef-ws-env-pipeline)
 default['workshopbox']['openstack_pkgs'] = %w(python-neutronclient python-novaclient python-openstackclient python-designateclient)
 

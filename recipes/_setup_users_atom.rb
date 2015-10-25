@@ -16,6 +16,14 @@ directory '/home/testuser/.atom' do
   action :create
 end
 
+directory '/home/testuser/storage' do
+  owner 'testuser'
+  group 'testuser'
+  mode 00755
+  recursive true
+  action :create
+end
+
 cookbook_file '/home/testuser/.atom/.apmrc' do
   owner 'testuser'
   group 'testuser'
@@ -73,5 +81,15 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
     rsync -avx --delete /home/testuser/.atom/ /home/#{username}/.atom/
     chown -R #{username}.#{username} /home/#{username}/.atom
     EOH
+  end
+
+  template "/home/#{username}/.atom/storage/application.json" do
+    source 'application.json.erb'
+    owner username
+    group username
+    mode 00644
+    variables(
+      username: username
+    )
   end
 end

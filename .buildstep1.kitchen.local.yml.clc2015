@@ -5,7 +5,8 @@ platforms:
         gui: false
         box: pingworks_ubuntu-14.04_chef-12.4.1-1
         box_url: http://vagrant.pingworks.net/pingworks_ubuntu-14.04_chef-12.4.1-1.box
-
+        network:
+          - ["forwarded_port", {guest: 80, host: 8080}]
 suites:
   - name: default
     run_list:
@@ -13,6 +14,5 @@ suites:
       #- recipe[secret_service::bootstrap_secret_service_server_repo]
     attributes:
       secret_service:
-        domain: clc2015 
-        accessuser: secret-clc2015 
-        
+        domain: clc2015
+        accessuser: secret-clc2015
