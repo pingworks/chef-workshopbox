@@ -16,7 +16,7 @@ directory '/home/testuser/.atom' do
   action :create
 end
 
-directory '/home/testuser/storage' do
+directory '/home/testuser/.atom/storage' do
   owner 'testuser'
   group 'testuser'
   mode 00755
