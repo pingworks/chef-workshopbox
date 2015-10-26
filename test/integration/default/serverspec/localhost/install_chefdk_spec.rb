@@ -8,3 +8,7 @@ end
 describe command('rubocop --version') do
   its(:stdout) { should match /^0.34.2$/ }
 end
+
+describe command('mofa version') do
+  its(:stdout) { should match /^0.2.17$/ }
+end

@@ -20,10 +20,11 @@ end
 
 
 # install some essential gems
-node['workshopbox']['preinstalled_gems'].each do |g|
+node['workshopbox']['preinstalled_gems'].each do |g, v|
   gem_package g do
     gem_binary '/opt/chefdk/embedded/bin/gem'
     options('--no-document --no-user-install --install-dir /opt/chefdk/embedded/lib/ruby/gems/2.1.0')
+    version v
     action :install
   end
 end
