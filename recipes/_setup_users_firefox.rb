@@ -24,6 +24,5 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
       chown -R #{username}.#{username} /home/#{username}/.mozilla
       sed -i 's;__USERNAME__;#{username};g' /home/#{username}/.mozilla/firefox/2wd0j2ke.default/prefs.js
     EOC
-    not_if { File.exist?('/var/tmp/firefox-config_0.1.0.tar.gz') }
   end
 end

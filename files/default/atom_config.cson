@@ -19,7 +19,7 @@
   rspec:
     command: "bundle exec rspec"
   welcome:
-    showOnStartup: true
+    showOnStartup: false
 ".rspec.ruby.source":
   editor:
     preferredLineLength: 120
