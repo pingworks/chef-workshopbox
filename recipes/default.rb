@@ -22,6 +22,7 @@ include_recipe 'workshopbox::_setup_root'
 include_recipe 'workshopbox::_install_base_packages'
 include_recipe 'workshopbox::_install_kernelmod_build_env'
 
+include_recipe 'workshopbox::_install_nginx'
 include_recipe 'workshopbox::_install_docker'
 
 include_recipe 'workshopbox::desktop_base'

@@ -21,13 +21,13 @@ default['workshopbox']['domain'] = 'ws.net'
 default['workshopbox']['adminuser']['username'] = 'vagrant'
 default['workshopbox']['adminuser']['home'] = '/home/vagrant'
 
-default['workshopbox']['preinstalled_gems'] = { 'kitchen-docker' => '2.3.0', 'mofa' => '0.2.17', 'rubocop' => '0.34.2' }
-default['workshopbox']['precloned_githubrepos'] = %w(phonebook chef-workshopbox chef-workshopbox_doc chef-secret_service chef-pw_testhelper chef-pw_base chef-pw_jenkins chef-ws-phonebook chef-ws-env-phonebook chef-ws-env-pipeline)
+default['workshopbox']['base_pkgs'] = %w(git vim less htop ncdu curl wget)
+default['workshopbox']['preinstalled_gems'] = %w(kitchen-docker@2.3.0 mofa@0.3.2 rubocop@0.34.2)
+default['workshopbox']['precloned_githubrepos'] = %w(chef-pw_testhelper phonebook chef-pw_base chef-pw_jenkins chef-ws_phonebook chef-env_ws_phonebook chef-env_ws_pipeline)
+default['workshopbox']['wsboxinternal']['githubrepos'] = %w(chef-pw_testhelper chef-ws_kitchen_docker_test chef-workshopbox chef-workshopbox_doc chef-secret_service)
 default['workshopbox']['openstack_pkgs'] = %w(python-neutronclient python-novaclient python-openstackclient python-designateclient)
 
 default['workshopbox']['atom_pkgs'] = %w(file-icons@1.6.11 language-chef@0.7.0 language-rspec@0.3.0 linter@1.8.1 linter-rubocop@0.4.4 linter-ruby@1.2.0 rspec-snippets@0.4.0 rubocop-auto-correct@1.0.0 serverspec-snippets@0.1.0)
 
 # needed for custom ohai plugins
 default['ohai']['plugins']['workshopbox'] = 'plugins'
-
-default['workshopbox']['wsboxinternal']['githubrepos'] = %w(chef-workshopbox chef-workshopbox_doc chef-secret_service chef-pw_testhelper)

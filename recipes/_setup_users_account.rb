@@ -34,7 +34,6 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
     code <<-EOC
       cat /home/#{username}/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
     EOC
-    not_if "grep \"$(cat /home/#{username}/.ssh/id_rsa.pub | cut -d' ' -f3)\" /home/vagrant/.ssh/authorized_keys"
   end
 
   %w(.vimrc .bash_logout .bashrc .dmrc .profile .xinputrc).each do |f|

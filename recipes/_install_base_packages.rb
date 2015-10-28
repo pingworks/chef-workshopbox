@@ -6,6 +6,6 @@
 # Licensed under the Apache License, Version 2.0
 #
 
-%w(git vim less htop ncdu curl wget).each do |pkg|
+node['workshopbox']['base_pkgs'].each do |pkg|
   package pkg
 end

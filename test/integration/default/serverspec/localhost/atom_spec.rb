@@ -4,8 +4,8 @@ describe command('dpkg -s atom') do
   its(:stdout) { should match /^Version: 1\.0\.19.*/ }
 end
 
-Dir.foreach('/home') do |username|
-  next if username == '.' || username == '..' || username == 'vagrant'
+Dir.foreach($node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
+  next if username == '.' || username == '..'
 
   describe file("/home/#{username}/.atom") do
     it { should be_directory }
