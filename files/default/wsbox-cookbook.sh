@@ -1,27 +1,139 @@
 #!/bin/bash
 
 # wrapper for berks cookbook
-echo "This is just a wrapper around the command:"
-echo "berks cookbook $1"
+#!/bin/bash
 
-berks cookbook $1
+cookbook=$1
+dir=$2
+pattern=$3
 
-echo
-echo "Now tweaking some minor details..."
-echo "Renaming folder $1 to chef-$1 to fulfill naming conventions."
-mv $1 "chef-$1"
-echo "Deleting unneccessary/not so important for now files..."
-rm -v "chef-$1/Thorfile"
-rm -v "chef-$1/Vagrantfile"
-rm -vr "chef-$1/provider"
-rm -vr "chef-$1/library"
-rm -vr "chef-$1/resource"
+if [ -z "$dir" ]; then
+  dir="chef-$cookbook"
+fi
+opts=""
+if [ ! -z "$pattern" ]; then
+  opts="-p $pattern"
+fi
 
-echo "Tweaking .kitchen.yml driver (kitchen-docker)..."
-sed -e "s;__COOKBOOK__;$1;g" /opt/workshopbox/lib/tpl/.kitchen.yml.tpl > "chef-$1/.kitchen.yml"
+if [ -d /var/lib/secret-service/user/$USER ]; then
+  NAME="$(</var/lib/secret-service/user/$USER/firstname) $(</var/lib/secret-service/user/$USER/lastname)"
+  EMAIL="$(</var/lib/secret-service/user/$USER/email)"
+else
+  NAME="$USER"
+  EMAIL="info@pingworks.de"
+fi
 
-echo "Adding .mofa to .gitignore..."
-echo '.mofa' >> "chef-$1/.gitignore"
+[ -f $dir/metadata.rb ] || berks cookbook \
+	--skip-vagrant \
+	--no-skip-git \
+	--skip-test-kitchen \
+	--no-foodcritic \
+	--no-chef-minitest \
+	--no-scmversion \
+	--no-bundler \
+	--license=apachev2 \
+	--maintainer="$NAME" \
+	--maintainer-email="$EMAIL" \
+	$opts $cookbook $dir
+
+for sub in libraries resources providers; do
+  [ -d $dir/$sub ] && [ -z "$(find $dir/$sub -type f)" ] && rmdir $dir/$sub
+done
+
+app=${1#pw_}
+
+mkdir -p $dir/test/integration/default/serverspec/localhost
+cat << EOF > $dir/test/integration/default/serverspec/localhost/default_spec.rb
+require_relative '../spec_helper'
+
+describe command('echo "foo"') do
+  its(:stdout) { should match /^foo/ }
+end
+EOF
+
+cat << EOF > $dir/test/integration/default/serverspec/spec_helper.rb
+require 'serverspec'
+require 'json'
+require 'net/ssh'
+
+set :backend, :exec
+
+if ENV['ASK_SUDO_PASSWORD']
+  begin
+    require 'highline/import'
+  rescue LoadError
+    warn "highline is not available. Try installing it."
+  end
+  set :sudo_password, ask("Enter sudo password: ") { |q| q.echo = false }
+else
+  set :sudo_password, ENV['SUDO_PASSWORD']
+end
+
+host = ENV['TARGET_HOST']
+
+options = Net::SSH::Config.for(host)
+
+options[:user] ||= ENV['RSPEC_USER']
+options[:user] ||= 'Etc.getlogin'
+
+set :host,        options[:host_name] || host
+set :ssh_options, options
+
+nodejson = '/tmp/serverspec-test/node.json'
+if File.exists? nodejson then
+  \$node = ::JSON.parse(File.read(nodejson))
+else
+  warn "Node json not readable: " + nodejson
+end
+
+
+# Disable sudo
+# set :disable_sudo, true
+
+
+# Set environment variables
+# set :env, :LANG => 'C', :LC_MESSAGES => 'C'
+
+# Set PATH
+# set :path, '/sbin:/usr/local/sbin:\$PATH'
+EOF
+
+grep '.kitchen' $dir/.gitignore >/dev/null || cat << EOF >> $dir/.gitignore
+.kitchen/
+.kitchen.local.yml
+
+EOF
+
+grep '.mofa' $dir/.gitignore >/dev/null || cat << EOF >> $dir/.gitignore
+.mofa/
+.mofa.local.yml
+
+EOF
+
+[ -f $dir/.kitchen.yml ] || cat << EOF > $dir/.kitchen.yml
+---
+driver:
+  name: docker
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: ubuntu-14.04
+    driver_config:
+      image: pingworks/docker-ws-baseimg:0.2
+
+suites:
+  - name: default
+    run_list:
+    - recipe[$cookbook::default]
+    attributes:
+EOF
+
+sed -i -e "s;TODO: Enter the cookbook description here.;Installs and configures $app;" \
+	-e "s;TODO: List your supported platforms.;Ubuntu 14.04;" $dir/README.md
+
+sed -i -e "s;Installs/Configures $cookbook;Installs and configures $app;" $dir/metadata.rb
 
 echo "Done."
 echo
