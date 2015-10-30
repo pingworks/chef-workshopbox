@@ -122,6 +122,7 @@ platforms:
   - name: ubuntu-14.04
     driver_config:
       image: pingworks/docker-ws-baseimg:0.2
+      provision_command: mkdir -p /opt/chef/embedded/etc && echo "---\n:sources:\n- http://rubygems.org/" > /opt/chef/embedded/etc/gemrc
 
 suites:
   - name: default
