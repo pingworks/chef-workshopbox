@@ -3,9 +3,9 @@
 # Admin User Account that should be used for all mofa tasks.
 # The user has to be able to login passwordless
 # and has tohave passwordless sudo permissions.
-ssh_user: vagrant
+ssh_user: <%= @username %>
 ssh_port: 22
-ssh_keyfile: /home/vagrant/.ssh/id_rsa
+ssh_keyfile: /home/<%= @username %>/.ssh/id_rsa
 
 # A REST-Webservice that returns a list of hosts that are potentially
 # manageable with this mofa.

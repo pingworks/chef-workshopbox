@@ -44,7 +44,7 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
   end
 
   template "/home/#{username}/.mofa/config.yml" do
-    source 'config.yml.user.erb'
+    source 'mofa-config.yml.erb'
     owner username
     group username
     mode 00644

@@ -30,9 +30,9 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
     not_if { File.exist?("/home/#{username}/.ssh/id_rsa") }
   end
 
-  bash 'append public key to vagrant authorized_keys' do
+  bash 'append public key to self authorized_keys' do
     code <<-EOC
-      cat /home/#{username}/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
+      cat /home/#{username}/.ssh/id_rsa.pub >> /home/#{username}/.ssh/authorized_keys
     EOC
   end
 
