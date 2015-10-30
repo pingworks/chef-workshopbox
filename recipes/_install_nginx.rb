@@ -20,6 +20,14 @@ template '/etc/nginx/sites-available/default' do
   notifies :reload, 'service[nginx]', :immediately
 end
 
+directory '/usr/share/nginx/html' do
+  owner 'www-data'
+  group 'www-data'
+  mode 00755
+  recursive true
+  action :create
+end
+
 file '/usr/share/nginx/html/index.html' do
   action :delete
 end

@@ -5,7 +5,7 @@ describe command('dpkg -s atom') do
 end
 
 Dir.foreach($node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
-  next if username == '.' || username == '..'
+  next if username == '.' || username == '..' || $node['workshopbox']['secret_service']['client']['ignore_users'].include?(username)
 
   describe file("/home/#{username}/.atom") do
     it { should be_directory }

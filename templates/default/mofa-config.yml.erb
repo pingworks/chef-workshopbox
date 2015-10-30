@@ -33,7 +33,7 @@ binrepo_base_url: 'http://repo.<%= @username %>.<%= node['workshopbox']['domain'
 
 # Releasing into binrepo
 binrepo_host: repo.<%= @username %>.<%= node['workshopbox']['domain'] %>
-binrepo_ssh_user: cookbook-deploy
+binrepo_ssh_user: jenkins
 binrepo_ssh_port: 22
-binrepo_ssh_keyfile: /home/<%= @username %>/.ssh/id_rsa
-binrepo_import_dir: /var/www/cookbooks/import
+binrepo_ssh_keyfile: /home/<%= @username %>/.wsbox/cookbooks/chef-pw_base/files/default/id_rsa
+binrepo_import_dir: /data/cookbooks/import

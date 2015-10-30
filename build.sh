@@ -25,5 +25,6 @@ sed -i "s/__WORKSHOP_NAME__/${WORKSHOP_NAME}/g; s/__WORKSHOP_ACCESSUSER__/${WORK
 kitchen converge
 
 cp .buildstep2.kitchen.local.yml .kitchen.local.yml
+sed -i "s/__WORKSHOP_NAME__/${WORKSHOP_NAME}/g; s/__WORKSHOP_ACCESSUSER__/${WORKSHOP_ACCESSUSER}/g" .kitchen.local.yml
 kitchen converge --log-level=debug
 kitchen verify

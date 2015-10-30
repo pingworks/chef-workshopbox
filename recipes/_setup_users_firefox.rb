@@ -9,7 +9,7 @@
 
 Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
   next if username == '.' || username == '..'
-  
+
   directory "/home/#{username}/.mozilla/firefox/workshop" do
     owner username
     group username
@@ -30,6 +30,8 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
     owner username
     group username
     mode 00644
+    variables(
+      username: username
+    )
   end
-
 end

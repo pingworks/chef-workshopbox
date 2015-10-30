@@ -30,15 +30,17 @@ cookbook_file '/home/testuser/.atom/.apmrc' do
   mode 00644
 end
 
-node['workshopbox']['atom_pkgs'].each do |apkg|
-  bash 'installing atom package ' + apkg do
-    user 'testuser'
-    group 'testuser'
-    cwd '/home/testuser'
-    environment ({'HOME' => '/home/testuser', 'USER' => 'testuser' })
-    code <<-EOH
-      apm install #{apkg}
-      EOH
+if node['workshopbox']['tweak']['install_atom_pkgs'] == true
+  node['workshopbox']['atom_pkgs'].each do |apkg|
+    bash 'installing atom package ' + apkg do
+      user 'testuser'
+      group 'testuser'
+      cwd '/home/testuser'
+      environment ({'HOME' => '/home/testuser', 'USER' => 'testuser' })
+      code <<-EOH
+        apm install #{apkg}
+        EOH
+    end
   end
 end
 
@@ -64,7 +66,7 @@ cookbook_file '/home/testuser/.atom/styles.css' do
 end
 
 Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
-  next if username == '.' || username == '..' || username == 'testuser'
+  next if username == '.' || username == '..' || node['workshopbox']['secret_service']['client']['ignore_users'].include?(username) || username == 'testuser'
 
   directory "/home/#{username}/.atom" do
     owner username

@@ -16,5 +16,7 @@ include_recipe 'workshopbox::_setup_users_chefdk'
 include_recipe 'workshopbox::_setup_users_wsbox_internals'
 include_recipe 'workshopbox::_setup_users_workspace'
 
+include_recipe 'workshopbox::_setup_users_workshopbox_doc'
+
 include_recipe 'workshopbox::_setup_users_atom'
 include_recipe 'workshopbox::_setup_users_firefox'
