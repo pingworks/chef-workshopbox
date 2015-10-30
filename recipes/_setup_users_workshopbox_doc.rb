@@ -16,7 +16,8 @@ directory '/var/cache/workshopbox_doc' do
 end
 
 remote_file '/var/cache/workshopbox_doc/workshopbox_doc.tar.gz' do
-  source "http://download.pingworks.net/workshops/#{node['workshopbox']['workshop_name']}/difficulttoguessdirname/workshopbox_doc.tar.gz"
+  #source "http://download.pingworks.net/workshops/#{node['workshopbox']['workshop_name']}/difficulttoguessdirname/workshopbox_doc.tar.gz"
+  source "http://148.251.198.136/workshops/clc2015/difficulttoguessdirname/workshopbox_doc.tar.gz"
   owner 'root'
   group 'root'
 end
