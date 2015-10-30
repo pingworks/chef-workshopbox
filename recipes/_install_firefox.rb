@@ -8,3 +8,4 @@
 #
 
 package 'firefox'
+package 'xul-ext-ubufox'

@@ -14,15 +14,27 @@ end
 
 Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
   next if username == '.' || username == '..'
-  bash 'untar firefox config' do
-    user username
+  
+  directory "/home/#{username}/.mozilla/firefox/workshop" do
+    owner username
     group username
-    environment ({'HOME' => "/home/#{username}", 'USER' => username })
-    code <<-EOC
-      cd /home/#{username}
-      tar xvfz /var/tmp/firefox-config_0.1.0.tar.gz
-      chown -R #{username}.#{username} /home/#{username}/.mozilla
-      sed -i 's;__USERNAME__;#{username};g' /home/#{username}/.mozilla/firefox/2wd0j2ke.default/prefs.js
-    EOC
+    mode 00755
+    recursive true
+    action :create
   end
+
+  cookbook_file "/home/#{username}/.mozilla/firefox/profiles.ini" do
+    source 'firefox-profiles.ini'
+    owner username
+    group username
+    mode 00644
+  end
+
+  template "/home/#{username}/.mozilla/firefox/workshop/users.js" do
+    source 'firefox-users.js.erb'
+    owner 'root'
+    group 'root'
+    mode 00744
+  end
+
 end
