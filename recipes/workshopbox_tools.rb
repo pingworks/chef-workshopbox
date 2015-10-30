@@ -68,6 +68,7 @@ directory '/root/.mofa' do
 end
 
 template '/root/.mofa/config.yml' do
+  source 'mofa-config.yml.root.erb'
   owner 'root'
   group 'root'
   mode 00644
