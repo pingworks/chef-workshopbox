@@ -21,7 +21,7 @@ describe file('/var/lib/secret-service/user/testuser/.ssh/id_rsa') do
   it { should be_mode '600' }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:content) { should match /MIIEowIBAAKCAQEAmSh6t/ }
+  its(:content) { should match /MIIEogIBAAKCAQEA6NF8iallvQ/ }
 end
 
 describe file('/var/lib/secret-service/user/testuser/.ssh/id_rsa.pub') do
