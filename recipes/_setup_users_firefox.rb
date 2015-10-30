@@ -6,11 +6,6 @@
 #
 # Licensed under the Apache License, Version 2.0
 #
-cookbook_file '/var/tmp/firefox-config_0.1.0.tar.gz' do
-  owner 'root'
-  group 'root'
-  mode 00644
-end
 
 Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
   next if username == '.' || username == '..'
@@ -30,11 +25,11 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
     mode 00644
   end
 
-  template "/home/#{username}/.mozilla/firefox/workshop/users.js" do
-    source 'firefox-users.js.erb'
-    owner 'root'
-    group 'root'
-    mode 00744
+  template "/home/#{username}/.mozilla/firefox/workshop/user.js" do
+    source 'firefox-user.js.erb'
+    owner username
+    group username
+    mode 00644
   end
 
 end
