@@ -18,23 +18,16 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
   end
 
   node['workshopbox']['precloned_githubrepos'].each do |pw_repo|
-    bash "git clone #{pw_repo}" do
+    bash "syncing gitrepo #{pw_repo} for user #{username}" do
       user username
       group username
       environment ({ 'HOME' => "/home/#{username}", 'USER' => username })
       code <<-EOC
         if [ ! -d /home/#{username}/workspace/cookbooks/#{pw_repo} ];then
-          cd /home/#{username}/workspace/cookbooks
-          git clone /var/lib/workshopbox/github/#{pw_repo}.git
-          cd #{pw_repo}
-          if [ ! -z "$(git remote -v)" ];then git remote remove origin;fi
-          git remote add origin https://github.com/pingworks/#{pw_repo}.git
-          git pull origin master
-          git branch --set-upstream-to=origin/master master
-        else
-          cd /home/#{username}/workspace/cookbooks/#{pw_repo}
-          git pull
+          mkdir /home/#{username}/workspace/cookbooks/#{pw_repo}
         fi
+        rsync -avx /var/lib/workshopbox/github/#{pw_repo}/ /home/#{username}/workspace/cookbooks/#{pw_repo}/
+        chown -R #{username}.#{username} /home/#{username}/workspace/cookbooks/#{pw_repo}
       EOC
     end
   end

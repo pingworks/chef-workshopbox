@@ -25,17 +25,10 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
       environment ({ 'HOME' => "/home/#{username}", 'USER' => username })
       code <<-EOC
         if [ ! -d /home/#{username}/.wsbox/cookbooks/#{pw_repo} ];then
-          cd /home/#{username}/.wsbox/cookbooks
-          git clone /var/lib/workshopbox/github/#{pw_repo}.git
-          cd #{pw_repo}
-          if [ ! -z "$(git remote -v)" ];then git remote remove origin;fi
-          git remote add origin https://github.com/pingworks/#{pw_repo}.git
-          git pull origin master
-          git branch --set-upstream-to=origin/master master
-        else
-          cd /home/#{username}/.wsbox/cookbooks/#{pw_repo}
-          git pull
+          mkdir /home/#{username}/.wsbox/cookbooks/#{pw_repo}
         fi
+        rsync -avx /var/lib/workshopbox/github/#{pw_repo}/ /home/#{username}/.wsbox/cookbooks/#{pw_repo}/
+        chown -R #{username}.#{username} /home/#{username}/.wsbox/cookbooks/#{pw_repo}
       EOC
     end
   end

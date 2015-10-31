@@ -21,10 +21,10 @@ fi
 WORKSHOP_ACCESSUSER=secret-${WORKSHOP_NAME}
 
 cp .buildstep1.kitchen.local.yml .kitchen.local.yml
-sed -i "s/__WORKSHOP_NAME__/${WORKSHOP_NAME}/g; s/__WORKSHOP_ACCESSUSER__/${WORKSHOP_ACCESSUSER}/g" .kitchen.local.yml
+sed -i -e "s/__WORKSHOP_NAME__/${WORKSHOP_NAME}/g; s/__WORKSHOP_ACCESSUSER__/${WORKSHOP_ACCESSUSER}/g" .kitchen.local.yml
 kitchen converge
 
 cp .buildstep2.kitchen.local.yml .kitchen.local.yml
-sed -i "s/__WORKSHOP_NAME__/${WORKSHOP_NAME}/g; s/__WORKSHOP_ACCESSUSER__/${WORKSHOP_ACCESSUSER}/g" .kitchen.local.yml
+sed -i -e "s/__WORKSHOP_NAME__/${WORKSHOP_NAME}/g; s/__WORKSHOP_ACCESSUSER__/${WORKSHOP_ACCESSUSER}/g" .kitchen.local.yml
 kitchen converge --log-level=debug
 kitchen verify

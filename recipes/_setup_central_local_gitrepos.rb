@@ -13,32 +13,16 @@ directory '/var/lib/workshopbox/github' do
   action :create
 end
 
-# Checking out read-only cookbooks
-node['workshopbox']['wsboxinternal']['githubrepos'].each do |pw_repo|
-  bash "git clone #{pw_repo}" do
-    code <<-EOC
-      if [ ! -d /var/lib/workshopbox/github/#{pw_repo}.git ];then
-        cd /var/lib/workshopbox/github
-        git clone https://github.com/pingworks/#{pw_repo}.git
-        mv #{pw_repo} #{pw_repo}.git
-      else
-        cd /var/lib/workshopbox/github/#{pw_repo}.git
-        git pull
-      fi
-    EOC
-  end
-end
+githubrepos = node['workshopbox']['wsboxinternal']['githubrepos'] | node['workshopbox']['precloned_githubrepos']
 
-# Cloning other github cookbooks
-node['workshopbox']['precloned_githubrepos'].each do |pw_repo|
+githubrepos.each do |pw_repo|
   bash "git clone #{pw_repo}" do
     code <<-EOC
-      if [ ! -d /var/lib/workshopbox/github/#{pw_repo}.git ];then
+      if [ ! -d /var/lib/workshopbox/github/#{pw_repo} ];then
         cd /var/lib/workshopbox/github
         git clone https://github.com/pingworks/#{pw_repo}.git
-        mv #{pw_repo} #{pw_repo}.git
       else
-        cd /var/lib/workshopbox/github/#{pw_repo}.git
+        cd /var/lib/workshopbox/github/#{pw_repo}
         git pull
       fi
     EOC
