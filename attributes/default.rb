@@ -4,7 +4,7 @@ default['workshopbox']['workshop_name'] = 'clc2015'
 # a secret_service client repo (just a simple folderstructure) exists at:
 default['workshopbox']['secret_service']['client']['repo'] = '/var/lib/secret-service'
 default['workshopbox']['secret_service']['client']['user'] = 'root'
-default['workshopbox']['secret_service']['client']['ignore_users'] = %w(pingworks infra demo)
+default['workshopbox']['secret_service']['client']['ignore_users'] = %w(infra demo)
 
 # choose flavor (only gnome supported yet)
 default['workshopbox']['desktop'] = 'gnome'
