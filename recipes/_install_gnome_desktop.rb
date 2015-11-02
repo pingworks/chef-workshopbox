@@ -36,5 +36,6 @@ if node['workshopbox']['tweak']['install_gnome_desktop'] == true
   #   end
   # end
 
-  cookbook_file '/etc/lightdm/lightdm.conf'
 end
+
+cookbook_file '/etc/lightdm/lightdm.conf'

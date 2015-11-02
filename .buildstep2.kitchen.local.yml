@@ -15,10 +15,10 @@ suites:
     attributes:
       workshopbox:
         workshop_name: __WORKSHOP_NAME__
-      #   tweak:
+         tweak:
+           install_gnome_desktop: false # not longer needed (already installed in base image)
       #     reinstall_guest_additions: false
       #     install_docker: false
-      #     install_gnome_desktop: false
       #     install_kernmod_build_env: false
       #     install_atom_pkgs: false
       #     test_kitchen_docker: false
