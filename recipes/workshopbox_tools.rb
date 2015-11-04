@@ -9,28 +9,14 @@
 package 'git'
 package 'vim'
 
-directory '/opt/workshopbox/bin' do
-  owner 'root'
-  group 'root'
-  mode 00755
-  recursive true
-  action :create
-end
-
-directory '/opt/workshopbox/etc' do
-  owner 'root'
-  group 'root'
-  mode 00755
-  recursive true
-  action :create
-end
-
-directory '/opt/workshopbox/lib/tpl' do
-  owner 'root'
-  group 'root'
-  mode 00755
-  recursive true
-  action :create
+%w(bin etc lib/tpl).each do |folder|
+  directory '/opt/workshopbox/' + folder do
+    owner 'root'
+    group 'root'
+    mode 00755
+    recursive true
+    action :create
+  end
 end
 
 cb = run_context.cookbook_collection['workshopbox']

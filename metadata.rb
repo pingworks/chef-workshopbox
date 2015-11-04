@@ -8,5 +8,5 @@ version '0.4.9'
 
 depends 'apt'
 depends 'ohai'
-depends 'secret_service', '~> 0.1.18'
+depends 'secret_service', '~> 0.1.20'
 depends 'pw_testhelper'

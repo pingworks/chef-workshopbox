@@ -6,7 +6,6 @@
 # Licensed under the Apache License, Version 2.0
 #
 
-
 directory '/var/run/workshopbox' do
   owner 'root'
   group 'root'
@@ -24,7 +23,7 @@ directory '/etc/workshopbox' do
 end
 
 template '/var/run/workshopbox/status' do
-  variables({
-    :status => 'build_in_progress:' + run_context.cookbook_collection['workshopbox'].metadata.version
-  })
+  variables(
+    status: 'build_in_progress:' + run_context.cookbook_collection['workshopbox'].metadata.version
+  )
 end

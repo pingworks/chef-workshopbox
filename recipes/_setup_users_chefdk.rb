@@ -9,7 +9,7 @@
 bash 'setup chefdk for root' do
   user 'root'
   cwd '/root'
-  environment ({'HOME' => '/root', 'USER' => 'root' })
+  environment ({ 'HOME' => '/root', 'USER' => 'root' })
   code <<-EOC
     echo 'eval "$(chef shell-init bash)"' >> /root/.profile
   EOC
@@ -22,7 +22,7 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
   bash 'setup chefdk for user ' + username do
     user username
     cwd "/home/#{username}"
-    environment ({'HOME' => "/home/#{username}", 'USER' => username})
+    environment ({ 'HOME' => "/home/#{username}", 'USER' => username })
     code <<-EOC
       echo 'eval "$(chef shell-init bash)"' >> /home/#{username}/.profile
     EOC

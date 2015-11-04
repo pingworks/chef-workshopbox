@@ -17,7 +17,7 @@ if node['workshopbox']['tweak']['reinstall_guest_additions'] == true
     source "http://#{node['workshopbox']['mirror']['vbox']}/virtualbox/#{node['vboxversion']}/VBoxGuestAdditions_#{node['vboxversion']}.iso"
     user node['workshopbox']['adminuser']['username']
     group node['workshopbox']['adminuser']['username']
-    #not_if "lsmod | grep -i vboxvideo"
+    # not_if "lsmod | grep -i vboxvideo"
   end
 
   bash 'install VBoxGuestAdditions' do
@@ -28,6 +28,6 @@ if node['workshopbox']['tweak']['reinstall_guest_additions'] == true
       umount /tmp/vbox
       rmdir /tmp/vbox
     EOC
-    #not_if "lsmod | grep -i vboxvideo"
+    # not_if "lsmod | grep -i vboxvideo"
   end
 end

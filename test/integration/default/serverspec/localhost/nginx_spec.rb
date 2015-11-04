@@ -14,8 +14,8 @@ end
 describe file('/etc/nginx/sites-enabled/default') do
   its(:content) { should match %r{location / .\s*autoindex on;} }
   its(:content) { should match %r{root /usr/share/nginx/html;} }
-  its(:content) { should match %r{server_name localhost;} }
-  its(:content) { should match %r{listen 80} }
+  its(:content) { should match 'server_name localhost;' }
+  its(:content) { should match 'listen 80' }
 end
 
 describe port(80) do

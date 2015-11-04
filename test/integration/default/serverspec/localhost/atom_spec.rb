@@ -1,10 +1,12 @@
 require_relative '../spec_helper'
 
 describe command('dpkg -s atom') do
-  its(:stdout) { should match /^Version: 1\.0\.19.*/ }
+  its(:stdout) { should match '^Version: 1\.0\.19.*' }
 end
 
+# rubocop: disable GlobalVars
 Dir.foreach($node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
+  # rubocop: enable GlobalVars
   next if username == '.' || username == '..'
 
   describe file("/home/#{username}/.atom") do
@@ -20,7 +22,7 @@ Dir.foreach($node['workshopbox']['secret_service']['client']['repo'] + '/user') 
     it { should be_owned_by username }
     it { should be_grouped_into username }
     it { should be_mode '644' }
-    its(:content) { should match /^strict-ssl = false$/ }
+    its(:content) { should match '^strict-ssl = false$' }
   end
 
   describe command("su - #{username} -c \'apm list\' > /tmp/apm_list_#{username}") do
@@ -29,12 +31,12 @@ Dir.foreach($node['workshopbox']['secret_service']['client']['repo'] + '/user') 
 
   # rubocop: disable GlobalVars
   $node['workshopbox']['atom_pkgs'].each do |apkg|
+    # rubocop: enable GlobalVars
     describe command("grep #{apkg} /tmp/apm_list_#{username}") do
-      its(:stdout) { should match /#{apkg}/ }
+      its(:stdout) { should match "#{apkg}" }
       its(:exit_status) { should eq 0 }
     end
   end
-  # rubocop: enable GlobalVars
 
   describe file("/home/#{username}/.atom/config.cson") do
     it { should exist }

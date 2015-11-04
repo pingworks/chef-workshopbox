@@ -17,13 +17,13 @@ bash 'set oldversion' do
 end
 
 template '/etc/workshopbox/version' do
-  variables({
-    :version => run_context.cookbook_collection['workshopbox'].metadata.version
-  })
+  variables(
+    version: run_context.cookbook_collection['workshopbox'].metadata.version
+  )
 end
 
 template '/var/run/workshopbox/status' do
-  variables({
-    :status => 'ready'
-  })
+  variables(
+    status: 'ready'
+  )
 end

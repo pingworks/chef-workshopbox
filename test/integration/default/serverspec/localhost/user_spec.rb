@@ -21,7 +21,7 @@ describe file('/var/lib/secret-service/user/testuser/.ssh/id_rsa') do
   it { should be_mode '600' }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:content) { should match /MIIEogIBAAKCAQEA6NF8iallvQ/ }
+  its(:content) { should match 'MIIEogIBAAKCAQEA6NF8iallvQ' }
 end
 
 describe file('/var/lib/secret-service/user/testuser/.ssh/id_rsa.pub') do
@@ -29,7 +29,7 @@ describe file('/var/lib/secret-service/user/testuser/.ssh/id_rsa.pub') do
   it { should be_mode '600' }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:content) { should match /LbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key/ }
+  its(:content) { should match 'LbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key' }
 end
 
 describe file('/var/lib/secret-service/user/testuser/firstname') do
@@ -37,7 +37,7 @@ describe file('/var/lib/secret-service/user/testuser/firstname') do
   it { should be_mode '644' }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:content) { should match /^Theo$/ }
+  its(:content) { should match '^Theo$' }
 end
 
 describe file('/var/lib/secret-service/user/testuser/lastname') do
@@ -45,7 +45,7 @@ describe file('/var/lib/secret-service/user/testuser/lastname') do
   it { should be_mode '644' }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:content) { should match /^Testuser$/ }
+  its(:content) { should match '^Testuser$' }
 end
 
 describe file('/var/lib/secret-service/user/testuser/email') do
@@ -53,16 +53,34 @@ describe file('/var/lib/secret-service/user/testuser/email') do
   it { should be_mode '644' }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:content) { should match /^theo.testuser@example.com$/ }
+  its(:content) { should match '^theo.testuser@example.com$' }
 end
 
 describe file('/var/lib/secret-service/user/testuser/password_sha512') do
   it { should be_mode '600' }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its(:content) { should match /p0jQ8T1yYNLaucTc9ItIIcrQVF9O94ZDiiLNUBcvLUyZ139wrwzKz/ }
+  its(:content) { should match 'p0jQ8T1yYNLaucTc9ItIIcrQVF9O94ZDiiLNUBcvLUyZ139wrwzKz' }
 end
 
 describe file('/var/lib/secret-service/user/testuser/password') do
   it { should_not exist }
+end
+
+describe file('/var/lib/secret-service/user/infra') do
+  it { should_not exist }
+end
+
+describe file('/var/lib/secret-service/user/demo') do
+  it { should_not exist }
+end
+
+describe file('/var/lib/secret-service/user/pingworks') do
+  it { should exist }
+  it { should be_directory }
+end
+
+describe file('/home/pingworks') do
+  it { should exist }
+  it { should be_directory }
 end

@@ -36,7 +36,7 @@ if node['workshopbox']['tweak']['install_atom_pkgs'] == true
       user 'testuser'
       group 'testuser'
       cwd '/home/testuser'
-      environment ({'HOME' => '/home/testuser', 'USER' => 'testuser' })
+      environment ({ 'HOME' => '/home/testuser', 'USER' => 'testuser' })
       code <<-EOH
         apm install #{apkg}
         EOH

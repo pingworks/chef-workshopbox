@@ -8,7 +8,9 @@ describe file('/var/lib/workshopbox/github') do
   it { should be_mode '755' }
 end
 
+# rubocop: disable GlobalVars
 githubrepos = $node['workshopbox']['wsboxinternal']['githubrepos'] | $node['workshopbox']['precloned_githubrepos']
+# rubocop: enable GlobalVars
 
 githubrepos.each do |repo|
   describe file("/var/lib/workshopbox/github/#{repo}") do

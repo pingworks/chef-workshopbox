@@ -3,8 +3,7 @@ Metrics/LineLength:
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#80-character-limits'
   Enabled: false
 
-Lint/AmbiguousRegexpLiteral:
-  Description: >-
-                 Checks for ambiguous regexp literals in the first argument of
-                 a method invocation without parenthesis.
+#Lint/AmbiguousRegexpLiteral:
+#  Enabled: false
+Lint/ParenthesesAsGroupedExpression:
   Enabled: false

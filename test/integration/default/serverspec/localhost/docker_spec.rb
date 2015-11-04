@@ -5,7 +5,7 @@ describe package('docker-engine') do
 end
 
 describe command('docker --version') do
-  its(:stdout) { should match /^Docker version 1.8.1, / }
+  its(:stdout) { should match '^Docker version 1.8.1, ' }
 end
 
 describe service('docker') do
@@ -15,17 +15,19 @@ end
 
 describe file('/etc/default/docker') do
   it { should be_file }
-  its(:content) { should match /DOCKER_OPTS="-G adm"/ }
+  its(:content) { should match 'DOCKER_OPTS="-G adm"' }
 end
 
 describe command('grep "^[^# ]" /etc/default/docker | wc -l') do
-  its(:stdout) { should match /^1$/ }
+  its(:stdout) { should match '^1$' }
 end
 
+# rubocop: disable GlobalVars
 Dir.foreach($node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
+  # rubocop: enable GlobalVars
   next if username == '.' || username == '..'
 
   describe command("sudo su - #{username} -c 'docker images'") do
-    its(:stdout) { should match /\sd11976f3a34c\s/ }
+    its(:stdout) { should match '\sd11976f3a34c\s' }
   end
 end
