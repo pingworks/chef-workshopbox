@@ -5,7 +5,7 @@ describe package('docker-engine') do
 end
 
 describe command('docker --version') do
-  its(:stdout) { should match /^Docker version 1.8.3, / }
+  its(:stdout) { should match /^Docker version 1.8.1, / }
 end
 
 describe service('docker') do
