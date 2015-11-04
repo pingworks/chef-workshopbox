@@ -14,4 +14,3 @@ suites:
     attributes:
       secret_service:
         domain: __WORKSHOP_NAME__
-        accessuser: __WORKSHOP_ACCESSUSER__
