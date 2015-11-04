@@ -35,6 +35,25 @@ if node['workshopbox']['tweak']['install_docker'] == true
     notifies :restart, 'service[docker]', :immediately
   end
 
+  bash 'make sure docker is up and running' do
+    user 'root'
+    cwd '/tmp'
+    code <<-EOH
+    I=0
+    DOCKER_UP=0
+    while [ $I -lt 30 -a $DOCKER_UP -eq 0 ];do
+      if docker version >/dev/null 2>&1;then
+        DOCKER_UP=1
+      fi
+      sleep 1
+      I=$(expr $I + 1)
+    done
+    if [ $DOCKER_UP -eq 0];then
+      exit 1
+    fi
+    EOH
+  end
+
   # docker pull pingworks/docker-ws-baseimg
   bash 'pull docker ws baseimg' do
     user node['workshopbox']['adminuser']['username']
