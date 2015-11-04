@@ -18,6 +18,9 @@
 #   version '1.0.19-1~webupd8~0'
 # end
 
+package 'xdg-utils'
+package 'gir1.2-gnomekeyring-1.0'
+
 atom_pkg = 'atom_1.0.19-1~webupd8~0_amd64.deb'
 remote_file '/usr/local/src/' + atom_pkg do
   source 'http://ppa.launchpad.net/webupd8team/atom/ubuntu/pool/main/a/atom/' + atom_pkg
