@@ -16,4 +16,5 @@ end
 
 apt_package 'atom' do
   action :install
+  version '1.0.19-1~webupd8~0'
 end
