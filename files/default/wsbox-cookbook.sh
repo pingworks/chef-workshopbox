@@ -47,7 +47,7 @@ cat << EOF > $dir/test/integration/default/serverspec/localhost/default_spec.rb
 require_relative '../spec_helper'
 
 describe command('echo "foo"') do
-  its(:stdout) { should match /^foo/ }
+  its(:stdout) { should match '^foo' }
 end
 EOF
 
@@ -62,9 +62,9 @@ if ENV['ASK_SUDO_PASSWORD']
   begin
     require 'highline/import'
   rescue LoadError
-    warn "highline is not available. Try installing it."
+    warn 'highline is not available. Try installing it.'
   end
-  set :sudo_password, ask("Enter sudo password: ") { |q| q.echo = false }
+  set :sudo_password, ask('Enter sudo password: ') { |q| q.echo = false }
 else
   set :sudo_password, ENV['SUDO_PASSWORD']
 end
@@ -80,16 +80,14 @@ set :host,        options[:host_name] || host
 set :ssh_options, options
 
 nodejson = '/tmp/serverspec-test/node.json'
-if File.exists? nodejson then
+if File.exist? nodejson
   \$node = ::JSON.parse(File.read(nodejson))
 else
-  warn "Node json not readable: " + nodejson
+  warn 'Node json not readable: ' + nodejson
 end
-
 
 # Disable sudo
 # set :disable_sudo, true
-
 
 # Set environment variables
 # set :env, :LANG => 'C', :LC_MESSAGES => 'C'
@@ -130,6 +128,21 @@ suites:
     - recipe[$cookbook::default]
     attributes:
 EOF
+
+[ -f $dir/.rubocop.yml ] || cat << EOF > $dir/.rubocop.yml
+Metrics/LineLength:
+  Max: 150
+
+Style/GlobalVars:
+  Exclude:
+    - 'test/integration/default/serverspec/spec_helper.rb'
+
+Style/SingleSpaceBeforeFirstArg:
+  Exclude:
+    - 'metadata.rb'
+EOF
+
+sed -i -e "s;source \"https://supermarket.chef.io\";source 'https://supermarket.chef.io';g" $dir/Berksfile
 
 sed -i -e "s;TODO: Enter the cookbook description here.;Installs and configures $app;" \
 	-e "s;TODO: List your supported platforms.;Ubuntu 14.04;" $dir/README.md
