@@ -6,15 +6,31 @@
 # Licensed under the Apache License, Version 2.0
 #
 
-apt_repository 'atom-ppa' do
-  uri 'http://ppa.launchpad.net/webupd8team/atom/ubuntu'
-  distribution node['lsb']['codename']
-  components ['main']
-  keyserver 'keyserver.ubuntu.com'
-  key 'EEA14886'
+# apt_repository 'atom-ppa' do
+#   uri 'http://ppa.launchpad.net/webupd8team/atom/ubuntu'
+#   distribution node['lsb']['codename']
+#   components ['main']
+#   keyserver 'keyserver.ubuntu.com'
+#   key 'EEA14886'
+# end
+# apt_package 'atom' do
+#   action :install
+#   version '1.0.19-1~webupd8~0'
+# end
+
+atom_pkg = 'atom_1.0.19-1~webupd8~0_amd64.deb'
+remote_file '/usr/local/src/' + atom_pkg do
+  source 'http://ppa.launchpad.net/webupd8team/atom/ubuntu/pool/main/a/atom/' + atom_pkg
+  owner 'root'
+  group 'root'
 end
 
-apt_package 'atom' do
-  action :install
-  version '1.0.19-1~webupd8~0'
+bash 'install atom' do
+  user 'root'
+  cwd '/tmp'
+  code <<-EOH
+  if [ -z $(dpkg -s atom | grep '^Version: 1\.0\.19.*') ];then
+    dpkg -i /usr/local/src/#{atom_pkg}
+  fi
+  EOH
 end
