@@ -9,8 +9,5 @@ if $node['workshopbox']['tweak']['test_kitchen_docker'] == true
 end
 
 Dir.foreach($node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
-  next if username == '.' || username == '..' || $node['workshopbox']['secret_service']['client']['ignore_users'].include?(username)
-
-
-
+  next if username == '.' || username == '..'
 end

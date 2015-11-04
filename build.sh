@@ -17,14 +17,20 @@ if [ -z "$WORKSHOP_NAME" ];then
   exit 1
 fi
 
-# Access Username per convention:
-WORKSHOP_ACCESSUSER=secret-${WORKSHOP_NAME}
+EXPORT_APPLIANCE=0
+if [ -n "$2" ];then
+  EXPORT_APPLIANCE=1
+fi
 
 cp .buildstep1.kitchen.local.yml .kitchen.local.yml
-sed -i -e "s/__WORKSHOP_NAME__/${WORKSHOP_NAME}/g; s/__WORKSHOP_ACCESSUSER__/${WORKSHOP_ACCESSUSER}/g" .kitchen.local.yml
-kitchen converge
+sed -i -e "s/__WORKSHOP_NAME__/${WORKSHOP_NAME}/g" .kitchen.local.yml
+kitchen converge --log-level=debug
 
 cp .buildstep2.kitchen.local.yml .kitchen.local.yml
-sed -i -e "s/__WORKSHOP_NAME__/${WORKSHOP_NAME}/g; s/__WORKSHOP_ACCESSUSER__/${WORKSHOP_ACCESSUSER}/g" .kitchen.local.yml
+sed -i -e "s/__WORKSHOP_NAME__/${WORKSHOP_NAME}/g" .kitchen.local.yml
 kitchen converge --log-level=debug
 kitchen verify
+
+if [ $EXPORT_APPLIANCE -eq 1 ];then
+
+fi

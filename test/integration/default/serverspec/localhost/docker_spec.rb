@@ -23,7 +23,7 @@ describe command('grep "^[^# ]" /etc/default/docker | wc -l') do
 end
 
 Dir.foreach($node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
-  next if username == '.' || username == '..' || $node['workshopbox']['secret_service']['client']['ignore_users'].include?(username)
+  next if username == '.' || username == '..'
 
   describe command("sudo su - #{username} -c 'docker images'") do
     its(:stdout) { should match /\sd11976f3a34c\s/ }

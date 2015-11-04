@@ -66,7 +66,7 @@ cookbook_file '/home/testuser/.atom/styles.css' do
 end
 
 Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
-  next if username == '.' || username == '..' || node['workshopbox']['secret_service']['client']['ignore_users'].include?(username) || username == 'testuser'
+  next if username == '.' || username == '..' || username == 'testuser'
 
   directory "/home/#{username}/.atom" do
     owner username

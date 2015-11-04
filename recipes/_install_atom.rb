@@ -23,7 +23,7 @@ package 'gir1.2-gnomekeyring-1.0'
 
 atom_pkg = 'atom_1.0.19-1~webupd8~0_amd64.deb'
 remote_file '/usr/local/src/' + atom_pkg do
-  source 'http://ppa.launchpad.net/webupd8team/atom/ubuntu/pool/main/a/atom/' + atom_pkg
+  source 'http://depot.pingworks.net/atom/' + atom_pkg
   owner 'root'
   group 'root'
 end
