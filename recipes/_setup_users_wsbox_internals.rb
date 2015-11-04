@@ -8,7 +8,7 @@
 #
 
 Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
-  next if username == '.' || username == '..'
+  next if username == '.' || username == '..' || node['workshopbox']['secret_service']['client']['ignore_users'].include?(username)
 
   directory "/home/#{username}/.wsbox/cookbooks/" do
     owner username
