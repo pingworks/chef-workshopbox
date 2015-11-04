@@ -26,6 +26,6 @@ Dir.foreach($node['workshopbox']['secret_service']['client']['repo'] + '/user') 
   next if username == '.' || username == '..' || $node['workshopbox']['secret_service']['client']['ignore_users'].include?(username)
 
   describe command("sudo su - #{username} -c 'docker images'") do
-    its(:stdout) { should match /\s61f5cf76a264\s/ }
+    its(:stdout) { should match /\sd11976f3a34c\s/ }
   end
 end
