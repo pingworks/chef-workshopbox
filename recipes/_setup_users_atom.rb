@@ -94,4 +94,14 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
       username: username
     )
   end
+  
+  template "/home/#{username}/.atom/storage/editor-5b76e2307794938eeddf42524a8ae034a365cad3" do
+    source 'editor-5b76e2307794938eeddf42524a8ae034a365cad3.erb'
+    owner username
+    group username
+    mode 00644
+    variables(
+      username: username
+    )
+  end
 end
