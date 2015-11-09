@@ -66,37 +66,29 @@ cookbook_file '/home/testuser/.atom/styles.css' do
 end
 
 Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
-  next if username == '.' || username == '..' || username == 'testuser'
+  next if username == '.' || username == '..'
 
-  directory "/home/#{username}/.atom" do
-    owner username
-    group username
-    mode 00755
-    recursive true
-    action :create
-  end
+  if username != 'testuser'
+    directory "/home/#{username}/.atom" do
+      owner username
+      group username
+      mode 00755
+      recursive true
+      action :create
+    end
 
-  bash 'clone atom config & installed packages' do
-    user 'root'
-    cwd '/tmp'
-    code <<-EOH
-    rsync -avx --delete /home/testuser/.atom/ /home/#{username}/.atom/
-    chown -R #{username}.#{username} /home/#{username}/.atom
-    EOH
+    bash 'clone atom config & installed packages' do
+      user 'root'
+      cwd '/tmp'
+      code <<-EOH
+      rsync -avx --delete /home/testuser/.atom/ /home/#{username}/.atom/
+      chown -R #{username}.#{username} /home/#{username}/.atom
+      EOH
+    end
   end
 
   template "/home/#{username}/.atom/storage/application.json" do
     source 'application.json.erb'
-    owner username
-    group username
-    mode 00644
-    variables(
-      username: username
-    )
-  end
-  
-  template "/home/#{username}/.atom/storage/editor-5b76e2307794938eeddf42524a8ae034a365cad3" do
-    source 'editor-5b76e2307794938eeddf42524a8ae034a365cad3.erb'
     owner username
     group username
     mode 00644

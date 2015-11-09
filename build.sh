@@ -24,11 +24,11 @@ fi
 
 cp .buildstep1.kitchen.local.yml .kitchen.local.yml
 sed -i -e "s/__WORKSHOP_NAME__/${WORKSHOP_NAME}/g" .kitchen.local.yml
-kitchen converge --log-level=debug
+kitchen converge
 
 cp .buildstep2.kitchen.local.yml .kitchen.local.yml
 sed -i -e "s/__WORKSHOP_NAME__/${WORKSHOP_NAME}/g" .kitchen.local.yml
-kitchen converge --log-level=debug
+kitchen converge
 kitchen verify
 
 if [ $EXPORT_APPLIANCE -eq 1 ];then
