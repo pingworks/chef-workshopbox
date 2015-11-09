@@ -31,5 +31,6 @@ include_recipe 'workshopbox::desktop_userspecific'
 
 include_recipe 'workshopbox::workshopbox_tools'
 
-include_recipe 'workshopbox::_uninstall_kernelmod_build_env'
+# Commented out to leave all necessary build tooling on the box
+# include_recipe 'workshopbox::_uninstall_kernelmod_build_env'
 include_recipe 'workshopbox::_set_status_build_success'
