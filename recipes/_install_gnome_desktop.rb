@@ -38,4 +38,5 @@ if node['workshopbox']['tweak']['install_gnome_desktop'] == true
 
 end
 
+cookbook_file '/etc/default/keyboard'
 cookbook_file '/etc/lightdm/lightdm.conf'
