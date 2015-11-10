@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 
 describe command("sudo su - testuser -c 'mofa version'") do
-  its(:stdout) { should match '^0.3.4$' }
+  its(:stdout) { should match '^0.3.5$' }
 end
 
 describe command("sudo su - testuser -c 'berks --version'") do
