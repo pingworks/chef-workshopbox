@@ -1,4 +1,5 @@
-default['workshopbox']['workshop_name'] = 'clc2015'
+# Please overwrite workshop name in a .kitchen.local.yml (see build.sh for details)
+default['workshopbox']['workshop_name'] = '__WORKSHOP_NAME__'
 
 # User Setup Prerequisit:
 # a secret_service client repo (just a simple folderstructure) exists at:

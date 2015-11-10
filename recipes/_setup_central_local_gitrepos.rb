@@ -27,4 +27,14 @@ githubrepos.each do |pw_repo|
       fi
     EOC
   end
+
+  next if pw_repo != 'chef-workshopbox'
+
+  bash 'set workshopname inside workshopbox cookbook' do
+    user 'root'
+    cwd '/tmp'
+    code <<-EOH
+    sed -i "s;__WORKSHOP_NAME__;#{node['workshopbox']['workshop_name']};g" /var/lib/workshopbox/github/chef-workshopbox/attributes/default.rb
+    EOH
+  end
 end
