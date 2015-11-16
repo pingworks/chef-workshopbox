@@ -15,11 +15,15 @@ directory '/var/cache/workshopbox_doc' do
   action :create
 end
 
-remote_file '/var/cache/workshopbox_doc/workshopbox_doc.tar.gz' do
-  source "http://download.pingworks.net/workshops/#{node['workshopbox']['workshop_name']}/difficulttoguessdirname/workshopbox_doc.tar.gz"
-  # source "http://148.251.198.136/workshops/clc2015/difficulttoguessdirname/workshopbox_doc.tar.gz"
-  owner 'root'
-  group 'root'
+bash 'download workshopbox doc' do
+  user 'root'
+  cwd '/tmp'
+  code <<-EOH
+  cd /var/cache/workshopbox_doc
+  WORKSHOP_NAME=$(</etc/workshopbox/workshop_name)
+  WORKSHOP_DOMAINKEY=$(</etc/workshopbox/workshop_domainkey)
+  curl -O http://download.pingworks.net/workshops/${WORKSHOP_NAME}/${WORKSHOP_DOMAINKEY}/workshopbox_doc.tar.gz"
+  EOH
 end
 
 bash 'unpack and overwrite workshopbox_doc stuff' do
