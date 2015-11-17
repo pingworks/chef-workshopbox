@@ -12,6 +12,11 @@ cd ~/.wsbox/cookbooks/chef-workshopbox
 git pull
 
 echo "Running mofa provison..."
-mofa provision . --verbose --debug -T localhost -o 'workshopbox::update_wsbox_doc'
+mofa provision . -T localhost -o 'workshopbox::update_wsbox_doc'
 
 cd $OLDDIR
+
+# clear firefox cache
+if [ -d ~/.cache/mozilla/firefox/workshop ];then
+  rm -rf ~/.cache/mozilla/firefox/workshop
+fi

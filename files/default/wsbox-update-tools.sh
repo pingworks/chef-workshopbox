@@ -12,6 +12,6 @@ cd ~/.wsbox/cookbooks/chef-workshopbox
 git pull
 
 echo "Running mofa provison..."
-mofa provision . --verbose --debug -T localhost -o 'workshopbox::update_wsbox_tools'
+mofa provision . -T localhost -o 'workshopbox::update_wsbox_tools'
 
 cd $OLDDIR
