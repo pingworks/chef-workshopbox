@@ -19,6 +19,7 @@ bash 'download workshopbox doc' do
   user 'root'
   cwd '/tmp'
   code <<-EOH
+  set -e
   cd /var/cache/workshopbox_doc
   WORKSHOP_NAME=$(</etc/workshopbox/workshop_name)
   WORKSHOP_DOMAINKEY=$(</etc/workshopbox/workshop_domainkey)
@@ -30,6 +31,7 @@ bash 'unpack and overwrite workshopbox_doc stuff' do
   user 'root'
   cwd '/tmp'
   code <<-EOH
+    set -e
     [ -d /tmp/workshopbox_doc ] && rm -rf /tmp/workshopbox_doc
     mkdir /tmp/workshopbox_doc
     cd /tmp/workshopbox_doc
