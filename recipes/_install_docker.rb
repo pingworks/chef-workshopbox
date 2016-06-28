@@ -21,7 +21,7 @@ if node['workshopbox']['tweak']['install_docker'] == true
   end
 
   package 'docker-engine' do
-    version '1.8.1-0~trusty'
+    version '1.11.2-0~trusty'
   end
 
   service 'docker' do
