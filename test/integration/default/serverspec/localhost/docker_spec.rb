@@ -23,11 +23,11 @@ describe command('grep "^[^# ]" /etc/default/docker | wc -l') do
 end
 
 # rubocop: disable GlobalVars
-Dir.foreach($node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
+# Dir.foreach($node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
   # rubocop: enable GlobalVars
-  next if username == '.' || username == '..'
+#  next if username == '.' || username == '..'
 
-  describe command("sudo su - #{username} -c 'docker images'") do
-    its(:stdout) { should match '\e7db2aa82996\s' }
-  end
-end
+#  describe command("sudo su - #{username} -c 'docker images'") do
+#    its(:stdout) { should match '\e7db2aa82996\s' }
+#  end
+# end

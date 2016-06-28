@@ -4,7 +4,7 @@ maintainer_email 'birk@pingworks.de'
 license 'Apache 2.0'
 description 'Installs/Configures Workshopbox Appliance'
 long_description 'Installs/Configures Workshopbox Appliance'
-version '0.4.20'
+version '0.4.21'
 
 depends 'apt'
 depends 'ohai', '= 3.0.1'
