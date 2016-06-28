@@ -5,7 +5,7 @@ describe package('docker-engine') do
 end
 
 describe command('docker --version') do
-  its(:stdout) { should match '^Docker version 1.8.1, ' }
+  its(:stdout) { should match '^Docker version 1.11.2, ' }
 end
 
 describe service('docker') do
@@ -28,6 +28,6 @@ Dir.foreach($node['workshopbox']['secret_service']['client']['repo'] + '/user') 
   next if username == '.' || username == '..'
 
   describe command("sudo su - #{username} -c 'docker images'") do
-    its(:stdout) { should match '\sd11976f3a34c\s' }
+    its(:stdout) { should match '\e7db2aa82996\s' }
   end
 end
