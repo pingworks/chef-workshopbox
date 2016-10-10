@@ -18,8 +18,9 @@
 #   version '1.0.19-1~webupd8~0'
 # end
 
-package 'xdg-utils'
-package 'gir1.2-gnomekeyring-1.0'
+%w(gconf2 libpython-stdlib libpython2.7-minimal libpython2.7-stdlib python python-minimal python2.7 python2.7-minimal xdg-utils gir1.2-gnomekeyring-1.0).each do |pkg|
+  package pkg
+end
 
 atom_pkg = 'atom_1.0.19-1~webupd8~0_amd64.deb'
 remote_file '/usr/local/src/' + atom_pkg do

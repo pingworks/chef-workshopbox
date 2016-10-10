@@ -13,7 +13,7 @@ if node['workshopbox']['tweak']['install_docker'] == true
 
   apt_repository 'docker' do
     uri 'https://apt.dockerproject.org/repo'
-    distribution 'ubuntu-trusty'
+    distribution 'ubuntu-xenial'
     components ['main']
     keyserver 'keyserver.ubuntu.com'
     key '58118E89F3A912897C070ADBF76221572C52609D'
@@ -21,11 +21,11 @@ if node['workshopbox']['tweak']['install_docker'] == true
   end
 
   package 'docker-engine' do
-    version '1.11.2-0~trusty'
+    version '1.11.2-0~xenial'
   end
 
   service 'docker' do
-    provider Chef::Provider::Service::Upstart
+    provider Chef::Provider::Service::Systemd
     action [:enable, :start]
   end
 
@@ -44,6 +44,7 @@ if node['workshopbox']['tweak']['install_docker'] == true
     while [ $I -lt 30 -a $DOCKER_UP -eq 0 ];do
       if docker version >/dev/null 2>&1;then
         DOCKER_UP=1
+        sleep 1
       fi
       sleep 1
       I=$(expr $I + 1)
@@ -54,10 +55,16 @@ if node['workshopbox']['tweak']['install_docker'] == true
     EOH
   end
 
+  group 'docker' do
+    action :modify
+    members node['workshopbox']['adminuser']['username']
+    append true
+  end
+
   # docker pull pingworks/docker-ws-baseimg
   bash 'pull docker ws baseimg' do
     user node['workshopbox']['adminuser']['username']
-    group 'adm'
+    group 'docker'
     environment ({ 'HOME' => node['workshopbox']['adminuser']['home'], 'USER' => node['workshopbox']['adminuser']['username'] })
     code <<-EOC
       docker pull #{node['workshopbox']['kitchen-docker']['baseimg']}

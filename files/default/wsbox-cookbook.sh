@@ -117,7 +117,7 @@ provisioner:
   name: chef_solo
 
 platforms:
-  - name: ubuntu-14.04
+  - name: ubuntu-16.04
     driver_config:
       image: pingworks/docker-ws-baseimg:0.2
       provision_command: mkdir -p /opt/chef/embedded/etc && echo "---\n:sources:\n- http://rubygems.org/" > /opt/chef/embedded/etc/gemrc
@@ -145,7 +145,7 @@ EOF
 sed -i -e "s;source \"https://supermarket.chef.io\";source 'https://supermarket.chef.io';g" $dir/Berksfile
 
 sed -i -e "s;TODO: Enter the cookbook description here.;Installs and configures $app;" \
-	-e "s;TODO: List your supported platforms.;Ubuntu 14.04;" $dir/README.md
+	-e "s;TODO: List your supported platforms.;Ubuntu 16.04;" $dir/README.md
 
 sed -i -e "s;Installs/Configures $cookbook;Installs and configures $app;" $dir/metadata.rb
 

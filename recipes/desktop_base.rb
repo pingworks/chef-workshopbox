@@ -15,4 +15,5 @@ rescue Chef::Exceptions::RecipeNotFound
       'this cookbook!'
 end
 
-include_recipe 'workshopbox::_reinstall_guest_additions'
+# Disabled for now
+# include_recipe 'workshopbox::_reinstall_guest_additions'
