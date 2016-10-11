@@ -17,6 +17,7 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
     code <<-EOC
       git config --global user.email "$(cat #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/email)"
       git config --global user.name "$(cat #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/firstname) $(cat #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/lastname)"
+      git config --global push.default simple
     EOC
   end
 

@@ -7,6 +7,13 @@
 # Licensed under the Apache License, Version 2.0
 #
 
+cookbook_file '/etc/default/locale' do
+  source 'default_locale'
+  owner 'root'
+  group 'root'
+  mode 00644
+end
+
 begin
   include_recipe "workshopbox::_install_#{node['workshopbox']['desktop']}_desktop"
 rescue Chef::Exceptions::RecipeNotFound
@@ -15,5 +22,4 @@ rescue Chef::Exceptions::RecipeNotFound
       'this cookbook!'
 end
 
-# Disabled for now
-# include_recipe 'workshopbox::_reinstall_guest_additions'
+include_recipe 'workshopbox::_reinstall_guest_additions'

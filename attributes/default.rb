@@ -16,14 +16,15 @@ default['workshopbox']['download']['chefdk']['url'] = 'http://opscode-omnibus-pa
 default['workshopbox']['kitchen-docker']['baseimg'] = 'pingworks/docker-ws-baseimg:0.2'
 
 default['workshopbox']['cname'] = 'workshopbox'
-default['workshopbox']['domain'] = 'ws.net'
+default['workshopbox']['domain'] = 'cluster.local'
 
 default['workshopbox']['adminuser']['username'] = 'vagrant'
 default['workshopbox']['adminuser']['home'] = '/home/vagrant'
 
 default['workshopbox']['base_pkgs'] = %w(git vim less htop ncdu curl wget tree psmisc)
 default['workshopbox']['preinstalled_gems'] = %w(kitchen-docker@2.3.0 mofa@0.3.5 rubocop@0.34.2)
-default['workshopbox']['precloned_githubrepos'] = %w(chef-pw_testhelper phonebook ws-examples chef-pw_base chef-pw_jenkins chef-ws_phonebook chef-env_ws_phonebook chef-env_ws_pipeline)
+default['workshopbox']['precloned_githubrepos'] = %w(phonebook-buildtools phonebook-frontend phonebook-backend)
+default['workshopbox']['precloned_githubcookbooks'] = %w()
 default['workshopbox']['wsboxinternal']['githubrepos'] = %w(chef-pw_testhelper chef-pw_base chef-ws_kitchen_docker_test chef-workshopbox chef-workshopbox_doc chef-secret_service)
 default['workshopbox']['openstack_pkgs'] = %w(python-neutronclient python-novaclient python-openstackclient python-designateclient)
 
@@ -33,7 +34,7 @@ default['workshopbox']['atom_pkgs'] = %w(file-icons@1.7.20 language-chef@0.9.0 l
 default['ohai']['plugins']['workshopbox'] = 'plugins'
 
 # speed up converge:
-default['workshopbox']['tweak']['reinstall_guest_additions'] = true
+default['workshopbox']['tweak']['reinstall_guest_additions'] = false
 default['workshopbox']['tweak']['install_docker'] = true
 default['workshopbox']['tweak']['install_gnome_desktop'] = true
 default['workshopbox']['tweak']['install_kernmod_build_env'] = true
