@@ -26,9 +26,17 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
     mode 0600
   end
 
-  cookbook_file "/home/#{username}/.gitconfig" do
+  fullname = File.read("node['workshopbox']['secret_service']['client']['repo']/user/#{username}/firstname")
+  fullname += ' ' + File.read("node['workshopbox']['secret_service']['client']['repo']/user/#{username}/lastname")
+  email = File.read("node['workshopbox']['secret_service']['client']['repo']/user/#{username}/email")
+
+  template "/home/#{username}/.gitconfig" do
     owner username
     group username
     mode 0644
+    variables(
+      fullname: fullname,
+      email: email
+    )
   end
 end
