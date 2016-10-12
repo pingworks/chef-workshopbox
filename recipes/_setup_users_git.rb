@@ -32,7 +32,7 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
   lastname.chomp!
   email = File.read("#{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/email")
   email.chomp!
-  fullname = firstname + ' ' + lastename
+  fullname = firstname + ' ' + lastname
 
   template "/home/#{username}/.gitconfig" do
     owner username
