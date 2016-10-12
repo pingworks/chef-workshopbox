@@ -29,6 +29,10 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
           fi
           rsync -avx /var/lib/workshopbox/github/#{pw_repo}/ /home/#{username}/workspace/#{pw_repo}/
           chown -R #{username}.#{username} /home/#{username}/workspace/#{pw_repo}
+          cd /home/#{username}/workspace/#{pw_repo}
+          NEWORIGIN=$(echo '#{node['workshopbox']['gitlab']['clone_url_tpl']}' | sed -e 's;__DOMAIN__;#{node['workshopbox']['domain']};g s;__USERNAME__;#{username};g s;__PROJ__;#{pw_repo};g')
+          git remote remove origin
+          git remote add origin $NEWORIGIN
         EOC
       end
     end

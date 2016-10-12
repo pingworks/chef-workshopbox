@@ -1,0 +1,52 @@
+[push]
+        default = simple
+[alias]
+        switch = !legit switch \"$@\"
+        branches = !legit branches
+        sprout = !legit sprout \"$@\"
+        unpublish = !legit unpublish \"$@\"
+        harvest = !legit harvest \"$@\"
+        sync = !legit sync \"$@\"
+        publish = !legit publish \"$@\"
+        graft = !legit graft \"$@\"
+
+        ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+        lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+
+        ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+        dr  = "!f() { git diff "$1"^.."$1"; }; f"
+        lc  = "!f() { git ll "$1"^.."$1"; }; f"
+        diffr  = "!f() { git diff "$1"^.."$1"; }; f"
+
+        cp = cherry-pick
+        st = status -s
+        cl = clone
+        ci = commit
+        co = checkout
+        br = branch
+        diff = diff --word-diff
+        dc = diff --cached
+
+        r = reset
+        r1 = reset HEAD^
+        r2 = reset HEAD^^
+        rh = reset --hard
+        rh1 = reset HEAD^ --hard
+        rh2 = reset HEAD^^ --hard
+
+        sl = stash list
+        sa = stash apply
+        ss = stash save
+
+        lasttag = describe --tags --abbrev=0
+        lt = describe --tags --abbrev=0
+
+        ours = "!f() { git co --ours $@ && git add $@; }; f"
+        theirs = "!f() { git co --theirs $@ && git add $@; }; f"
+
+        grep = grep -Ii
+        gr = grep -Ii
+        al = add -A
+
+[http]
+        sslVerify = false

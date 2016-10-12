@@ -17,7 +17,6 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
     code <<-EOC
       git config --global user.email "$(cat #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/email)"
       git config --global user.name "$(cat #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/firstname) $(cat #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/lastname)"
-      git config --global push.default simple
     EOC
   end
 
@@ -25,5 +24,11 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
     owner username
     group username
     mode 0600
+  end
+
+  cookbook_file "/home/#{username}/.gitconfig" do
+    owner username
+    group username
+    mode 0644
   end
 end

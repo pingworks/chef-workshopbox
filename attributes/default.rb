@@ -25,6 +25,8 @@ default['workshopbox']['base_pkgs'] = %w(git vim less htop ncdu curl wget tree p
 default['workshopbox']['preinstalled_gems'] = %w(kitchen-docker@2.3.0 mofa@0.3.5 rubocop@0.34.2)
 default['workshopbox']['precloned_githubrepos'] = %w(phonebook-buildscripts phonebook-frontend phonebook-backend)
 default['workshopbox']['precloned_githubcookbooks'] = %w()
+default['workshopbox']['gitlab']['clone_url_tpl'] = 'ssh://git@gitlab.infra.svc.__DOMAIN__:10022/__USERNAME__/__PROJ__.git'
+
 default['workshopbox']['wsboxinternal']['githubrepos'] = %w(chef-pw_testhelper chef-pw_base chef-ws_kitchen_docker_test chef-workshopbox chef-workshopbox_doc chef-secret_service)
 default['workshopbox']['openstack_pkgs'] = %w(python-neutronclient python-novaclient python-openstackclient python-designateclient)
 
