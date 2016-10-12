@@ -26,9 +26,9 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
     mode 0600
   end
 
-  fullname = File.read("node['workshopbox']['secret_service']['client']['repo']/user/#{username}/firstname")
-  fullname += ' ' + File.read("node['workshopbox']['secret_service']['client']['repo']/user/#{username}/lastname")
-  email = File.read("node['workshopbox']['secret_service']['client']['repo']/user/#{username}/email")
+  fullname = File.read("#{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/firstname")
+  fullname += ' ' + File.read("#{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/lastname")
+  email = File.read("#{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/email")
 
   template "/home/#{username}/.gitconfig" do
     owner username
