@@ -61,6 +61,23 @@ if node['workshopbox']['tweak']['install_docker'] == true
     append true
   end
 
+  directory '/etc/docker/certs.d/kube-registry.kube-system.svc.cluster.local:5000/' do
+    owner 'root'
+    group 'root'
+    mode 00755
+    recursive true
+    action :create
+  end
+
+  bash 'copy ca cert' do
+    user 'root'
+    cwd '/tmp'
+    code <<-EOH
+    cp #{node['workshopbox']['secret_service']['client']['repo']}/user/testuser/kubernetes/ca.crt /etc/docker/certs.d/kube-registry.kube-system.svc.cluster.local\:5000/ca.crt
+    chmod 644 /etc/docker/certs.d/kube-registry.kube-system.svc.cluster.local\:5000/ca.crt
+    EOH
+  end
+
   # docker pull pingworks/docker-ws-baseimg
   bash 'pull docker ws baseimg' do
     user node['workshopbox']['adminuser']['username']

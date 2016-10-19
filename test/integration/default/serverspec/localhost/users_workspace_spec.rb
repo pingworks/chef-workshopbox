@@ -8,7 +8,27 @@ if $node['workshopbox']['tweak']['test_kitchen_docker'] == true
     its(:stdout) { should match 'Finished destroying <default-ubuntu-1404>' }
     its(:stdout) { should match 'Finished testing <default-ubuntu-1404>' }
   end
+
 end
+
+# rubocop: disable GlobalVars
+if $node['workshopbox']['tweak']['install_docker'] == true
+  # rubocop: enable GlobalVars
+  describe user('testuser') do
+    it { should belong_to_group 'docker' }
+  end
+end
+
+# rubocop: disable GlobalVars
+if $node['workshopbox']['tweak']['install_kubernetes_client'] == true
+  # rubocop: enable GlobalVars
+  describe file('/usr/bin/kubectl') do
+    it { should exist }
+    it { should be_file }
+    it { should by_executable.by_user('testuser') }
+  end
+end
+
 # rubocop: disable GlobalVars
 Dir.foreach($node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
   # rubocop: enable GlobalVars
