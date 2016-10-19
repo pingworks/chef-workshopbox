@@ -25,7 +25,10 @@ if $node['workshopbox']['tweak']['install_kubernetes_client'] == true
   describe file('/usr/bin/kubectl') do
     it { should exist }
     it { should be_file }
-    it { should by_executable.by_user('testuser') }
+  end
+
+  describe package('kubectl') do
+    it { should be_installed }
   end
 end
 
