@@ -21,7 +21,7 @@ default['workshopbox']['domain'] = 'cluster.local'
 default['workshopbox']['adminuser']['username'] = 'vagrant'
 default['workshopbox']['adminuser']['home'] = '/home/vagrant'
 
-default['workshopbox']['base_pkgs'] = %w(git vim less htop ncdu curl wget tree psmisc)
+default['workshopbox']['base_pkgs'] = %w(git vim less htop ncdu curl wget tree psmisc jq)
 default['workshopbox']['preinstalled_gems'] = %w(kitchen-docker@2.3.0 mofa@0.3.5 rubocop@0.34.2)
 default['workshopbox']['precloned_githubrepos'] = %w(phonebook-buildscripts phonebook-frontend phonebook-backend)
 default['workshopbox']['precloned_githubcookbooks'] = %w()
