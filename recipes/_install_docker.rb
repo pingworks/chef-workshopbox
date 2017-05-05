@@ -9,7 +9,10 @@ if node['workshopbox']['tweak']['install_docker'] == true
   # package 'linux-image-extra-virtual'
   # package 'linux-image-extra-3.13.0-61-generic'
 
-  package 'apt-transport-https'
+  include_recipe 'apt'
+  ['apt-transport-https', 'ca-certificates', "linux-image-extra-#{node['kernel']['release']}", 'linux-image-extra-virtual'].each do |pkg|
+    package pkg
+  end
 
   apt_repository 'docker' do
     uri 'https://apt.dockerproject.org/repo'
