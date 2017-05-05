@@ -26,5 +26,7 @@ if node['workshopbox']['tweak']['install_kubernetes_client'] == true
     EOH
   end
 
-  package 'kubectl'
+  package 'kubectl' do
+    version '1.6.2-00'
+  end
 end
