@@ -22,9 +22,9 @@ bash 'download workshopbox doc' do
   set -e
   cd /var/cache/workshopbox_doc
   WORKSHOP_NAME=$(</etc/workshopbox/workshop_name)
-  # WORKSHOP_DOMAINKEY=$(</etc/workshopbox/workshop_domainkey)
-  WORKSHOP_DOMAINKEY=difficulttoguessdirname
-  curl -O "http://download.pingworks.net/workshops/${WORKSHOP_NAME}/${WORKSHOP_DOMAINKEY}/workshopbox_doc.tar.gz"
+  WORKSHOP_DOMAINKEY=$(</etc/workshopbox/workshop_domainkey)
+  # WORKSHOP_DOMAINKEY=difficulttoguessdirname
+  curl -k -O "https://download.pingworks.net/workshops/${WORKSHOP_NAME}/${WORKSHOP_DOMAINKEY}/workshopbox_doc.tar.gz"
   EOH
 end
 
