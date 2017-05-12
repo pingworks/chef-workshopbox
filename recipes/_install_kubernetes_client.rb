@@ -29,4 +29,15 @@ if node['workshopbox']['tweak']['install_kubernetes_client'] == true
   package 'kubectl' do
     version '1.6.2-00'
   end
+
+  bash 'make sure that workshobox uses kubernetes DNS' do
+    user 'root'
+    cwd '/tmp'
+    code <<-EOH
+    rm -rf /etc/resolvconf/resolv.conf.d/*
+    touch /etc/resolvconf/resolv.conf.d/base
+    EOH
+  end
+
+  cookbook_file '/etc/resolvconf/resolv.conf.d/head'
 end
