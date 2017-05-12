@@ -64,7 +64,7 @@ if node['workshopbox']['tweak']['install_docker'] == true
     append true
   end
 
-  directory '/etc/docker/certs.d/kube-registry.kube-system.svc.cluster.local:5000/' do
+  directory '/etc/docker/certs.d/registry:5000/' do
     owner 'root'
     group 'root'
     mode 00755
@@ -72,22 +72,22 @@ if node['workshopbox']['tweak']['install_docker'] == true
     action :create
   end
 
-  bash 'copy ca cert' do
+  bash 'copy docker cert' do
     user 'root'
     cwd '/tmp'
     code <<-EOH
-    cp #{node['workshopbox']['secret_service']['client']['repo']}/user/testuser/kubernetes/ca.crt /etc/docker/certs.d/kube-registry.kube-system.svc.cluster.local\:5000/ca.crt
+    cp #{node['workshopbox']['secret_service']['client']['repo']}/registry.crt /etc/docker/certs.d/registry\:5000/ca.crt
     chmod 644 /etc/docker/certs.d/kube-registry.kube-system.svc.cluster.local\:5000/ca.crt
     EOH
   end
 
   # docker pull pingworks/docker-ws-baseimg
-  bash 'pull docker ws baseimg' do
-    user node['workshopbox']['adminuser']['username']
-    group 'docker'
-    environment ({ 'HOME' => node['workshopbox']['adminuser']['home'], 'USER' => node['workshopbox']['adminuser']['username'] })
-    code <<-EOC
-      docker pull #{node['workshopbox']['kitchen-docker']['baseimg']}
-    EOC
-  end
+  # bash 'pull docker ws baseimg' do
+  #   user node['workshopbox']['adminuser']['username']
+  #   group 'docker'
+  #   environment ({ 'HOME' => node['workshopbox']['adminuser']['home'], 'USER' => node['workshopbox']['adminuser']['username'] })
+  #   code <<-EOC
+  #     docker pull #{node['workshopbox']['kitchen-docker']['baseimg']}
+  #   EOC
+  # end
 end
