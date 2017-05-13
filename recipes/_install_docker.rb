@@ -81,13 +81,15 @@ if node['workshopbox']['tweak']['install_docker'] == true
     EOH
   end
 
-  # docker pull pingworks/docker-ws-baseimg
-  # bash 'pull docker ws baseimg' do
-  #   user node['workshopbox']['adminuser']['username']
-  #   group 'docker'
-  #   environment ({ 'HOME' => node['workshopbox']['adminuser']['home'], 'USER' => node['workshopbox']['adminuser']['username'] })
-  #   code <<-EOC
-  #     docker pull #{node['workshopbox']['kitchen-docker']['baseimg']}
-  #   EOC
-  # end
+  if node['workshopbox']['tweak']['install_chefdk'] == true
+    # docker pull pingworks/docker-ws-baseimg
+    bash 'pull docker ws baseimg' do
+      user node['workshopbox']['adminuser']['username']
+      group 'docker'
+      environment ({ 'HOME' => node['workshopbox']['adminuser']['home'], 'USER' => node['workshopbox']['adminuser']['username'] })
+      code <<-EOC
+        docker pull #{node['workshopbox']['kitchen-docker']['baseimg']}
+      EOC
+    end
+  end
 end

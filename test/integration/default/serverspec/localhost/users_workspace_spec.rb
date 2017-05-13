@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 
 # rubocop: disable GlobalVars
-if $node['workshopbox']['tweak']['test_kitchen_docker'] == true
+if $node['workshopbox']['tweak']['test_kitchen_docker'] == true && $node['workshopbox']['tweak']['install_chefdk'] == true
   # rubocop: enable GlobalVars
   describe command("sudo su - testuser -c 'cd /home/testuser/.wsbox/cookbooks/chef-ws_kitchen_docker_test;kitchen test'") do
     its(:stdout) { should match '1 example, 0 failures' }
