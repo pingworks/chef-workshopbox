@@ -76,8 +76,8 @@ if node['workshopbox']['tweak']['install_docker'] == true
     user 'root'
     cwd '/tmp'
     code <<-EOH
-    cp #{node['workshopbox']['secret_service']['client']['repo']}/common/registry.crt /etc/docker/certs.d/registry\:5000/registry.crt
-    chmod 644  /etc/docker/certs.d/registry\:5000/registry.crt
+    cp #{node['workshopbox']['secret_service']['client']['repo']}/common/registry.crt /etc/docker/certs.d/registry\:5000/ca.crt
+    chmod 644  /etc/docker/certs.d/registry\:5000/ca.crt
     EOH
   end
 
