@@ -20,12 +20,12 @@ if node['workshopbox']['tweak']['install_docker'] == true
       user 'root'
       cwd '/tmp'
       code <<-EOH
-      cp #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/config-#{username}.zip /home/#{username}/
+      cp #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/#{username}-config.zip /home/#{username}/
       cd /home/#{username}
-      unzip config-#{username}.zip
+      unzip #{username}-config.zip
       chown -R #{username}.#{username} /home/#{username}/.kube
       chmod 600 /home/#{username}/.kube/config
-      rm config-#{username}.zip
+      rm #{username}-config.zip
       EOH
     end
   end
