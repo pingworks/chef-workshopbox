@@ -12,7 +12,7 @@ bash 'upgrade box' do
   user 'root'
   cwd '/tmp'
   code <<-EOH
-  apt-get upgrade --yes
+  export DEBIAN_FRONTEND=noninteractive && apt-get -o Dpkg::Options::="--force-confnew" -y --force-yes upgrade
   EOH
 end
 
