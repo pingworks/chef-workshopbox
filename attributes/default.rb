@@ -37,10 +37,8 @@ default['ohai']['plugins']['workshopbox'] = 'plugins'
 
 # speed up converge:
 default['workshopbox']['tweak']['reinstall_guest_additions'] = false
-default['workshopbox']['tweak']['install_chefdk'] = false
 default['workshopbox']['tweak']['install_docker'] = true
 default['workshopbox']['tweak']['install_kubernetes_client'] = true
-default['workshopbox']['tweak']['install_kubernetes'] = false
 default['workshopbox']['tweak']['install_gnome_desktop'] = true
 default['workshopbox']['tweak']['install_kernmod_build_env'] = true
 default['workshopbox']['tweak']['install_atom_pkgs'] = true

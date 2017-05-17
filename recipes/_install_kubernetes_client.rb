@@ -30,6 +30,14 @@ if node['workshopbox']['tweak']['install_kubernetes_client'] == true
     version '1.6.2-00'
   end
 
+  bash 'set kubectl package on hold' do
+    user 'root'
+    cwd '/tmp'
+    code <<-EOH
+    apt-mark hold kubectl
+    EOH
+  end
+
   bash 'make sure that workshobox uses kubernetes DNS' do
     user 'root'
     cwd '/tmp'

@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: workshopbox
-# Recipe:: _setup_users_cheftooling
+# Recipe:: _setup_users_account
 #
 # Copyright (C) 2015 Alexander Birk
 #

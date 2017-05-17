@@ -27,6 +27,14 @@ if node['workshopbox']['tweak']['install_docker'] == true
     version '1.11.2-0~xenial'
   end
 
+  bash 'set docker-engine package on hold' do
+    user 'root'
+    cwd '/tmp'
+    code <<-EOH
+    apt-mark hold docker-engine
+    EOH
+  end
+
   service 'docker' do
     provider Chef::Provider::Service::Systemd
     action [:enable, :start]
@@ -81,15 +89,13 @@ if node['workshopbox']['tweak']['install_docker'] == true
     EOH
   end
 
-  if node['workshopbox']['tweak']['install_chefdk'] == true
-    # docker pull pingworks/docker-ws-baseimg
-    bash 'pull docker ws baseimg' do
-      user node['workshopbox']['adminuser']['username']
-      group 'docker'
-      environment ({ 'HOME' => node['workshopbox']['adminuser']['home'], 'USER' => node['workshopbox']['adminuser']['username'] })
-      code <<-EOC
-        docker pull #{node['workshopbox']['kitchen-docker']['baseimg']}
-      EOC
-    end
+  # docker pull pingworks/docker-ws-baseimg
+  bash 'pull docker ws baseimg' do
+    user node['workshopbox']['adminuser']['username']
+    group 'docker'
+    environment ({ 'HOME' => node['workshopbox']['adminuser']['home'], 'USER' => node['workshopbox']['adminuser']['username'] })
+    code <<-EOC
+      docker pull #{node['workshopbox']['kitchen-docker']['baseimg']}
+    EOC
   end
 end

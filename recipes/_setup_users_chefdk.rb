@@ -1,11 +1,12 @@
 #
 # Cookbook Name:: workshopbox
-# Recipe:: _setup_users_cheftooling
+# Recipe:: _setup_users_chefdk
 #
 # Copyright (C) 2015 Alexander Birk
 #
 # Licensed under the Apache License, Version 2.0
 #
+
 bash 'setup chefdk for root' do
   user 'root'
   cwd '/root'

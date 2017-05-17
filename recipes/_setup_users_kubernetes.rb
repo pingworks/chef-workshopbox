@@ -16,13 +16,16 @@ if node['workshopbox']['tweak']['install_docker'] == true
       action :create
     end
 
-    bash 'copy admin access certs' do
+    bash 'copy user access certs' do
       user 'root'
       cwd '/tmp'
       code <<-EOH
-      cp #{node['workshopbox']['secret_service']['client']['repo']}/user/testuser/kubernetes/.kube/config /home/#{username}/.kube/config
-      chown #{username}.#{username} /home/#{username}/.kube/config
-      chmod 600 /home/#{username}/.kube/config
+      if [ -f #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/config-${username}.zip ];then
+        cp #{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}/config-${username}.zip /home/#{username}
+        cd /home/#{username}
+        unzip config-${username}.zip
+        chown -R #{username}.#{username} /home/#{username}/.kube
+        chmod 600 /home/#{username}/.kube/config
       EOH
     end
   end
