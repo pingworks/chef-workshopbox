@@ -16,7 +16,7 @@ default['workshopbox']['download']['chefdk']['url'] = 'http://opscode-omnibus-pa
 default['workshopbox']['kitchen-docker']['baseimg'] = 'pingworks/docker-ws-baseimg:0.2'
 
 default['workshopbox']['cname'] = 'workshopbox'
-default['workshopbox']['domain'] = 'cluster.local'
+default['workshopbox']['domain'] = 'k8s.ws.p7-s.net'
 
 default['workshopbox']['adminuser']['username'] = 'vagrant'
 default['workshopbox']['adminuser']['home'] = '/home/vagrant'
