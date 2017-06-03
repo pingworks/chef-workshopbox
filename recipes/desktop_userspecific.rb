@@ -11,8 +11,8 @@ include_recipe 'workshopbox::_setup_users_account'
 include_recipe 'workshopbox::_setup_users_gnome_desktop'
 
 include_recipe 'workshopbox::_setup_users_git'
-# include_recipe 'workshopbox::_setup_users_docker'
-# include_recipe 'workshopbox::_setup_users_kubernetes'
+include_recipe 'workshopbox::_setup_users_docker'
+include_recipe 'workshopbox::_setup_users_kubernetes'
 include_recipe 'workshopbox::_setup_users_chefdk'
 
 include_recipe 'workshopbox::_setup_users_wsbox_internals'
