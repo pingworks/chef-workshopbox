@@ -16,7 +16,7 @@ default['workshopbox']['download']['chefdk']['url'] = 'http://opscode-omnibus-pa
 default['workshopbox']['kitchen-docker']['baseimg'] = 'pingworks/docker-ws-baseimg:0.2'
 
 default['workshopbox']['cname'] = 'workshopbox'
-default['workshopbox']['domain'] = 'k8s.ws.p7-s.net'
+default['workshopbox']['domain'] = 'ws.p7-s.net'
 
 default['workshopbox']['adminuser']['username'] = 'vagrant'
 default['workshopbox']['adminuser']['home'] = '/home/vagrant'
@@ -35,6 +35,17 @@ default['workshopbox']['atom_pkgs'] = %w(file-icons@2.1.3 language-chef@0.9.0 la
 # needed for custom ohai plugins
 default['ohai']['plugins']['workshopbox'] = 'plugins'
 
+# ----- Local Kubernetes Setup
+default['workshopbox']['kubernetes']['docker-engine']['version'] = '1.11.2-0~xenial'
+
+default['workshopbox']['kubernetes']['kubeversion'] = '1.6.4'
+default['workshopbox']['kubernetes']['svccidr'] = '10.96.0.0/12'
+default['workshopbox']['kubernetes']['svcdomain'] = 'cluster.local'
+default['workshopbox']['kubernetes']['clusterdns'] = '10.96.0.10'
+default['workshopbox']['kubernetes']['apiserver'] = '10.96.0.1'
+
+# ----
+
 # speed up converge:
 default['workshopbox']['tweak']['reinstall_guest_additions'] = false
 default['workshopbox']['tweak']['install_docker'] = false
@@ -42,6 +53,7 @@ default['workshopbox']['tweak']['install_kubernetes_client'] = false
 default['workshopbox']['tweak']['install_gnome_desktop'] = true
 default['workshopbox']['tweak']['install_kernmod_build_env'] = true
 default['workshopbox']['tweak']['install_atom_pkgs'] = true
+default['workshopbox']['tweak']['install_kubernetes_master'] = true
 
 # speed up testing
 default['workshopbox']['tweak']['test_kitchen_docker'] = false
