@@ -30,25 +30,6 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     EOH
   end
 
-  package 'docker-engine' do
-    version node['workshopbox']['kubernetes']['docker-engine']['version']
-  end
-
-  service 'docker' do
-    supports status: true, restart: true
-    action [:enable, :start]
-  end
-
-  package 'bash-completion'
-
-  bash 'install docker bash completion' do
-    user 'root'
-    cwd '/tmp'
-    code <<-EOH
-    curl -L https://raw.githubusercontent.com/docker/docker/master/contrib/completion/bash/docker > /etc/bash_completion.d/docker
-    EOH
-  end
-
   package %w(kubelet kubeadm kubectl kubernetes-cni) do
     version ["#{node['workshopbox']['kubernetes']['kubeversion']}-00", "#{node['workshopbox']['kubernetes']['kubeversion']}-00", "#{node['workshopbox']['kubernetes']['kubeversion']}-00", '0.5.1-00']
   end

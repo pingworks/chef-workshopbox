@@ -24,7 +24,9 @@ include_recipe 'workshopbox::_install_kernelmod_build_env'
 
 include_recipe 'workshopbox::_install_nginx'
 include_recipe 'workshopbox::_install_docker'
+include_recipe 'workshopbox::_install_docker_aux'
 include_recipe 'workshopbox::_install_kubernetes_client'
+include_recipe 'workshopbox::_install_kubernetes_master'
 
 include_recipe 'workshopbox::desktop_base'
 include_recipe 'workshopbox::desktop_central_tools'

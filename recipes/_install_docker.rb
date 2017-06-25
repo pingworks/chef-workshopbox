@@ -6,9 +6,6 @@
 # Licensed under the Apache License, Version 2.0
 #
 if node['workshopbox']['tweak']['install_docker'] == true
-  # package 'linux-image-extra-virtual'
-  # package 'linux-image-extra-3.13.0-61-generic'
-
   include_recipe 'apt'
   ['apt-transport-https', 'ca-certificates', "linux-image-extra-#{node['kernel']['release']}", 'linux-image-extra-virtual'].each do |pkg|
     package pkg
@@ -40,10 +37,14 @@ if node['workshopbox']['tweak']['install_docker'] == true
     action [:enable, :start]
   end
 
-  cookbook_file 'default-docker' do
-    path '/etc/default/docker'
-    mode '0600'
-    notifies :restart, 'service[docker]', :immediately
+  package 'bash-completion'
+
+  bash 'install docker bash completion' do
+    user 'root'
+    cwd '/tmp'
+    code <<-EOH
+    curl -L https://raw.githubusercontent.com/docker/docker/master/contrib/completion/bash/docker > /etc/bash_completion.d/docker
+    EOH
   end
 
   bash 'make sure docker is up and running' do
@@ -70,32 +71,5 @@ if node['workshopbox']['tweak']['install_docker'] == true
     action :modify
     members node['workshopbox']['adminuser']['username']
     append true
-  end
-
-  directory '/etc/docker/certs.d/registry:5000/' do
-    owner 'root'
-    group 'root'
-    mode 00755
-    recursive true
-    action :create
-  end
-
-  bash 'copy docker cert' do
-    user 'root'
-    cwd '/tmp'
-    code <<-EOH
-    cp #{node['workshopbox']['secret_service']['client']['repo']}/common/registry.crt /etc/docker/certs.d/registry\:5000/ca.crt
-    chmod 644  /etc/docker/certs.d/registry\:5000/ca.crt
-    EOH
-  end
-
-  # docker pull pingworks/docker-ws-baseimg
-  bash 'pull docker ws baseimg' do
-    user node['workshopbox']['adminuser']['username']
-    group 'docker'
-    environment ({ 'HOME' => node['workshopbox']['adminuser']['home'], 'USER' => node['workshopbox']['adminuser']['username'] })
-    code <<-EOC
-      docker pull #{node['workshopbox']['kitchen-docker']['baseimg']}
-    EOC
   end
 end
