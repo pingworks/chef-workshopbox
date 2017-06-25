@@ -36,9 +36,12 @@ if node['workshopbox']['tweak']['install_gnome_desktop'] == true
   #   end
   # end
 
+  cookbook_file '/etc/lightdm/lightdm.conf'
+
 end
 
 cookbook_file '/etc/timezone'
+
 bash 'configure timezone' do
   user 'root'
   cwd '/tmp'
@@ -48,4 +51,3 @@ bash 'configure timezone' do
 end
 
 cookbook_file '/etc/default/keyboard'
-cookbook_file '/etc/lightdm/lightdm.conf'

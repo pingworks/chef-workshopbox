@@ -27,7 +27,7 @@ if node['workshopbox']['tweak']['install_kubernetes_client'] == true
   end
 
   package 'kubectl' do
-    version '1.6.2-00'
+    version "#{node['workshopbox']['kubernetes']['kubeversion']}-00"
   end
 
   bash 'set kubectl package on hold' do
