@@ -7,5 +7,7 @@
 # Licensed under the Apache License, Version 2.0
 #
 
-package 'firefox'
-package 'xul-ext-ubufox'
+if node['workshopbox']['tweak']['install_gnome_desktop'] == true
+  package 'firefox'
+  package 'xul-ext-ubufox'
+end
