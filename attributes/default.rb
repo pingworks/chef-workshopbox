@@ -52,7 +52,6 @@ default['workshopbox']['tweak']['install_docker'] = false
 default['workshopbox']['tweak']['install_docker_aux'] = false
 default['workshopbox']['tweak']['install_kubernetes_client'] = false
 default['workshopbox']['tweak']['install_gnome_desktop'] = false
-default['workshopbox']['tweak']['install_kernmod_build_env'] = false
 default['workshopbox']['tweak']['install_atom_pkgs'] = false
 default['workshopbox']['tweak']['install_kubernetes_master'] = true
 
