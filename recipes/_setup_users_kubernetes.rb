@@ -6,7 +6,7 @@
 #
 # Licensed under the Apache License, Version 2.0
 #
-if node['workshopbox']['tweak']['install_docker'] == true
+if node['workshopbox']['tweak']['install_kubernetes_client'] == true
   Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
     next if username == '.' || username == '..'
     directory "/home/#{username}/.kube" do
