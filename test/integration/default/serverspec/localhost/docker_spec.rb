@@ -15,7 +15,11 @@ if $node['workshopbox']['tweak']['install_docker'] == true
     it { should be_running }
     it { should be_enabled }
   end
+end
 
+# rubocop: disable GlobalVars
+if $node['workshopbox']['tweak']['install_docker_aux'] == true
+  # rubocop: enable GlobalVars
   describe file('/etc/default/docker') do
     it { should be_file }
     its(:content) { should match 'DOCKER_OPTS="-G adm"' }
