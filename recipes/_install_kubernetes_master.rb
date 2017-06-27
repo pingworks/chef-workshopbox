@@ -74,4 +74,136 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
   end
 
   cookbook_file '/etc/resolvconf/resolv.conf.d/head'
+
+  template '/root/kubesetup/overlay-network.yaml' do
+    source 'weave-daemonset-k8s-1.6.yaml.erb'
+    owner 'root'
+    group 'root'
+    mode 00644
+  end
+
+  bash 'Initializing Cluster' do
+    user 'root'
+    code <<-EOH
+      echo 'Initializing Cluster...' >> /root/kubesetup/log
+      rm -rf /var/lib/kubelet/*
+      echo 'kubeadm init...' >> /root/kubesetup/log
+      kubeadm init \
+      --kubernetes-version v#{node['scc_kubenode']['kubeversion']} \
+      --service-cidr #{node['scc_kubenode']['svccidr']}  \
+      --service-dns-domain #{node['scc_kubenode']['svcdomain']}  \
+      | tee /root/kubesetup/kubeinit.out
+      cat /root/kubesetup/kubeinit.out >> /root/kubesetup/log
+      echo 'Waiting for pod kube-apiserver to come up...' >> /root/kubesetup/log
+      I=0
+      KUBEAPI_UP=0
+      while [ $I -lt 60 -a $KUBEAPI_UP -eq 0 ];do
+        if kubectl --kubeconfig /etc/kubernetes/admin.conf get pods --namespace=kube-system | grep kube-apiserver | grep '1/1' | grep 'Running' > /dev/null 2>&1;then
+          KUBEAPI_UP=1
+        fi
+        sleep 1
+        echo -n '.' >> /root/kubesetup/log
+        I=$(expr $I + 1)
+      done
+      if [ $KUBEAPI_UP -eq 0 ];then
+        echo 'kube-apiserver never came up!' >> /root/kubesetup/log
+        exit 1
+      fi
+      kubectl --kubeconfig /etc/kubernetes/admin.conf taint nodes --all node-role.kubernetes.io/master-
+    EOH
+    not_if '[ -d /etc/kubernetes/pki ]'
+  end
+
+  bash 'allow pods to be created on master' do
+    user 'root'
+    cwd '/tmp'
+    code <<-EOH
+      kubectl --kubeconfig /etc/kubernetes/admin.conf taint nodes --all node-role.kubernetes.io/master-
+    EOH
+  end
+
+  bash 'set up overlay network' do
+    user 'root'
+    cwd '/root/kubesetup'
+    code <<-EOH
+    kubectl --kubeconfig /etc/kubernetes/admin.conf apply -f overlay-network.yaml
+    echo 'Waiting for overlay network and after that kube-dns to come up...' >> /root/kubesetup/log
+    I=0
+    KUBEDNS_UP=0
+    while [ $I -lt 180 -a $KUBEDNS_UP -eq 0 ];do
+      if kubectl --kubeconfig /etc/kubernetes/admin.conf get pods --namespace=kube-system| grep kube-dns | grep '3/3';then
+        KUBEDNS_UP=1
+      fi
+      sleep 1
+      echo -n '.' >> /root/kubesetup/log
+      I=$(expr $I + 1)
+    done
+    if [ $KUBEDNS_UP -eq 0 ];then
+      echo 'kube-dns never came up!' >> /root/kubesetup/log
+      exit 1
+    fi
+    echo 'overlay network and kube-dns up and running!' >> /root/kubesetup/log
+    EOH
+    not_if 'kubectl --kubeconfig /etc/kubernetes/admin.conf get pods --namespace=kube-system| grep kube-dns | grep "3/3"'
+  end
+
+  cookbook_file '/root/kubesetup/kubernetes-dashboard.yaml' do
+    owner 'root'
+    group 'root'
+    mode 00644
+  end
+
+  bash 'deploy kubernetes dashboard' do
+    user 'root'
+    cwd '/root/kubesetup'
+    code <<-EOH
+    kubectl --kubeconfig /etc/kubernetes/admin.conf describe deployment kubernetes-dashboard --namespace=kube-system >/dev/null 2>&1 || (
+      kubectl --kubeconfig /etc/kubernetes/admin.conf apply -f kubernetes-dashboard.yaml
+    )
+    I=0
+    KUBEDASH_UP=0
+    echo 'Waiting for kubernetes-dashboard to come up...' >> /root/kubesetup/log
+    while [ $I -lt 180 -a $KUBEDASH_UP -eq 0 ];do
+      if kubectl --kubeconfig /etc/kubernetes/admin.conf get pods --namespace=kube-system | grep kubernetes-dashboard | grep '1/1' | grep 'Running' > /dev/null 2>&1;then
+        KUBEDASH_UP=1
+      fi
+      sleep 1
+      echo -n '.' >> /root/kubesetup/log
+      I=$(expr $I + 1)
+    done
+    if [ $KUBEDASH_UP -eq 0 ];then
+      echo 'kube-dashboard never came up!' >> /root/kubesetup/log
+      exit 1
+    fi
+    echo 'Kubernetes successfully set up.' >> /root/kubesetup/log
+    EOH
+  end
+
+  directory '/root/.kube' do
+    owner 'root'
+    group 'root'
+    mode 00755
+    action :create
+  end
+
+  bash 'copy kubeconfig' do
+    user 'root'
+    cwd '/tmp'
+    code <<-EOH
+    cp /etc/kubernetes/admin.conf /root/.kube/.kubeconfig
+    chmod 0600 /root/.kube/.kubeconfig
+    EOH
+    not_if '[ -f /root/.kube/.kubeconfig ]'
+  end
+
+  cookbook_file '/usr/local/bin/create-user-cert.sh' do
+    owner 'root'
+    group 'root'
+    mode 00755
+  end
+
+  %w(nfs-kernel-server).each do |pkg|
+    package pkg
+  end
+
 end
