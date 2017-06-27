@@ -22,7 +22,7 @@ default['workshopbox']['adminuser']['username'] = 'vagrant'
 default['workshopbox']['adminuser']['home'] = '/home/vagrant'
 
 default['workshopbox']['base_pkgs'] = %w(git vim less htop ncdu curl wget tree psmisc jq linux-headers-generic)
-default['workshopbox']['preinstalled_gems'] = %w(kitchen-docker@2.3.0 mofa@0.3.5 rubocop@0.34.2)
+default['workshopbox']['preinstalled_gems'] = %w(kitchen-docker@2.3.0 mofa@0.3.40 rubocop@0.34.2)
 default['workshopbox']['precloned_githubrepos'] = %w(phonebook-buildscripts phonebook-frontend phonebook-backend)
 default['workshopbox']['precloned_githubcookbooks'] = %w()
 default['workshopbox']['gitlab']['clone_url_tpl'] = 'ssh://git@gitlab.infra.svc.__DOMAIN__:10022/__USERNAME__/__PROJ__.git'
@@ -50,7 +50,7 @@ default['workshopbox']['kubernetes']['apiserver'] = '10.96.0.1'
 default['workshopbox']['tweak']['reinstall_guest_additions'] = false
 default['workshopbox']['tweak']['install_docker'] = true # kubernetes_master needs docker
 default['workshopbox']['tweak']['install_docker_aux'] = false
-default['workshopbox']['tweak']['install_kubernetes_client'] = false # kubernetes client for central workshop kubernetes 
+default['workshopbox']['tweak']['install_kubernetes_client'] = false # kubernetes client for central workshop kubernetes
 default['workshopbox']['tweak']['install_gnome_desktop'] = false
 default['workshopbox']['tweak']['install_atom_pkgs'] = false
 default['workshopbox']['tweak']['install_kubernetes_master'] = true
