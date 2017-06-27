@@ -89,9 +89,9 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
       rm -rf /var/lib/kubelet/*
       echo 'kubeadm init...' >> /root/kubesetup/log
       kubeadm init \
-      --kubernetes-version v#{node['scc_kubenode']['kubeversion']} \
-      --service-cidr #{node['scc_kubenode']['svccidr']}  \
-      --service-dns-domain #{node['scc_kubenode']['svcdomain']}  \
+      --kubernetes-version v#{node['workshopbox']['kubernetes']['kubeversion']} \
+      --service-cidr #{node['workshopbox']['kubernetes']['svccidr']}  \
+      --service-dns-domain #{node['workshopbox']['kubernetes']['svcdomain']}  \
       | tee /root/kubesetup/kubeinit.out
       cat /root/kubesetup/kubeinit.out >> /root/kubesetup/log
       echo 'Waiting for pod kube-apiserver to come up...' >> /root/kubesetup/log
