@@ -8,6 +8,13 @@
 if node['workshopbox']['tweak']['install_kubernetes_master'] == true
   include_recipe 'apt'
 
+  directory '/root/kubesetup' do
+    owner 'root'
+    group 'root'
+    mode 00755
+    action :create
+  end
+
   ['apt-transport-https', 'ca-certificates', "linux-image-extra-#{node['kernel']['release']}", 'linux-image-extra-virtual'].each do |pkg|
     package pkg
   end
