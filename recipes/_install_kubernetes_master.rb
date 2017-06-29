@@ -104,7 +104,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
       echo 'Waiting for pod kube-apiserver to come up...' >> /root/kubesetup/log
       I=0
       KUBEAPI_UP=0
-      while [ $I -lt 60 -a $KUBEAPI_UP -eq 0 ];do
+      while [ $I -lt 300 -a $KUBEAPI_UP -eq 0 ];do
         if kubectl --kubeconfig /etc/kubernetes/admin.conf get pods --namespace=kube-system | grep kube-apiserver | grep '1/1' | grep 'Running' > /dev/null 2>&1;then
           KUBEAPI_UP=1
         fi
