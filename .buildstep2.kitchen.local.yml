@@ -2,6 +2,8 @@
 platforms:
   - name: ubuntu-16.04
     driver:
+        driver_config:
+          vm_hostname: workshopbox.ws.p7-s.net
         gui: false
         box: pingworks_ubuntu-16.04_chef-12.7.2-1
         box_url: http://vagrant.pingworks.net/pingworks_ubuntu-16.04_chef-12.7.2-1.box
@@ -15,7 +17,7 @@ suites:
     attributes:
       workshopbox:
       #  tweak:
-      #    install_gnome_desktop: false 
+      #    install_gnome_desktop: false
       #    reinstall_guest_additions: false
       #    install_docker: false
       #    install_kernmod_build_env: false
