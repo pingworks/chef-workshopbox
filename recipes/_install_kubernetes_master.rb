@@ -121,14 +121,6 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     not_if '[ -d /etc/kubernetes/pki ]'
   end
 
-  bash 'allow pods to be created on master' do
-    user 'root'
-    cwd '/tmp'
-    code <<-EOH
-      kubectl --kubeconfig /etc/kubernetes/admin.conf taint nodes --all node-role.kubernetes.io/master-
-    EOH
-  end
-
   bash 'set up overlay network' do
     user 'root'
     cwd '/root/kubesetup'
@@ -153,6 +145,14 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     EOH
     not_if 'kubectl --kubeconfig /etc/kubernetes/admin.conf get pods --namespace=kube-system| grep kube-dns | grep "3/3"'
   end
+
+  # bash 'allow pods to be created on master' do
+  #   user 'root'
+  #   cwd '/tmp'
+  #   code <<-EOH
+  #     kubectl --kubeconfig /etc/kubernetes/admin.conf taint nodes --all node-role.kubernetes.io/master-
+  #   EOH
+  # end
 
   cookbook_file '/root/kubesetup/kubernetes-dashboard.yaml' do
     owner 'root'
@@ -212,5 +212,4 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
   %w(nfs-kernel-server).each do |pkg|
     package pkg
   end
-
 end
