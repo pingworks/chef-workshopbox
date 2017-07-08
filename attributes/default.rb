@@ -47,12 +47,12 @@ default['workshopbox']['kubernetes']['apiserver'] = '10.96.0.1'
 # ----
 
 # speed up converge:
-default['workshopbox']['tweak']['reinstall_guest_additions'] = false
+default['workshopbox']['tweak']['reinstall_guest_additions'] = true
 default['workshopbox']['tweak']['install_docker'] = true # kubernetes_master needs docker
 default['workshopbox']['tweak']['install_docker_aux'] = false
 default['workshopbox']['tweak']['install_kubernetes_client'] = false # kubernetes client for central workshop kubernetes
-default['workshopbox']['tweak']['install_gnome_desktop'] = false
-default['workshopbox']['tweak']['install_atom_pkgs'] = false
+default['workshopbox']['tweak']['install_gnome_desktop'] = true
+default['workshopbox']['tweak']['install_atom_pkgs'] = true
 default['workshopbox']['tweak']['install_kubernetes_master'] = true
 
 # speed up testing
