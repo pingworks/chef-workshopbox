@@ -80,7 +80,24 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     EOH
   end
 
-  cookbook_file '/etc/resolvconf/resolv.conf.d/head'
+  template '/etc/resolvconf/resolv.conf.d/head' do
+    source 'head-kubernetes-master'
+    owner 'root'
+    group 'root'
+    mode 00644
+  end
+
+  package 'dnsmasq'
+  service 'dnsmasq' do
+    action [:enable, :start]
+  end
+
+  template '/etc/dnsmasq.conf' do
+    owner 'root'
+    group 'root'
+    mode 00644
+    notifies :restart, 'service[dnsmasq]', :immediately
+  end
 
   template '/root/kubesetup/overlay-network.yaml' do
     source 'weave-daemonset-k8s-1.6.yaml.erb'
