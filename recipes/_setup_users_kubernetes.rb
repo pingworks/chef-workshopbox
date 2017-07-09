@@ -64,18 +64,6 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     end
 
     # Setup Users namespaces
-    bash 'a bash script' do
-      user 'root'
-      cwd '/tmp'
-      code <<-EOH
-      wget http://www.example.com/tarball.tar.bz
-      tar -zxf tarball.tar.gz
-      cd tarball
-      ./configure
-      make
-      make install
-      EOH
-    end
     bash "setup user #{username} namespace" do
       user 'root'
       cwd '/tmp'
