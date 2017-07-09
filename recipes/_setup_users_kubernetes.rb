@@ -73,5 +73,16 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
       EOH
       not_if "kubectl get namespaces | grep '^#{username} '", environment: { 'HOME' => '/root' }
     end
+
+    # Setup Users namespaces
+    bash "setup users rolebinding #{username}" do
+      user 'root'
+      cwd '/tmp'
+      environment 'HOME' => '/root'
+      code <<-EOH
+        kubectl create rolebinding sa-default-edit --clusterrole=edit --serviceaccount=#{username}:default --namespace=#{username}
+      EOH
+    end
+
   end
 end
