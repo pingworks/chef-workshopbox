@@ -214,18 +214,19 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
   cookbook_file '/etc/exports'
   execute 'exportfs -a'
 
-  # Setup namespace infra
-  template '/root/.kubesetup/namespace.yaml' do
-    variables namespace: 'infra'
-  end
-
-  bash 'setup infra namespace' do
-    user 'root'
-    cwd '/tmp'
-    environment 'HOME' => '/root'
-    code <<-EOH
-      kubectl create -f /root/.kubesetup/namespace.yaml
-    EOH
-    not_if "kubectl get namespaces | grep '^infra '", environment: { 'HOME' => '/root' }
+  # Setup various namespaces
+  %w(infra staging prod).each do |namespace|
+    template '/root/.kubesetup/namespace.yaml' do
+      variables namespace: namespace
+    end
+    bash "setup namespace #{namespace}" do
+      user 'root'
+      cwd '/tmp'
+      environment 'HOME' => '/root'
+      code <<-EOH
+        kubectl create -f /root/.kubesetup/namespace.yaml
+      EOH
+      not_if "kubectl get namespaces | grep '^#{namespace} '", environment: { 'HOME' => '/root' }
+    end
   end
 end
