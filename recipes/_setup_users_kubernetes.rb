@@ -97,7 +97,8 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
       EMAIL=$(<$UDIR/email)
       COMPANY=$(<$UDIR/company)
       SSH_PUB=$(<$UDIR/.ssh/id_rsa.pub)
-
+      env >> /tmp/debug.log
+      
       cat <<EOF > /home/#{username}/.kubesetup/user.json
       {
         "username": "$USERNAME",
