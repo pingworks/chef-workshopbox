@@ -1,0 +1,213 @@
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: gitlab
+  namespace: infra
+  labels:
+    app: gitlab
+
+spec:
+  serviceName: "gitlab"
+  template:
+    metadata:
+      labels:
+        app: gitlab
+    spec:
+      containers:
+      - name: gitlab
+        image: birka/gitlab:1.7
+        volumeMounts:
+        - name: gitlab-gitlab
+          mountPath: /home/git/data
+        - mountPath: /certs
+          name: gitlab-app-tls
+        ports:
+        - containerPort: 80
+          name: gitlab80
+          protocol: TCP
+        - containerPort: 22
+          name: gitlab22
+          protocol: TCP
+        env:
+        - name: HOOKS_DEBUG
+          value: "0"
+        - name: HOOKS_LOG
+          value: "/var/log/jenkinshooks.log"
+        - name: HOOKS_CONFIG_URL
+          value: http://localhost/infra/jenkinshooks/raw/master/hooks_config.yml
+        - name: HOOKS_TPL_URL
+          value: http://localhost/infra/jenkinshooks/raw/master/post-receive.erb
+        - name: HOOKS_GITLAB_REPOS_PATH
+          value: /home/git/data/repositories
+        - name: DEBUG
+          value: "false"
+        - name: DB_ADAPTER
+          value: postgresql
+        - name: DB_HOST
+          value: localhost
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USER
+          value: gitlab
+        - name: DB_PASS
+          value: password
+        - name: DB_NAME
+          value: gitlabhq_production
+        - name: REDIS_HOST
+          value: localhost
+        - name: REDIS_PORT
+          value: "6379"
+        - name: TZ
+          value: Europe/Berlin
+        - name: GITLAB_TIMEZONE
+          value: Berlin
+        - name: GITLAB_HTTPS
+          value: "false"
+        - name: SSL_SELF_SIGNED
+          value: "false"
+        - name: SSL_SSL_VERIFY_CLIENT
+          value: "false"
+        - name: SSL_CA_CERTIFICATES_PATH
+          value:
+
+        - name: SSL_REGISTRY_KEY_PATH
+          value: "/certs/registry.key"
+        - name: SSL_REGISTRY_CERT_PATH
+          value: "/certs/registry.crt"
+
+        - name: LDAP_ENABLED
+          value: "false"
+        - name: GITLAB_HOST
+          value: gitlab.infra.svc.k8s.ws.p7-s.net
+        - name: GITLAB_PORT
+          value: "80"
+        - name: GITLAB_SSH_PORT
+          value: "10022"
+        - name: GITLAB_RELATIVE_URL_ROOT
+          value:
+        - name: GITLAB_SECRETS_DB_KEY_BASE
+          value: rtRKnHLKzm7PVLPk9KbbJHnFThrNHW4Psjh3tbgxbNtnpzJrHXXXPmMsKsNkCTgp
+        - name: GITLAB_SECRETS_SECRET_KEY_BASE
+          value: rtRKnHLKzm7PVLPk9KbbJHnFThrNHW4Psjh3tbgxbNtnpzJrHXXXPmMsKsNkCTgp
+        - name: GITLAB_SECRETS_OTP_KEY_BASE
+          value: rtRKnHLKzm7PVLPk9KbbJHnFThrNHW4Psjh3tbgxbNtnpzJrHXXXPmMsKsNkCTgp
+        - name: GITLAB_ROOT_PASSWORD
+          value: admin123
+        - name: GITLAB_ROOT_EMAIL
+          value: admin@k8s.ws.p7-s.net
+        - name: GITLAB_NOTIFY_ON_BROKEN_BUILDS
+          value: "true"
+        - name: GITLAB_NOTIFY_PUSHER
+          value: "false"
+
+        - name: GITLAB_BACKUP_SCHEDULE
+          value: daily
+        - name: GITLAB_BACKUP_TIME
+          value: 01:00
+        - name: GITLAB_BACKUP_EXPIRY
+          value: "2419200"
+        - name: GITLAB_SIGNUP_ENABLED
+          value: "false"
+        - name: GITLAB_PROJECTS_LIMIT
+          value: "500"
+        - name: GITLAB_USERNAME_CHANGE
+          value: "false"
+        - name: GITLAB_PROJECTS_ISSUES
+          value: "false"
+        - name: GITLAB_PROJECTS_WIKI
+          value: "false"
+        - name: GITLAB_PROJECTS_BUILDS
+          value: "false"
+        - name: GITLAB_MAX_OBJECT_SIZE
+          value: "209715200"
+
+        - name: GITLAB_REGISTRY_ENABLED
+          value: "true"
+        - name: GITLAB_REGISTRY_HOST
+          value: "registry"
+        - name: GITLAB_REGISTRY_PORT
+          value: "5000"
+        - name: GITLAB_REGISTRY_API_URL
+          value: "http://127.0.0.1:6000"
+        - name: GITLAB_REGISTRY_KEY_PATH
+          value: "/certs/registry.key"
+
+
+      - name: postgresql
+        image: sameersbn/postgresql:9.5-1
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: gitlab-postgresql
+          mountPath: /var/lib/postgresql
+        env:
+        - name: DB_USER
+          value: gitlab
+        - name: DB_PASS
+          value: password
+        - name: DB_NAME
+          value: gitlabhq_production
+        - name: DB_EXTENSION
+          value: pg_trgm
+
+
+      - name: redis
+        image: sameersbn/redis:latest
+        volumeMounts:
+        - name: gitlab-redis
+          mountPath: /var/lib/redis
+        # command:
+        #   - --loglevel warning
+
+      - name: registry
+        image: registry:2.6.1
+        volumeMounts:
+        - name: gitlab-registry
+          mountPath: /registry
+        - name: gitlab-registry-tls
+          mountPath: /certs
+        env:
+        - name: REGISTRY_LOG_LEVEL
+          value: info
+        - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
+          value: /registry
+        - name: REGISTRY_AUTH_TOKEN_REALM
+          value: http://gitlab.infra.svc.k8s.ws.p7-s.net/jwt/auth
+        - name: REGISTRY_AUTH_TOKEN_SERVICE
+          value: container_registry
+        - name: REGISTRY_AUTH_TOKEN_ISSUER
+          value: gitlab-issuer
+        - name: REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE
+          value: /certs/registry.crt
+        - name: REGISTRY_STORAGE_DELETE_ENABLED
+          value: "true"
+        - name: SSL_REGISTRY_KEY_PATH
+          value: "/certs/registry.key"
+        - name: SSL_REGISTRY_CERT_PATH
+          value: "/certs/registry.crt"
+        - name: REGISTRY_HTTP_ADDR
+          value: "localhost:6000"
+        ports:
+        - name: registry-api
+          containerPort: 6000
+
+      volumes:
+      - name: gitlab-gitlab
+        persistentVolumeClaim:
+          claimName: pvc-gitlab-gitlab
+      - name: gitlab-postgresql
+        persistentVolumeClaim:
+          claimName: pvc-gitlab-postgresql
+      - name: gitlab-redis
+        persistentVolumeClaim:
+          claimName: pvc-gitlab-redis
+      - name: gitlab-registry
+        persistentVolumeClaim:
+          claimName: pvc-gitlab-registry
+      - name: gitlab-app-tls
+        secret:
+          secretName: registry-tls-secret
+      - name: gitlab-registry-tls
+        secret:
+          secretName: registry-tls-secret

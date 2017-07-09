@@ -1,0 +1,68 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-gitlab-gitlab
+  namespace: infra
+spec:
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      app: gitlab
+      container: gitlab
+  resources:
+    requests:
+      storage: 1Gi
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-gitlab-postgresql
+  namespace: infra
+spec:
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      app: gitlab
+      container: postgresql
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-gitlab-redis
+  namespace: infra
+spec:
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      app: gitlab
+      container: redis
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-gitlab-registry
+  namespace: infra
+spec:
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      app: gitlab
+      container: registry
+  resources:
+    requests:
+      storage: 5Gi

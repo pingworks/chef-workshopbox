@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitlab
+  namespace: infra
+  labels:
+    app: gitlab
+spec:
+  selector:
+    app: gitlab
+  ports:
+  - name: gitlab80
+    port: 80
+    protocol: TCP
+  - name: gitlab10022
+    port: 10022
+    protocol: TCP
+    targetPort: gitlab22
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry
+  namespace: infra
+  labels:
+    app: gitlab
+spec:
+  selector:
+    app: gitlab
+  ports:
+  - name: registry
+    port: 5000
+    protocol: TCP

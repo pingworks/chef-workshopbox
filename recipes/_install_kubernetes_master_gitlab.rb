@@ -30,4 +30,33 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     EOH
     not_if 'kubectl --namespace=infra describe secret registry-tls-secret', environment: { 'HOME' => '/root' }
   end
+
+  template '/root/.kubesetup/pv-gitlab.yaml'
+  cookbook_file '/root/.kubesetup/pvc-gitlab.yaml'
+  cookbook_file '/root/.kubesetup/statefulset-gitlab.yaml'
+  cookbook_file '/root/.kubesetup/service-gitlab.yaml'
+
+  bash 'setup statefulset gitlab' do
+    user 'root'
+    cwd '/tmp'
+    environment 'HOME' => '/root'
+    code <<-EOH
+    for P in gitlab-gitlab gitlab-postgresql gitlab-redis; do
+      if kubectl get pv | grep "^pv-${P} " >/dev/null;then
+        echo "PV pv-${P} already exists - skipping..."
+      else
+        kubectl apply -f /root/.kubesetup/pv-gitlab.yaml
+      fi
+      if kubectl get pvc --namespace=infra | grep "^pvc-${P} " >/dev/null;then
+        echo "PV pvc-${P} already exists - skipping..."
+      else
+        kubectl apply -f /root/.kubesetup/pvc-gitlab.yaml
+      fi
+    done
+    kubectl create -f /root/.kubesetup/statefulset-gitlab.yaml
+    kubectl apply -f /root/.kubesetup/service-gitlab.yaml
+    EOH
+    not_if 'kubectl --namespace=infra get statefulsets | grep "^gitlab "', environment: { 'HOME' => '/root' }
+  end
+
 end
