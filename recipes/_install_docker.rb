@@ -39,12 +39,10 @@ if node['workshopbox']['tweak']['install_docker'] == true
 
   package 'bash-completion'
 
-  bash 'install docker bash completion' do
-    user 'root'
-    cwd '/tmp'
-    code <<-EOH
-    curl -L https://raw.githubusercontent.com/docker/docker/master/contrib/completion/bash/docker > /etc/bash_completion.d/docker
-    EOH
+  cookbook_file '/etc/bash_completion.d/docker' do
+    owner 'root'
+    group 'root'
+    mode 00644
   end
 
   bash 'make sure docker is up and running' do
