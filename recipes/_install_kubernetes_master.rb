@@ -230,3 +230,5 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     end
   end
 end
+
+include_recipe 'workshopbox::_install_kubernetes_master_gitlab'
