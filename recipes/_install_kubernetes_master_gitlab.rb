@@ -24,7 +24,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     cwd '/tmp'
     environment 'HOME' => '/root'
     code <<-EOH
-      kubectl create --namespace=infra -f secret generic registry-tls-secret \
+      kubectl --namespace=infra create secret generic registry-tls-secret \
             --from-file=/root/.kubesetup/registry.crt \
             --from-file=$REGDIR/root/.kubesetup/registry.key
     EOH
