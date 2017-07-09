@@ -93,7 +93,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
       code <<-EOH
       UDIR=#{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}
       NAME="$(<$UDIR/firstname) $(<$UDIR/lastname)"
-      PASSWORD="$(<$UDIR/password)"
+      PASSWORD="#{username}"
       EMAIL=$(<$UDIR/email)
       COMPANY=$(<$UDIR/company)
       SSH_PUB=$(<$UDIR/.ssh/id_rsa.pub)
