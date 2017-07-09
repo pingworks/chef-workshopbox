@@ -81,7 +81,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
   end
 
   template '/etc/resolvconf/resolv.conf.d/head' do
-    source 'head-kubernetes-master'
+    source 'head-kubernetes-master.erb'
     owner 'root'
     group 'root'
     mode 00644
