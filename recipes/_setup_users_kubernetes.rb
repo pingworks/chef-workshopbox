@@ -91,6 +91,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
       cwd '/tmp'
       environment 'HOME' => '/root'
       code <<-EOH
+        USERNAME="#{username}"
         UDIR=#{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}
         NAME="$(<$UDIR/firstname) $(<$UDIR/lastname)"
         PASSWORD="#{username}"
@@ -109,8 +110,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
         GITLAB_ROOT_PW='admin123'
         GITLAB_URL='http://gitlab.infra.svc.cluster.local'
 
-        echo "curl -s $GITLAB_URL/api/v3/session --data \"login=root&password=$GITLAB_ROOT_PW\"" >> /tmp/debug.log
-        curl -s $GITLAB_URL/api/v3/session --data \"login=root&password=$GITLAB_ROOT_PW\" >> /tmp/debug.log
+        curl -s $GITLAB_URL/api/v3/session --data "login=root&password=$GITLAB_ROOT_PW" >> /tmp/debug.log
 
         GITLAB_PRIVATE_TOKEN=$(curl -s $GITLAB_URL/api/v3/session --data "login=root&password=$GITLAB_ROOT_PW" | jq  -r '.private_token')
 
@@ -132,9 +132,9 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
           fi
 
           echo "{ \
-              \\"id\\": \\"$USERID\\", \
-              \\"title\\": \\"${USERNAME}-key\\", \
-              \\"key\\": \\"$SSH_PUB\\" \
+              \\\"id\\\": \\\"$USERID\\\", \
+              \\\"title\\\": \\\"${USERNAME}-key\\\", \
+              \\\"key\\\": \\\"$SSH_PUB\\\" \
             }" > /home/#{username}/.kubesetup/ssh.json
 
           echo "############### Adding ssh key..." >> /tmp/debug.log
