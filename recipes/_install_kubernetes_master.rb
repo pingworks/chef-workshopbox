@@ -216,7 +216,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
 
   # Setup namespace infra
   template "/root/.kubesetup/namespace.yaml" do
-    variables namespace: infra
+    variables namespace: 'infra'
   end
 
 end
