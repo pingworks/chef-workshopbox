@@ -99,7 +99,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
       SSH_PUB=$(<$UDIR/.ssh/id_rsa.pub)
       env >> /tmp/debug.log
 
-      cat <<EOF > /home/#{username}/.kubesetup/user.json
+      cat <<-EOF > /home/#{username}/.kubesetup/user.json
       {
         "username": "$USERNAME",
         "email": "$EMAIL",
@@ -134,14 +134,13 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
           exit 1
         fi
 
-        cat <<EOG > /home/#{username}/.kubesetup/ssh.json
-      {
-        "id": "$USERID",
-        "title": "${USERNAME}-key",
-        "key": "$SSH_PUB"
-      }
-
-    EOG
+        cat <<-EOG > /home/#{username}/.kubesetup/ssh.json
+        {
+          "id": "$USERID",
+          "title": "${USERNAME}-key",
+          "key": "$SSH_PUB"
+        }
+        EOG
 
         echo "############### Adding ssh key..." >> /tmp/debug.log
         curl -XPOST --silent -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" -H "Content-Type: application/json" --data-binary @$UDIR/ssh.json $GITLAB_URL/api/v3/users/$USERID/keys  >> /tmp/debug.log
