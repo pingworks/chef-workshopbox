@@ -108,7 +108,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
         "organization": "$COMPANY"
       }
       EOF
-
+      echo "hier" >> /tmp/debug.log
       GITLAB_ROOT_PW='admin123'
       GITLAB_URL='http://gitlab.infra.svc.cluster.local'
 
