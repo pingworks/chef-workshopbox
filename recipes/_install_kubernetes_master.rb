@@ -186,12 +186,8 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     EOH
   end
 
-  directory '/root/.kube' do
-    owner 'root'
-    group 'root'
-    mode 00755
-    action :create
-  end
+  directory '/root/.kube'
+  directory '/root/.kubesetup'
 
   bash 'copy kubeconfig' do
     user 'root'
@@ -217,5 +213,10 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
   end
   cookbook_file '/etc/exports'
   execute 'exportfs -a'
+
+  # Setup namespace infra
+  template "/root/.kubesetup/namespace.yaml" do
+    variables namespace: infra
+  end
 
 end

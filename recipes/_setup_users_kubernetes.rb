@@ -60,7 +60,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     template "/home/#{username}/.kubesetup/namespace.yaml" do
       owner username
       group username
-      variables username: username
+      variables namespace: username
     end
 
     # Setup Users namespaces
