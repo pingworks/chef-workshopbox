@@ -107,8 +107,45 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
         "organization": "$COMPANY"
       }
       EOF
+
+      GITLAB_ROOT_PW='admin123'
+      GITLAB_URL='http://gitlab.infra.svc.cluster.local'
+      GITLAB_PRIVATE_TOKEN=$(curl -s $GITLAB_URL/api/v3/session --data "login=root&password=$GITLAB_ROOT_PW" | jq  -r '.private_token')
+
+        echo "############### Checking if user $USERNAME exists..."
+        if curl -XGET -s -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" $GITLAB_URL/api/v3/users?per_page=100 | jq -r ".[] | select(.username==\"${USERNAME}\") | .username" | grep "^$USERNAME$" >/dev/null; then
+          echo "############### User already exists! Skipping..."
+        else
+          echo "############### User does not exist. Provisioning user!"
+
+          echo "############### Creating user..."
+          curl -XPOST -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" -H "Content-Type: application/json" -d @/home/#{username}/.kubesetup/user.json $GITLAB_URL/api/v3/users > /dev/null
+
+          echo "############### Getting user id..."
+          USERID=$(curl --silent -XGET -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" $GITLAB_URL/api/v3/users?per_page=100 2>&1 | jq ".[] | select(.username==\"#{username}\") | .id")
+          echo "############### \$USERID is: $USERID"
+          if [ -z $USERID ];then
+            echo "ERROR: USERID not found. This probably means that the user wasnt created!"
+            exit 1
+          fi
+
+          cat <<EOF > /home/#{username}/.kubesetup/ssh.json
+        {
+          "id": "$USERID",
+          "title": "${USERNAME}-key",
+          "key": "$SSH_PUB"
+        }
+
+      EOF
+
+          echo "############### Adding ssh key..."
+          curl -XPOST --silent -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" -H "Content-Type: application/json" --data-binary @$UDIR/ssh.json $GITLAB_URL/api/v3/users/$USERID/keys > /dev/null
+        fi
+
       EOH
     end
+
+
 
   end
 end
