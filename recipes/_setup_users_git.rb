@@ -38,4 +38,14 @@ Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') d
       email: email
     )
   end
+
+  # Setup Ubuntu Standard User Folders
+  %w(Desktop Downloads Templates Public Documents Music Pictures Videos).each do |foldername|
+    directory "/home/#{username}/#{foldername}" do
+      owner username
+      group username
+      mode 00755
+      action :create
+    end
+  end
 end
