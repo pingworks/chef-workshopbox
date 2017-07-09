@@ -97,13 +97,13 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
         EMAIL=$(<$UDIR/email)
         COMPANY=$(<$UDIR/company)
         SSH_PUB=$(<$UDIR/.ssh/id_rsa.pub)
-        
+
         echo "{ \
-            \"username\": \"$USERNAME\", \
-            \"email\": \"$EMAIL\", \
-            \"name\": \"$NAME\", \
-            \"password\": \"$PASSWORD\", \
-            \"organization\": \"$COMPANY\" \
+            \\"username\\": \\"$USERNAME\\", \
+            \\"email\\": \\"$EMAIL\\", \
+            \\"name\": \\"$NAME\\", \
+            \\"password\\": \\"$PASSWORD\\", \
+            \\"organization\\": \\"$COMPANY\\" \
         }" > /home/#{username}/.kubesetup/user.json
 
         GITLAB_ROOT_PW='admin123'
@@ -132,9 +132,9 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
           fi
 
           echo "{ \
-              \"id\": \"$USERID\", \
-              \"title\": \"${USERNAME}-key\", \
-              \"key\": \"$SSH_PUB\" \
+              \\"id\\": \\"$USERID\\", \
+              \\"title\\": \\"${USERNAME}-key\\", \
+              \\"key\\": \\"$SSH_PUB\\" \
             }" > /home/#{username}/.kubesetup/ssh.json
 
           echo "############### Adding ssh key..." >> /tmp/debug.log
