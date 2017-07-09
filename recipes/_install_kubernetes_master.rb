@@ -212,7 +212,9 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
   # Setup nfs stuff
   package 'nfs-kernel-server'
   package 'nfs-client'
-  directory '/data/nfs'
+  directory '/data/nfs' do
+    recursive true
+  end
   cookbook_file '/etc/exports'
   execute 'exportfs -a'
 
