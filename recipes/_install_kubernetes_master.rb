@@ -197,10 +197,10 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     user 'root'
     cwd '/tmp'
     code <<-EOH
-    cp /etc/kubernetes/admin.conf /root/.kube/.kubeconfig
-    chmod 0600 /root/.kube/.kubeconfig
+    cp /etc/kubernetes/admin.conf /root/.kube/config
+    chmod 0600 /root/.kube/config
     EOH
-    not_if '[ -f /root/.kube/.kubeconfig ]'
+    not_if '[ -f /root/.kube/config ]'
   end
 
   cookbook_file '/usr/local/bin/create-user-cert.sh' do
@@ -209,7 +209,11 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     mode 00755
   end
 
-  %w(nfs-kernel-server).each do |pkg|
-    package pkg
-  end
+  # Setup nfs stuff
+  package 'nfs-kernel-server'
+  package 'nfs-client'
+  directory '/data/nfs'
+  cookbook_file '/etc/exports'
+  execute 'exportfs -a'
+
 end
