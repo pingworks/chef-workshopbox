@@ -84,5 +84,31 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
       EOH
       not_if "kubectl get rolebindings --namespace=#{username} | grep '^sa-default-edit '", environment: { 'HOME' => '/root' }
     end
+
+    # Setup gitlab users
+    bash "setting up user #{username}" do
+      user 'root'
+      cwd '/tmp'
+      environment 'HOME' => '/root'
+      code <<-EOH
+      UDIR=#{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}
+      NAME="$(<$UDIR/firstname) $(<$UDIR/lastname)"
+      PASSWORD="$(<$UDIR/password)"
+      EMAIL=$(<$UDIR/email)
+      COMPANY=$(<$UDIR/company)
+      SSH_PUB=$(<$UDIR/.ssh/id_rsa.pub)
+
+      cat <<EOF > /home/#{username}/.kubesetup/user.json
+      {
+        "username": "$USERNAME",
+        "email": "$EMAIL",
+        "name": "$NAME",
+        "password": "$PASSWORD",
+        "organization": "$COMPANY"
+      }
+      EOF
+      EOH
+    end
+
   end
 end

@@ -58,5 +58,4 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     EOH
     not_if 'kubectl --namespace=infra get statefulsets | grep "^gitlab "', environment: { 'HOME' => '/root' }
   end
-
 end
