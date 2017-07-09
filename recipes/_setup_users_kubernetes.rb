@@ -67,7 +67,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     bash "setup user #{username} namespace" do
       code <<-EOH
         whoami
-        kubectrl get pods --all-namespaces
+        kubectl get pods --all-namespaces
         kubectl create -f /home/#{username}/.kubesetup/namespace.yaml
       EOH
     end

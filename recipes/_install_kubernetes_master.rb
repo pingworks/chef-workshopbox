@@ -215,7 +215,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
   execute 'exportfs -a'
 
   # Setup namespace infra
-  template "/root/.kubesetup/namespace.yaml" do
+  template '/root/.kubesetup/namespace.yaml' do
     variables namespace: 'infra'
   end
 
