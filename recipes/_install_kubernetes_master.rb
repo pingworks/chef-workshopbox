@@ -219,4 +219,13 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
     variables namespace: 'infra'
   end
 
+  bash 'setup infra namespace' do
+    user 'root'
+    cwd '/tmp'
+    environment 'HOME' => '/root'
+    code <<-EOH
+      kubectl create -f /root/.kubesetup/namespace.yaml
+    EOH
+    not_if "kubectl get namespaces | grep '^infra '", environment: { 'HOME' => '/root' }
+  end
 end

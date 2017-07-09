@@ -69,13 +69,9 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
       cwd '/tmp'
       environment 'HOME' => '/root'
       code <<-EOH
-        whoami
-        env
-        kubectl get pods --all-namespaces
         kubectl create -f /home/#{username}/.kubesetup/namespace.yaml
       EOH
-      #not_if "kubectl get namespaces | grep '^#{username} '", :environment => {
-      #'HOME' => '/root' }
+      not_if "kubectl get namespaces | grep '^#{username} '", environment: { 'HOME' => '/root' }
     end
   end
 end
