@@ -99,7 +99,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
         SSH_PUB=$(<$UDIR/.ssh/id_rsa.pub)
         env >> /tmp/debug.log
 
-        cat <<EOF > /home/#{username}/.kubesetup/user.json
+        cat <<'EOF' > /home/#{username}/.kubesetup/user.json
           {
             "username": "$USERNAME",
             "email": "$EMAIL",
@@ -135,7 +135,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
             exit 1
           fi
 
-          cat <<EOG > /home/#{username}/.kubesetup/ssh.json
+          cat <<'EOG' > /home/#{username}/.kubesetup/ssh.json
             {
               "id": "$USERID",
               "title": "${USERNAME}-key",
