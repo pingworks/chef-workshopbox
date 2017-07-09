@@ -115,9 +115,9 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
         GITLAB_PRIVATE_TOKEN=$(curl -s $GITLAB_URL/api/v3/session --data "login=root&password=$GITLAB_ROOT_PW" | jq  -r '.private_token')
 
         echo "############### Checking if user $USERNAME exists..." >> /tmp/debug.log
-        echo "-----------"
+        echo "-----------" >> /tmp/debug.log
         curl -XGET -s -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" $GITLAB_URL/api/v3/users?per_page=100
-        echo "-----------"
+        echo "-----------" >> /tmp/debug.log
         if curl -XGET -s -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" $GITLAB_URL/api/v3/users?per_page=100 | jq -r ".[] | select(.username==\"#{username}\") | .username" | grep "^#{username}$" > /dev/null; then
           echo "############### User already exists! Skipping..." >> /tmp/debug.log
         else
