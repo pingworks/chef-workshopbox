@@ -98,7 +98,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
       COMPANY=$(<$UDIR/company)
       SSH_PUB=$(<$UDIR/.ssh/id_rsa.pub)
       env >> /tmp/debug.log
-      
+
       cat <<EOF > /home/#{username}/.kubesetup/user.json
       {
         "username": "$USERNAME",
@@ -111,6 +111,10 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
 
       GITLAB_ROOT_PW='admin123'
       GITLAB_URL='http://gitlab.infra.svc.cluster.local'
+
+      echo "curl -s $GITLAB_URL/api/v3/session --data \"login=root&password=$GITLAB_ROOT_PW\"" >> /tmp/debug.log
+      curl -s $GITLAB_URL/api/v3/session --data \"login=root&password=$GITLAB_ROOT_PW\" >> /tmp/debug.log
+
       GITLAB_PRIVATE_TOKEN=$(curl -s $GITLAB_URL/api/v3/session --data "login=root&password=$GITLAB_ROOT_PW" | jq  -r '.private_token')
 
       echo "############### Checking if user $USERNAME exists..." >> /tmp/debug.log
