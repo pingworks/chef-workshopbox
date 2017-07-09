@@ -30,3 +30,24 @@ if node['workshopbox']['tweak']['install_kubernetes_client'] == true
     end
   end
 end
+if node['workshopbox']['tweak']['install_kubernetes_master'] == true
+  Dir.foreach(node['workshopbox']['secret_service']['client']['repo'] + '/user') do |username|
+    next if username == '.' || username == '..'
+    directory "/home/#{username}/.kube" do
+      owner username
+      group username
+      mode 00755
+      action :create
+    end
+
+    bash 'copy admin certs' do
+      user 'root'
+      cwd '/tmp'
+      code <<-EOH
+      cp /etc/kubernetes/admin.conf /home/#{username}/.kube/config
+      chown -R #{username}.#{username} /home/#{username}/.kube
+      chmod 600 /home/#{username}/.kube/config
+      EOH
+    end
+  end
+end
