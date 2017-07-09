@@ -99,11 +99,11 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
         SSH_PUB=$(<$UDIR/.ssh/id_rsa.pub)
 
         echo "{ \
-            \\"username\\": \\"$USERNAME\\", \
-            \\"email\\": \\"$EMAIL\\", \
-            \\"name\": \\"$NAME\\", \
-            \\"password\\": \\"$PASSWORD\\", \
-            \\"organization\\": \\"$COMPANY\\" \
+            \\\"username\\\": \\\"$USERNAME\\\", \
+            \\\"email\\\": \\\"$EMAIL\\\", \
+            \\\"name\\\": \\\"$NAME\\\", \
+            \\\"password\\\": \\\"$PASSWORD\\\", \
+            \\\"organization\\\": \\\"$COMPANY\\\" \
         }" > /home/#{username}/.kubesetup/user.json
 
         GITLAB_ROOT_PW='admin123'
