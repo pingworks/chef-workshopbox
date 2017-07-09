@@ -124,7 +124,7 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
         echo "############### User does not exist. Provisioning user!" >> /tmp/debug.log
 
         echo "############### Creating user..." >> /tmp/debug.log
-        curl -XPOST -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" -H "Content-Type: application/json" -d @$UDIR/.kubesetup/user.json $GITLAB_URL/api/v3/users >> /tmp/debug.log
+        curl -XPOST -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" -H "Content-Type: application/json" -d @/home/#{username}/.kubesetup/user.json $GITLAB_URL/api/v3/users >> /tmp/debug.log
 
         echo "############### Getting user id..." >> /tmp/debug.log
         USERID=$(curl --silent -XGET -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" $GITLAB_URL/api/v3/users?per_page=100 2>&1 | jq ".[] | select(.username==\"#{username}\") | .id")
@@ -134,14 +134,14 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
           exit 1
         fi
 
-        cat <<EOF > /home/#{username}/.kubesetup/ssh.json
+        cat <<EOG > /home/#{username}/.kubesetup/ssh.json
       {
         "id": "$USERID",
         "title": "${USERNAME}-key",
         "key": "$SSH_PUB"
       }
 
-    EOF
+    EOG
 
         echo "############### Adding ssh key..." >> /tmp/debug.log
         curl -XPOST --silent -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" -H "Content-Type: application/json" --data-binary @$UDIR/ssh.json $GITLAB_URL/api/v3/users/$USERID/keys  >> /tmp/debug.log
