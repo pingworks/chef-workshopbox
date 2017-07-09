@@ -49,5 +49,25 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
       chmod 600 /home/#{username}/.kube/config
       EOH
     end
+
+    directory "/home/#{username}/.kubesetup" do
+      owner username
+      group username
+      mode 00755
+      action :create
+    end
+
+    template "/home/#{username}/.kubesetup/namespace.yaml" do
+      owner username
+      group username
+      variables username: username
+    end
+
+    # Setup Users namespaces
+    bash "setup user #{username} namespace" do
+      code <<-EOH
+        kubectl create -f /home/#{username}/.kubesetup/namespace.yaml
+      EOH
+    end
   end
 end
