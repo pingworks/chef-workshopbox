@@ -91,60 +91,61 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
       cwd '/tmp'
       environment 'HOME' => '/root'
       code <<-EOH
-      UDIR=#{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}
-      NAME="$(<$UDIR/firstname) $(<$UDIR/lastname)"
-      PASSWORD="#{username}"
-      EMAIL=$(<$UDIR/email)
-      COMPANY=$(<$UDIR/company)
-      SSH_PUB=$(<$UDIR/.ssh/id_rsa.pub)
-      env >> /tmp/debug.log
+        UDIR=#{node['workshopbox']['secret_service']['client']['repo']}/user/#{username}
+        NAME="$(<$UDIR/firstname) $(<$UDIR/lastname)"
+        PASSWORD="#{username}"
+        EMAIL=$(<$UDIR/email)
+        COMPANY=$(<$UDIR/company)
+        SSH_PUB=$(<$UDIR/.ssh/id_rsa.pub)
+        env >> /tmp/debug.log
 
-      cat <<-EOF > /home/#{username}/.kubesetup/user.json
-      {
-        "username": "$USERNAME",
-        "email": "$EMAIL",
-        "name": "$NAME",
-        "password": "$PASSWORD",
-        "organization": "$COMPANY"
-      }
-      EOF
-      echo "hier" >> /tmp/debug.log
-      GITLAB_ROOT_PW='admin123'
-      GITLAB_URL='http://gitlab.infra.svc.cluster.local'
+        cat <<-EOF > /home/#{username}/.kubesetup/user.json
+          {
+            "username": "$USERNAME",
+            "email": "$EMAIL",
+            "name": "$NAME",
+            "password": "$PASSWORD",
+            "organization": "$COMPANY"
+          }
+        EOF
 
-      echo "curl -s $GITLAB_URL/api/v3/session --data \"login=root&password=$GITLAB_ROOT_PW\"" >> /tmp/debug.log
-      curl -s $GITLAB_URL/api/v3/session --data \"login=root&password=$GITLAB_ROOT_PW\" >> /tmp/debug.log
+        echo "hier" >> /tmp/debug.log
+        GITLAB_ROOT_PW='admin123'
+        GITLAB_URL='http://gitlab.infra.svc.cluster.local'
 
-      GITLAB_PRIVATE_TOKEN=$(curl -s $GITLAB_URL/api/v3/session --data "login=root&password=$GITLAB_ROOT_PW" | jq  -r '.private_token')
+        echo "curl -s $GITLAB_URL/api/v3/session --data \"login=root&password=$GITLAB_ROOT_PW\"" >> /tmp/debug.log
+        curl -s $GITLAB_URL/api/v3/session --data \"login=root&password=$GITLAB_ROOT_PW\" >> /tmp/debug.log
 
-      echo "############### Checking if user $USERNAME exists..." >> /tmp/debug.log
-      if curl -XGET -s -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" $GITLAB_URL/api/v3/users?per_page=100 | jq -r ".[] | select(.username==\"#{username}\") | .username" | grep "^#{username}$" >> /tmp/debug.log; then
-        echo "############### User already exists! Skipping..." >> /tmp/debug.log
-      else
-        echo "############### User does not exist. Provisioning user!" >> /tmp/debug.log
+        GITLAB_PRIVATE_TOKEN=$(curl -s $GITLAB_URL/api/v3/session --data "login=root&password=$GITLAB_ROOT_PW" | jq  -r '.private_token')
 
-        echo "############### Creating user..." >> /tmp/debug.log
-        curl -XPOST -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" -H "Content-Type: application/json" -d @/home/#{username}/.kubesetup/user.json $GITLAB_URL/api/v3/users >> /tmp/debug.log
+        echo "############### Checking if user $USERNAME exists..." >> /tmp/debug.log
+        if curl -XGET -s -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" $GITLAB_URL/api/v3/users?per_page=100 | jq -r ".[] | select(.username==\"#{username}\") | .username" | grep "^#{username}$" >> /tmp/debug.log; then
+          echo "############### User already exists! Skipping..." >> /tmp/debug.log
+        else
+          echo "############### User does not exist. Provisioning user!" >> /tmp/debug.log
 
-        echo "############### Getting user id..." >> /tmp/debug.log
-        USERID=$(curl --silent -XGET -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" $GITLAB_URL/api/v3/users?per_page=100 2>&1 | jq ".[] | select(.username==\"#{username}\") | .id")
-        echo "############### \$USERID is: $USERID" >> /tmp/debug.log
-        if [ -z $USERID ];then
-          echo "ERROR: USERID not found. This probably means that the user wasnt created!"
-          exit 1
+          echo "############### Creating user..." >> /tmp/debug.log
+          curl -XPOST -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" -H "Content-Type: application/json" -d @/home/#{username}/.kubesetup/user.json $GITLAB_URL/api/v3/users >> /tmp/debug.log
+
+          echo "############### Getting user id..." >> /tmp/debug.log
+          USERID=$(curl --silent -XGET -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" $GITLAB_URL/api/v3/users?per_page=100 2>&1 | jq ".[] | select(.username==\"#{username}\") | .id")
+          echo "############### \$USERID is: $USERID" >> /tmp/debug.log
+          if [ -z $USERID ];then
+            echo "ERROR: USERID not found. This probably means that the user wasnt created!"
+            exit 1
+          fi
+
+          cat <<-EOG > /home/#{username}/.kubesetup/ssh.json
+            {
+              "id": "$USERID",
+              "title": "${USERNAME}-key",
+              "key": "$SSH_PUB"
+            }
+          EOG
+
+          echo "############### Adding ssh key..." >> /tmp/debug.log
+          curl -XPOST --silent -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" -H "Content-Type: application/json" --data-binary @$UDIR/ssh.json $GITLAB_URL/api/v3/users/$USERID/keys  >> /tmp/debug.log
         fi
-
-        cat <<-EOG > /home/#{username}/.kubesetup/ssh.json
-        {
-          "id": "$USERID",
-          "title": "${USERNAME}-key",
-          "key": "$SSH_PUB"
-        }
-        EOG
-
-        echo "############### Adding ssh key..." >> /tmp/debug.log
-        curl -XPOST --silent -H "PRIVATE-TOKEN: $GITLAB_PRIVATE_TOKEN" -H "Content-Type: application/json" --data-binary @$UDIR/ssh.json $GITLAB_URL/api/v3/users/$USERID/keys  >> /tmp/debug.log
-      fi
 
       EOH
     end
