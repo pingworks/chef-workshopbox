@@ -43,6 +43,7 @@ default['workshopbox']['kubernetes']['svccidr'] = '10.96.0.0/12'
 default['workshopbox']['kubernetes']['svcdomain'] = 'cluster.local'
 default['workshopbox']['kubernetes']['clusterdns'] = '10.96.0.10'
 default['workshopbox']['kubernetes']['apiserver'] = '10.96.0.1'
+default['workshopbox']['kubernetes']['gitlab']['adminpass'] = 'admin123'
 
 # ----
 

@@ -107,8 +107,8 @@ if node['workshopbox']['tweak']['install_kubernetes_master'] == true
             \\\"organization\\\": \\\"$COMPANY\\\" \
         }" > /home/#{username}/.kubesetup/user.json
 
-        GITLAB_ROOT_PW='admin123'
-        GITLAB_URL='http://gitlab.infra.svc.cluster.local'
+        GITLAB_ROOT_PW='#{node['workshopbox']['kubernetes']['gitlab']['adminpass']}'
+        GITLAB_URL='http://gitlab.infra.svc.#{node['workshopbox']['kubernetes']['svcdomain']}'
 
         curl -s $GITLAB_URL/api/v3/session --data "login=root&password=$GITLAB_ROOT_PW" >> /tmp/debug.log
 
